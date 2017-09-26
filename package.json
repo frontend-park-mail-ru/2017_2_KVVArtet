@@ -1,0 +1,19 @@
+{
+  "name": "rpg",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "server.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.8",
+    "express": "~4.15.4",
+    "express-session": "^1.13.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "jade": "~1.11.0",
+    "morgan": "~1.8.1",
+    "serve-favicon": "~2.4.4"
+  }
+}
