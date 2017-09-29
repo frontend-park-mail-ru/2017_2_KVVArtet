@@ -26,7 +26,6 @@ exports.findByUsername = function(username, cb) {
 
 
   exports.registration = function (req, res) {
-      // retrieve user posted data from the body
       const user = req.body;
       if (records.length === 0) {
           records.push({
@@ -37,7 +36,7 @@ exports.findByUsername = function(username, cb) {
           });
           console.log(records[0].username);
 
-          res.redirect("/secret");
+          res.redirect("/");
 
       }
       else {
@@ -45,16 +44,17 @@ exports.findByUsername = function(username, cb) {
               console.log(records[i].username);
               if (records[i].username === user.username) {
                   console.log(records[i].username);
-                  return res.render('register');
+                  return res.render('registration.pug');
               }
           }
           records.push({
               id:++i,
               username: user.username,
-              password: user.password
-              // email: user.email
+              password: user.password,
+              email: user.email
           });
-          res.redirect("/secret");
+          console.log(records[0].username);
+          res.redirect("/");
 
       }
   }

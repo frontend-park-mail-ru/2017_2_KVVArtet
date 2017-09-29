@@ -7,9 +7,9 @@ body {
     width: 360px;
     padding: 8% 0 0;
     margin: auto;
+
 }
 .form {
-    position: relative;
     z-index: 1;
     background: #FFFFFF;
     max-width: 360px;
@@ -17,6 +17,7 @@ body {
     padding: 45px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+
 }
 .form input {
     font-family: fantasy;
@@ -61,11 +62,7 @@ body {
 
 
 
-<<<<<<< HEAD
 a.buttonBack{
-=======
-#buttonBack{
->>>>>>> registration_module
     display: inline-block;
     color: white;
     outline: none;
@@ -79,10 +76,6 @@ a.buttonBack{
     background-image: url(../images/arrow.jpg);
 
 }
-<<<<<<< HEAD
 a.buttonBack:hover {
-=======
-#buttonBack:hover {
->>>>>>> registration_module
     background: green;
 }
