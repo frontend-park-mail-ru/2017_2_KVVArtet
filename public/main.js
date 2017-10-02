@@ -76,7 +76,7 @@
         }
         sections.info.show();
     }
-   buttonBack.style.visibility = "hidden";
+  // buttonBack.style.visibility = "hidden";
     regButton.style.visibility = "hidden";
 
     loginButton.onclick = function(){
@@ -102,8 +102,6 @@
             infoForm[0].style.visibility = "hidden";
 
             buttonBack.onclick = function() {
-                buttonBack.style.visibility = "hidden";
-                NavLoginForm[0].style.visibility = "visible";
                 mainButton[0].style.visibility = "visible";
                 registrationForm[0].style.visibility = "hidden";
 
@@ -113,9 +111,9 @@
     }
 
     infoButton.onclick = function(){
-        infoForm[0].style.visibility = "visible";
-        buttonBack.style.visibility = "visible";
         openInfo();
+       // infoForm[0].style.visibility = "visible";
+        buttonBack.style.visibility = "visible";
         buttonBack.onclick = function() {
             buttonBack.style.visibility = "hidden";
             NavLoginForm[0].style.visibility = "hidden";

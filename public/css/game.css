@@ -1,0 +1,34 @@
+h1#example {
+    font: normal 100px fantasy;
+    color: #0cf;
+}
+h1#example span {
+    top: 35px;
+    left: 120px;
+    width: 200px;
+    height: 200px;
+}
+
+#logout{
+    display: inline-block;
+    color: white;
+    padding: .5em 2em;
+    outline: none;
+    border: 2px solid;
+    border-radius: 100px;
+    transition: 0.2s;
+    background-size: cover;
+    font-family:fantasy;
+    margin: -125px 0 0 -125px;
+    position: absolute;
+    top: 64%;
+    left: 50%;
+}
+
+#logout:hover {
+    background: green;
+}
+
+#logout:active {
+    background: white;
+}

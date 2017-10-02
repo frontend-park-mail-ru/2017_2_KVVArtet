@@ -13,12 +13,8 @@ app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'myCookie', resave: false, saveUninitialized: false }));
 app.use('/', express.static(__dirname + '/public'));
 
-
-
-
 app.engine('html', require('pug').renderFile);
 app.set('view engine', 'pug');
-
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -32,7 +28,6 @@ passport.use(new Strategy(
             return cb(null, user);
         });
     }));
-
 
 passport.serializeUser(function(user, cb) {
     cb(null, user.id);
@@ -57,17 +52,15 @@ app.get('/login', function(req, res) {
 });
 
 app.post('/login',
-   // app.set('views', path.join(__dirname,'/public/blocks/login')),
     passport.authenticate('local', { failureRedirect: '/login' }),
     function(req, res) {
-        res.render(__dirname + '/index.pug');
+        res.redirect('/');
     });
 
 app.get('/registration', function(req, res) {
     app.set('views', path.join(__dirname,'/public/blocks/registration'));
     res.render(__dirname + '/public/blocks/registration/registration.pug');
 });
-
 
 app.post('/registration', db.users.registration);
 app.get('/logout',
@@ -76,6 +69,15 @@ app.get('/logout',
         res.redirect('/');
     });
 
+app.get('/game', function(req, res) {
+ //  app.set('views', path.join(__dirname,'/public/blocks/registration/game.pug'));
+    res.render( __dirname + '/public/blocks/registration/game.pug');
+});
+
+app.get('/info', function(req, res) {
+    //  app.set('views', path.join(__dirname,'/public/blocks/registration/game.pug'));
+    res.render( __dirname + '/public/blocks/information/info.pug');
+});
 
 app.listen(process.env.PORT || '8000', function () {
     console.log('Hello, fucking world !');

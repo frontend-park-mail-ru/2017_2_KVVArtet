@@ -62,7 +62,7 @@ body {
 
 
 
-a.buttonBack{
+#buttonBack{
     display: inline-block;
     color: white;
     outline: none;
@@ -76,6 +76,6 @@ a.buttonBack{
     background-image: url(../images/arrow.jpg);
 
 }
-a.buttonBack:hover {
+#buttonBack:hover {
     background: green;
 }

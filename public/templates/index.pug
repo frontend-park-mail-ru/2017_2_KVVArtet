@@ -8,11 +8,10 @@ html(lang="en")
 
     title KVVArtet
     body
-        a#buttonBack()
-
+        #main Lands & Dungeons
         .mainButton
             a#buttonFirst(href="/login"  style='font-size :250%') New Game
-            a#buttonSecond( style='font-size :250%') Information
+            a#buttonSecond( href="/info" style='font-size :250%') Information
 
         #application
         script(src="/blocks/block/index.js")
@@ -22,12 +21,12 @@ html(lang="en")
         script(src="/blocks/information/index.js")
 
         script(src="/blocks/login/login.pug.js")
+        script(src="/blocks/login/login.pug")
         script(src="/blocks/login/index.js")
 
         script(src="/blocks/registration/registration.pug.js")
         script(src="/blocks/registration/registration.pug")
         script(src="/blocks/registration/index.js")
 
-        script(src="game.pug")
 
         script(src="/main.js")
