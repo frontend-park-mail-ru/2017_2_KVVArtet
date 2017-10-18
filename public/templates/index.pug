@@ -1,0 +1,32 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        link(rel="stylesheet", type="text/css", href="/css/main.css")
+        link(rel="stylesheet", type="text/css", href="/css/registration.css")
+        link(rel="stylesheet", type="text/css", href="/css/login.css")
+
+    title KVVArtet
+    body
+        #main Lands & Dungeons
+        .mainButton
+            a#buttonFirst(href="/login"  style='font-size :250%') New Game
+            a#buttonSecond( href="/info" style='font-size :250%') Information
+
+        #application
+        script(src="/blocks/block/index.js")
+
+        script(src="/blocks/information/info.pug")
+        script(src="/blocks/information/info.pug.js")
+        script(src="/blocks/information/index.js")
+
+        script(src="/blocks/login/login.pug.js")
+        script(src="/blocks/login/login.pug")
+        script(src="/blocks/login/index.js")
+
+        script(src="/blocks/registration/registration.pug.js")
+        script(src="/blocks/registration/registration.pug")
+        script(src="/blocks/registration/index.js")
+
+
+        script(src="/main.js")

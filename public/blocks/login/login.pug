@@ -1,0 +1,15 @@
+html
+    head
+    link(rel='stylesheet', href='css/login.css')
+    script(src="/main.js")
+    body
+        a#buttonBack(href="/")
+        .form
+            form.login-form
+                input(type='username', name = username, placeholder='username', required='')
+                input(type='password', placeholder='password', required='')
+                input(type='submit', formmethod='post', style='background :purple', value='LOG IN')
+                p.message
+                    a#regButton(href="/registration") Create an account
+                    | Not registered?
+

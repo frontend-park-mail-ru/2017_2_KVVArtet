@@ -2,11 +2,12 @@
     'use strict';
 
     const Block = window.Block;
-    const Info = window.Info;
+    const InfoTemplate = window.infoTemplate;
 
     class Info extends Block {
         constructor() {
             const el = document.createElement('div');
+            el.innerHTML = InfoTemplate();
             super(el);
         }
     }

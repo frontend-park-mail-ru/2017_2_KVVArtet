@@ -1,15 +1,6 @@
 'use strict';
 
-<<<<<<< HEAD
-const express = require('express');
-
-const app = express();
-
-app.use(express.static('public'));
-
-app.get('*', (req, res) => {
-   // res.send('404');
-=======
+const path = require('path');
 var db = require('./public/db');
 var Strategy = require('passport-local').Strategy;
 var express = require('express');
@@ -20,7 +11,11 @@ app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'myCookie', resave: false, saveUninitialized: false }));
-app.use(express.static('public'));
+app.use('/', express.static(__dirname + '/public'));
+
+app.engine('html', require('pug').renderFile);
+app.set('view engine', 'pug');
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -34,7 +29,6 @@ passport.use(new Strategy(
         });
     }));
 
-
 passport.serializeUser(function(user, cb) {
     cb(null, user.id);
 });
@@ -47,53 +41,47 @@ passport.deserializeUser(function(id, cb) {
 });
 
 
-app.get('*', (req, res) => {
-    // res.send('404');
->>>>>>> registration_module
-    res.redirect('/error.html')
-
-});
-
-<<<<<<< HEAD
-app.listen(process.env.PORT || '8080', () => {
-    console.log('Hello fucking world !');
-});
-=======
-
 app.get('/', function (req, res) {
-    res.render('index.html');
+    app.set('views', path.join(__dirname,'/public/templates'));
+    res.render( __dirname + '/public/templates/index.pug');
 });
 
 
-
-app.get("/register,html", function(req, res) {
-    res.render("register.html");
+app.get('/login', function(req, res) {
+    res.render(__dirname + '/public/blocks/login/login.pug');
 });
 
-
-app.post('/register.html', db.users.registration);
-
-app.get('/login.html',
-    function(req, res){
-        res.render('login,html');
-    });
-
-app.post('/login.html',
+app.post('/login',
     passport.authenticate('local', { failureRedirect: '/login' }),
     function(req, res) {
         res.redirect('/');
     });
 
+app.get('/registration', function(req, res) {
+    app.set('views', path.join(__dirname,'/public/blocks/registration'));
+    res.render(__dirname + '/public/blocks/registration/registration.pug');
+});
+
+app.post('/registration', db.users.registration);
 app.get('/logout',
     function(req, res){
         req.logout();
         res.redirect('/');
     });
 
+app.get('/game', function(req, res) {
+ //  app.set('views', path.join(__dirname,'/public/blocks/registration/game.pug'));
+    res.render( __dirname + '/public/blocks/registration/game.pug');
+});
+
+app.get('/info', function(req, res) {
+    //  app.set('views', path.join(__dirname,'/public/blocks/registration/game.pug'));
+    res.render( __dirname + '/public/blocks/information/info.pug');
+});
 
 app.listen(process.env.PORT || '8000', function () {
     console.log('Hello, fucking world !');
 });
 
 
->>>>>>> registration_module
+
