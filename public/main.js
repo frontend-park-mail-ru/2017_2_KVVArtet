@@ -1,129 +1,99 @@
-(function () {
-    'use strict';
+import MainPage from './blocks/mainpage/mainpage';
+import Block from './blocks/block/block';
+import Info from './blocks/info/info';
+import Registration from './blocks/forms/registration';
+import Login from './blocks/forms/login';
+import RegistrationValidate from './blocks/autheficate/registrationAuth';
+import LoginValidate from './blocks/autheficate/loginAuth';
 
-    var NavLoginForm = document.getElementsByClassName("login-section");
-    var registrationForm = document.getElementsByClassName("signup-section");
-    var infoForm = document.getElementsByClassName("info-section");
+import UserService from './servises/user-service';
 
-    var loginButton = document.getElementById("buttonFirst");
-    var infoButton = document.getElementById("buttonSecond");
-    var regButton = document.getElementById("regButton");
-    var mainButton = document.getElementsByClassName("mainButton");
-    var buttonBack = document.getElementById("buttonBack");
+const userService = new UserService();
+
+const application = new Block(document.getElementById('application'));
+
+const mainMenu = new MainPage();
+
+const information = new Info();
+const login = new Login();
+const registration = new Registration();
+
+const gameName = new Block('div', ['game-name']);
+const wrapper = new Block('div', ['wrapper']);
+
+application.appendChildBlock('game-name', gameName);
+gameName.appendChildBlock('game-name', new Block('div', ['main']).setText('Lands & Dungeons'));
+application.appendChildBlock('wrapper', wrapper);
+wrapper.appendChildBlock('main-menu', mainMenu);
+
+wrapper.worker = (toName, to) => {
+    wrapper.removeAllChildren();
+    wrapper.appendChildBlock(toName, to);
+};
+
+function back () {
+    let buttonBack = document.querySelector('a.buttonBack');
+    buttonBack.addEventListener('click',function () {
+        wrapper.worker('main-menu',mainMenu);
+    });
+}
+
+let loginButton = document.querySelector('div > a');
+
+loginButton.addEventListener('click', function() {
+    wrapper.worker("login-form",login);
+    back();
+});
 
 
-    const Block = window.Block;
-    const Login = window.Login;
-    const Info = window.Info;
-    const Registration = window.Registration;
-
-    window.showLogin = openLogin;
-    window.showInfo = openInfo;
-    window.showRegistration = openRegistration;
-
-    const app = new Block(document.getElementById('application'));
-
-    const sections = {
-
-        login: Block.Create('section', {}, ['login-section']),
-        signup: Block.Create('section', {}, ['signup-section']),
-        info: Block.Create('section', {}, ['info-section']),
-
-
-        hide() {
-            this.login.hide();
-            this.signup.hide();
-            this.info.hide();
-        },
-    };
-
-    sections.hide();
-
-    app
-        .append(sections.login)
-        .append(sections.signup)
-        .append(sections.info)
-
-    function openLogin() {
-        sections.hide();
-        if (!sections.signup.ready) {
-
-            sections.login.append(new Login());
-            sections.login.ready = true;
-            sections.login.style = true;
-        }
-        sections.login.show();
+login.onSubmit((formdata) => {
+    const authValidation = LoginValidate(formdata[0], formdata[1]);
+    if (authValidation === false) {
+        return;
     }
+    const game = new Block('div', ['game']);
+    wrapper.worker("game",game);
+    game.appendChildBlock('game', new Block('a', ['logout']).setText('logout'));
 
-    function openRegistration() {
-        sections.hide();
-        if (!sections.signup.ready) {
-            sections.signup.append(new Registration());
-            sections.signup.ready = true;
-            sections.login.style = true;
+    let logout = document.querySelector('a.logout');
+    logout.addEventListener('click',function () {
+        userService.logout();
+        wrapper.worker('main-menu',mainMenu);
+    })
 
-        }
-        sections.signup.show();
+});
+
+let registrationButton = document.querySelector('a.buttonSecond');
+
+registrationButton.addEventListener('click', function() {
+    wrapper.worker("registration-form",registration);
+    back();
+});
+
+let infoButton = document.querySelector('a.buttonThird');
+
+infoButton.addEventListener('click', function() {
+    wrapper.worker("info-menu",information);
+    back();
+});
+
+registration.onSubmit((formdata) => {
+    const authValidation = RegistrationValidate(formdata[0], formdata[1], formdata[2], formdata[3]);
+    if (authValidation === false) {
+        return;
     }
+    userService.signup(formdata[0], formdata[1], formdata[2]);
+    userService.getData();
+    const game = new Block('div', ['game']);
+    wrapper.worker("game",game);
+    game.appendChildBlock('game', new Block('a', ['logout']).setText('logout'));
 
-    function openInfo() {
-        sections.hide();
-        if (!sections.info.ready) {
-            sections.info.append(new Info());
-            sections.info.ready = true;
-            sections.login.style = true;
+    let logout = document.querySelector('a.logout');
+        logout.addEventListener('click',function () {
+            userService.logout();
+            wrapper.worker('main-menu',mainMenu);
+        })
 
-        }
-        sections.info.show();
-    }
-  // buttonBack.style.visibility = "hidden";
-    regButton.style.visibility = "hidden";
-
-    loginButton.onclick = function(){
-        openLogin();
-        regButton.style.visibility = "visible";
-        buttonBack.style.visibility = "visible";
-        mainButton[0].style.visibility = "hidden";
-        NavLoginForm[0].style.visibility = "visible";
-        registrationForm[0].style.visibility = "hidden";
-        infoForm[0].style.visibility = "hidden";
-
-        buttonBack.onclick = function() {
-            buttonBack.style.visibility = "hidden";
-            NavLoginForm[0].style.visibility = "hidden";
-            mainButton[0].style.visibility = "visible";
-
-        }
-        regButton.onclick = function(){
-            openRegistration();
-            mainButton[0].style.visibility = "hidden";
-            NavLoginForm[0].style.visibility = "hidden";
-            registrationForm[0].style.visibility = "visible";
-            infoForm[0].style.visibility = "hidden";
-
-            buttonBack.onclick = function() {
-                mainButton[0].style.visibility = "visible";
-                registrationForm[0].style.visibility = "hidden";
-
-            }
-        }
-
-    }
-
-    infoButton.onclick = function(){
-        openInfo();
-       // infoForm[0].style.visibility = "visible";
-        buttonBack.style.visibility = "visible";
-        buttonBack.onclick = function() {
-            buttonBack.style.visibility = "hidden";
-            NavLoginForm[0].style.visibility = "hidden";
-            mainButton[0].style.visibility = "visible";
-            infoForm[0].style.visibility = "hidden";
-
-        }
-    }
-
-})();
-
+});
 
 

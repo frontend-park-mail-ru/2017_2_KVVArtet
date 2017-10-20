@@ -1,87 +1,88 @@
 'use strict';
 
-const path = require('path');
-var db = require('./public/db');
-var Strategy = require('passport-local').Strategy;
-var express = require('express');
-var app = express();
-var passport = require('passport');
+const express = require('express');
+const body = require('body-parser');
+const cors = require('cors');
+const cookie = require('cookie-parser');
+const uuid = require('uuid/v4');
+const app = express();
+const morgan = require('morgan');
 
-app.use(require('morgan')('combined'));
-app.use(require('cookie-parser')());
-app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'myCookie', resave: false, saveUninitialized: false }));
-app.use('/', express.static(__dirname + '/public'));
+app.use(morgan('dev'));
+app.use(express.static('public'));
+app.use(body.json());
+app.use(cookie());
 
-app.engine('html', require('pug').renderFile);
-app.set('view engine', 'pug');
+app.use(cors({
+    origin: true,
+    credentials: true,
+}));
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.use(new Strategy(
-    function(username, password, cb) {
-        db.users.findByUsername(username, function(err, user) {
-            if (err) { return cb(err); }
-            if (!user) { return cb(null, false); }
-            if (user.password !== password) { return cb(null, false); }
-            return cb(null, user);
-        });
-    }));
-
-passport.serializeUser(function(user, cb) {
-    cb(null, user.id);
+app.get('*', (req, res) => {
+    res.send('404');
 });
 
-passport.deserializeUser(function(id, cb) {
-    db.users.findById(id, function (err, user) {
-        if (err) { return cb(err); }
-        cb(null, user);
-    });
+const port = process.env.PORT || 8080;
+app.listen(port, function(){
+    console.log('Server listening port ${port}');
 });
 
+app.post('/signin', function (req, res) {
+    const login = req.body.login;
+    const password = req.body.password;
 
-app.get('/', function (req, res) {
-    app.set('views', path.join(__dirname,'/public/templates'));
-    res.render( __dirname + '/public/templates/index.pug');
+    if (!password || !login) {
+        return res.status(400).json({error: 'no email or password'});
+    }
+    if (!users[login] || users[login].password !== password) {
+        return res.status(400).json({error: 'not valid email or password'});
+    }
+
+    const id = uuid();
+    ids[id] = login;
+
+    res.cookie('cookie', id, {expires: new Date(Date.now() + 1000 * 60 * 10)});
+    res.status(201).json({id});
 });
 
+app.post('/signup', function (req, res) {
+    const email = req.body.email;
+    const login = req.body.login;
+    const password = req.body.password;
+    if (
+        !email || !login || !password ||
+        !email.match(/@/) ||
+        !login.match(/^\S{4,}$/) ||
+        !password.match(/^\S{4,}$/)
 
-app.get('/login', function(req, res) {
-    res.render(__dirname + '/public/blocks/login/login.pug');
+    ) {
+        return res.status(400).json({error: 'not valid data'});
+    }
+    if (users[login]) {
+        return res.status(400).json({error: 'user is alredy registred'});
+    }
+
+    const id = uuid();
+    ids[id] = login;
+    users[login] = {password, email, score: 0};
+
+
+    res.cookie('cookie', id, {expires: new Date(Date.now() + 1000 * 60 * 10)});
+    res.json({id});
 });
 
-app.post('/login',
-    passport.authenticate('local', { failureRedirect: '/login' }),
-    function(req, res) {
-        res.redirect('/');
-    });
-
-app.get('/registration', function(req, res) {
-    app.set('views', path.join(__dirname,'/public/blocks/registration'));
-    res.render(__dirname + '/public/blocks/registration/registration.pug');
+app.post('/signout', function (req, res) {
+    res.cookie('cookie', null, {expires: new Date(Date.now() + 1000 * 60 * 10)});
+    res.status(200).json(null);
 });
 
-app.post('/registration', db.users.registration);
-app.get('/logout',
-    function(req, res){
-        req.logout();
-        res.redirect('/');
-    });
+app.post('/game', function (req, res) {
+    const id = req.cookies['cookie'];
+    const login = ids[id];
+    if (!login || !users[login]) {
+        return res.status(401).end();
+    }
 
-app.get('/game', function(req, res) {
- //  app.set('views', path.join(__dirname,'/public/blocks/registration/game.pug'));
-    res.render( __dirname + '/public/blocks/registration/game.pug');
+    res.json({id});
+    res.status(200);
 });
-
-app.get('/info', function(req, res) {
-    //  app.set('views', path.join(__dirname,'/public/blocks/registration/game.pug'));
-    res.render( __dirname + '/public/blocks/information/info.pug');
-});
-
-app.listen(process.env.PORT || '8000', function () {
-    console.log('Hello, fucking world !');
-});
-
-
-
