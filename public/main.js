@@ -51,16 +51,18 @@ login.onSubmit((formdata) => {
     if (authValidation === false) {
         return;
     }
-    const game = new Block('div', ['game']);
-    wrapper.worker("game",game);
-    game.appendChildBlock('game', new Block('a', ['logout']).setText('logout'));
-
-    let logout = document.querySelector('a.logout');
-    logout.addEventListener('click',function () {
-        userService.logout();
-        wrapper.worker('main-menu',mainMenu);
-    })
-
+    userService.login(formdata[0], formdata[1])
+    const game = new Block('div', ['game'])
+        .then(() => userService.getData())
+        .then(() => wrapper.worker("game", game))
+        .then(() => game.appendChildBlock('game', new Block('a', ['logout']).setText('logout')))
+        .then(() => {
+            let logout = document.querySelector('a.logout');
+            logout.addEventListener('click', function () {
+                userService.logout()
+                wrapper.worker('main-menu', mainMenu)
+            })
+        })
 });
 
 let registrationButton = document.querySelector('a.buttonSecond');
@@ -83,17 +85,18 @@ registration.onSubmit((formdata) => {
         return;
     }
     userService.signup(formdata[0], formdata[1], formdata[2]);
-    userService.getData();
-    const game = new Block('div', ['game']);
-    wrapper.worker("game",game);
-    game.appendChildBlock('game', new Block('a', ['logout']).setText('logout'));
-
-    let logout = document.querySelector('a.logout');
-        logout.addEventListener('click',function () {
-            userService.logout();
-            wrapper.worker('main-menu',mainMenu);
+    const game = new Block('div', ['game'])
+        .then(() => userService.getData())
+        .then(() => wrapper.worker("game", game))
+        .then(() => game.appendChildBlock('game', new Block('a', ['logout']).setText('logout')))
+        .then(() => {
+            let logout = document.querySelector('a.logout');
+            logout.addEventListener('click', function () {
+                userService.logout();
+                wrapper.worker('main-menu', mainMenu);
+            })
         })
-
 });
+
 
 
