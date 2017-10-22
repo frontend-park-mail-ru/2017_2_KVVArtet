@@ -1,1 +1,2 @@
-It is a frontend part of our game
+RPG
+https://lands-dangeous.herokuapp.com/ - сайт с игрой
