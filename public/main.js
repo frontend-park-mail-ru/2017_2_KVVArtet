@@ -9,7 +9,6 @@ import LoginValidate from './blocks/autheficate/loginAuth';
 import UserService from './servises/user-service';
 
 const userService = new UserService();
-
 const application = new Block(document.getElementById('application'));
 
 const mainMenu = new MainPage();
@@ -21,6 +20,7 @@ const registration = new Registration();
 const gameName = new Block('div', ['game-name']);
 const wrapper = new Block('div', ['wrapper']);
 
+
 application.appendChildBlock('game-name', gameName);
 gameName.appendChildBlock('game-name', new Block('div', ['main']).setText('Lands & Dungeons'));
 application.appendChildBlock('wrapper', wrapper);
@@ -31,12 +31,12 @@ wrapper.worker = (toName, to) => {
     wrapper.appendChildBlock(toName, to);
 };
 
-function back () {
+let back = () => {
     let buttonBack = document.querySelector('a.buttonBack');
-    buttonBack.addEventListener('click',function () {
+    buttonBack.addEventListener('click', () => {
         wrapper.worker('main-menu',mainMenu);
     });
-}
+};
 
 let loginButton = document.querySelector('div > a');
 
