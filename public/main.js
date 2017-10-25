@@ -5,7 +5,6 @@ import Registration from './blocks/forms/registration';
 import Login from './blocks/forms/login';
 import RegistrationValidate from './blocks/autheficate/registrationAuth';
 import LoginValidate from './blocks/autheficate/loginAuth';
-
 import UserService from './servises/user-service';
 
 const userService = new UserService();
