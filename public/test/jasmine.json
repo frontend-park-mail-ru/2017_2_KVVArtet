@@ -1,0 +1,10 @@
+
+{
+  "spec_dir": "/public/test",
+  "spec_files": [
+    "unitTest.js"
+  ],
+  "helpers": [
+    "../../../node_modules/babel-core/user-service.js"
+  ]
+}

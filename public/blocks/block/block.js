@@ -29,21 +29,12 @@ class Block {
         return this;
     }
 
-    setHidden(isHidden) {
-        this._element.style.display = (isHidden) ? 'none' : 'flex';
-    }
-
     appendChildBlock(blockName, block) {
         this._element.appendChild(block._element);
         this._childBlocks[blockName] = block;
         return this;
     }
 
-    removeChildBlock(blockName) {
-        this._element.removeChild(this._childBlocks[blockName]._element);
-        delete this._childBlocks[blockName];
-        return this;
-    }
 
     removeAllChildren() {
         for (let blockName in this._childBlocks) {
@@ -75,17 +66,6 @@ class Block {
         this._element.removeAttribute(attribute);
     }
 
-    removeListener(event, callback) {
-        let index = this._eventsListening.indexOf(event);
-        if (index > -1) {
-            this._element.removeEventListener(event, callback);
-            this._eventsListening.splice(index, 1);
-        }
-    }
-
-    getChildBlock(blockName) {
-        return this._childBlocks[blockName];
-    }
 }
 
 export default Block;

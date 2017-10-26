@@ -19,6 +19,7 @@ const registration = new Registration();
 
 const gameName = new Block('div', ['game-name']);
 const wrapper = new Block('div', ['wrapper']);
+const game = new Block('div', ['game']);
 
 
 application.appendChildBlock('game-name', gameName);
@@ -52,8 +53,6 @@ login.onSubmit((formdata) => {
         return;
     }
     userService.login(formdata[0], formdata[1])
-    const game = new Block('div', ['game'])
-        .then(() => userService.getData())
         .then(() => wrapper.worker("game", game))
         .then(() => game.appendChildBlock('game', new Block('a', ['logout']).setText('logout')))
         .then(() => {
@@ -84,18 +83,17 @@ registration.onSubmit((formdata) => {
     if (authValidation === false) {
         return;
     }
-    userService.signup(formdata[0], formdata[1], formdata[2]);
-    const game = new Block('div', ['game'])
-        .then(() => userService.getData())
+    userService.signup(formdata[0], formdata[1], formdata[2])
         .then(() => wrapper.worker("game", game))
         .then(() => game.appendChildBlock('game', new Block('a', ['logout']).setText('logout')))
         .then(() => {
             let logout = document.querySelector('a.logout');
             logout.addEventListener('click', function () {
-                userService.logout();
-                wrapper.worker('main-menu', mainMenu);
+                userService.logout()
+                wrapper.worker('main-menu', mainMenu)
             })
         })
+
 });
 
 

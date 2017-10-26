@@ -1,4 +1,6 @@
 import Block from '../block/block';
+import  './info.css';
+
 
 const infoBlock = "textBlock";
 const buttonBack = "buttonBack";

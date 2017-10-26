@@ -18,7 +18,7 @@ exports.postRegistration = (req, res) =>{
 
     const id = uuid();
     ids[id] = login;
-    users[login] = {password, email, score: 0};
+    users[login] = {password, email};
 
 
     res.cookie('cookie', id, {expires: new Date(Date.now() + 1000 * 60 * 10)});
