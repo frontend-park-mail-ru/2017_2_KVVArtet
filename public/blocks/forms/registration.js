@@ -1,11 +1,12 @@
 import Block from '../block/block';
 import Input from '../forms/input';
+import  './forms.css';
 
 const fieldPrototypes = [
     {
         type: 'text',
         attributes: {
-            name: 'login',
+            name: 'username',
             placeholder: 'username'
         }
     },

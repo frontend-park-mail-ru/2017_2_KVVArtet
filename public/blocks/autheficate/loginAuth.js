@@ -4,27 +4,17 @@ import Validate from '../forms/validation';
  * @function AuthValidate
  * @return {string || null} возвращает null если ошибок нет
  */
-function LoginValidate(login,password) {
+let LoginValidate = (login,password) => {
 
-    const loginValidation = Validate.validateLogin(login);
-    if (loginValidation !== true) {
-        Validate.showError(0);
-        return;
+    if (!Validate.validateLogin(login)) {
+        Validate.formError('form.login-form');
+        return false;
     }
 
-    const passwordValidation = Validate.validatePassword(password);
-    if (passwordValidation !== true) {
-        Validate.showError(2);
-        return;
+    if (!Validate.validatePassword(password)) {
+        Validate.formError('form.login-form');
+        return false;
     }
-
-    if (errors.length === 0) {
-        return null;
-    }
-
-    return errors
-        .map(item => item.error)
-        .join('\n');
 }
 
 export default LoginValidate;

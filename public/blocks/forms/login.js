@@ -1,11 +1,12 @@
 import Block from '../block/block';
 import Input from '../forms/input';
+import  './forms.css';
 
 const fieldPrototypes = [
     {
         type: 'text',
         attributes: {
-            name: 'login',
+            name: 'username',
             placeholder: 'username'
         }
     },
@@ -25,11 +26,9 @@ const fieldPrototypes = [
     }
 ];
 
-
 class Login extends Block {
     constructor() {
         super('form', ['login-form']);
-
         fieldPrototypes.forEach((fieldPrototype) => {
             this.appendChildBlock(fieldPrototype.attributes.name,
                 new Input(fieldPrototype.type, ['field'], fieldPrototype.attributes));

@@ -1,6 +1,6 @@
-import  Http from '../modules/http';
+import  Http from '../../../public/modules/http';
 
-const transport = Http()
+const transport = Http();
 describe('Api tests', () => {
     it('conflict with registration', (done) => {
         transport.Post('/signup', JSON.stringify({
@@ -23,4 +23,4 @@ describe('Api tests', () => {
             });
     });
 
-    })
+})

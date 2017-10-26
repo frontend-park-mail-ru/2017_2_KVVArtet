@@ -4,27 +4,24 @@ import Validate from '../forms/validation';
  * @function AuthValidate
  * @return {string || null} возвращает null если ошибок нет
  */
-function RegistrationValidate(login, email, password, password_confirm) {
+let RegistrationValidate = (login, email, password, password_confirm) => {
 
-    const loginValidation = Validate.validateLogin(login);
-    if (loginValidation !== true) {
-        Validate.showError(0);
+    if (!Validate.validateLogin(login)) {
+        Validate.formError('form.registration-form');
         return false;
     }
-    const emailValidation = Validate.validateEmail(email);
-    if (emailValidation !== true) {
-        Validate.showError(1);
-        return false;
-    }
-
-    const passwordValidation = Validate.validatePassword(password);
-    if (passwordValidation !== true) {
-        Validate.showError(2);
+    if (!Validate.validateEmail(email)) {
+        Validate.formError('form.registration-form');
         return false;
     }
 
-    if (password !== password_confirm) {
-        Validate.showError(3);
+    if (!Validate.validatePassword(password)){
+        Validate.formError('form.registration-form');
+        return false;
+    }
+
+    if (!Validate.validatePassword(password_confirm)) {
+        Validate.formError('form.registration-form');
         return false;
     }
 }

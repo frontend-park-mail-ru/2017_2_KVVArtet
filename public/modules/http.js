@@ -1,3 +1,5 @@
+import Validate from '../blocks/forms/validation';
+
 const baseUrl = `${window.location.protocol}//${window.location.host}`;
 
 /**
@@ -27,9 +29,10 @@ class Http {
     static Post(address, body) {
         const url = (Http.BaseUrl || baseUrl) + address;
         if (typeof window.fetch !== 'undefined') {
+            console.log("function post work");
             return this._FetchPost(body, url);
         }
-        return this._PostXMLHttpRequest(body, url);
+        return false;
     }
 
 
@@ -123,15 +126,21 @@ class Http {
             credentials: 'include',
             body: JSON.stringify(body),
             headers: {
-                'Content-Type': 'application/json; charset=utf-8'
+                'Content-Type': 'application/json; charset=utf-8',
+                'Accept' : 'application/json'
             }
         })
             .then(function (response) {
-                let json = response.json();
-                if (response.status >= 400) {
+                console.log("fetch post work\n");
+                console.log(response.status);
+                if ( response.status === 200 ) {
+                    return;
+                }
+                else if (response.status >= 400){
+                    Validate.userError();
+                    let json = response.json();
                     return json.then(response => {throw response;});
                 }
-                return json;
             });
     }
 

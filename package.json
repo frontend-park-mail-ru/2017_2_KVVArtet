@@ -5,7 +5,7 @@
     "start": "npm run build && node ./public/server.js",
     "build": "webpack",
     "compile-pug": "pug -c --extension 'pug.js' --name-after-file ./public/blocks/",
-     "test": "jasmine"
+     "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
