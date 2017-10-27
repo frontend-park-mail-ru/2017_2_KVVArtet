@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+      /* убираем границу */
+      body, html {
+        margin: 0;
+      }
+      /* растягиваем canvas на всю область просмотра */
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+
+      .container {
+        margin: 0;
+        padding: 0;
+        position: relative;
+      }
+
+      .fps, .time {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+      }
+
+      .drop-menu {
+        position: absolute;
+      }
+
+      .drop-menu ul {
+      }
+
+      .drop-menu li {
+        list-style-type: none;
+        padding: 2px;
+        vertical-align:middle;
+        background: rgba(222, 244, 255, 1);
+        border-bottom: 1px solid black;
+      }
+
+      .drop-menu li:hover {
+        background: rgba(255, 255, 255, 1);
+      }
+
+      .drop-menu li.last-child {
+        border-bottom: 0px;
+      }
+      }
+  </style>
+  <script id="2d-vertex-shader" type="notjs">
+  attribute vec2 a_position;
+  attribute vec2 a_texcoord;
+  uniform vec2 u_translation;
+  varying vec2 v_texcoord;
+  void main() {
+    gl_Position = vec4(a_position + u_translation, 0, 1);
+    v_texcoord = a_texcoord;
+  }
+  </script>
+  <script id="2d-fragment-shader" type="notjs">
+  precision mediump float;
+  uniform sampler2D u_texture;
+  varying vec2 v_texcoord;
+  void main() {
+      gl_FragColor = texture2D(u_texture, v_texcoord);
+  }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <canvas id="canvas"></canvas>
+    <div class="fps">
+      FPS: <span id="fps"></span>
+    </div>
+    <div class="time">
+      <span id ="time"></span>
+    </div>
+  </div>
+  <script src="utils.js" charset="utf-8"></script>
+  <script src="Skill1.js" charset="utf-8"></script>
+  <script src="Unit1.js" charset="utf-8"></script>
+  <script src="Tile1.js" charset="utf-8"></script>
+  <script src="DungeonMapMaker1.js" charset="utf-8"></script>
+  <script src="DrawObject.js" charset="utf-8"></script>
+  <script src="GameModule.js" charset="utf-8"></script>
+  <script src="DemoGameModule.js" charset="utf-8"></script>
+  <script src="script1.js" charset="utf-8"></script>
+</body>
+</html>
