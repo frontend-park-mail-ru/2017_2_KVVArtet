@@ -1,8 +1,8 @@
-import Block from '../block/block';
+import Generator from '../block/block';
 import  './forms.css';
 
 
-class Input extends Block {
+class Input extends Generator {
     constructor(type = 'text', classes = [], attrs = {}) {
         attrs['type'] = type;
         super('input', classes, attrs);

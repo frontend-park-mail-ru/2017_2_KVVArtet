@@ -1,4 +1,5 @@
 import Http from '../modules/http';
+import Validate from '../blocks/forms/validation';
 
 /**
  * Сервис для работы с пользователями
@@ -33,6 +34,13 @@ class UserService {
         return Http.Post('/signin', {username, password});
     }
 
+    /**
+     * Проверяет, авторизован ли пользователь
+     * @return {boolean}
+     */
+    isLoggedIn() {
+        return Http.Post('/currentUser');
+    }
 
     /**
      * Выход пользователя
@@ -47,12 +55,12 @@ class UserService {
      * Загружает данные о текущем пользователе
      * @return {Promise}
      */
-    getData() {
+    /*getData() {
         return Http.Post('/session')
             .then(userdata => {
                 return userdata;
             });
-    }
+    }*/
 
 }
 

@@ -2,10 +2,10 @@
   "name": "rpg",
   "version": "0.0.0",
   "scripts": {
-    "start": "npm run build && node ./public/server.js",
+    "start": "npm run build && node server.js",
     "build": "webpack",
     "compile-pug": "pug -c --extension 'pug.js' --name-after-file ./public/blocks/",
-     "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
@@ -30,6 +30,9 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2016": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "eslint": "^4.9.0",
     "eslint-config-google": "^0.9.1",
     "eslint-config-standard": "^10.2.1",

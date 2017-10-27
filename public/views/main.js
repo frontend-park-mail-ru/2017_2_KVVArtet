@@ -1,12 +1,13 @@
-import MainPage from './blocks/mainpage/mainpage';
-import Block from './blocks/block/block';
-import Info from './blocks/info/info';
-import Registration from './blocks/forms/registration';
-import Login from './blocks/forms/login';
-import RegistrationValidate from './blocks/autheficate/registrationAuth';
-import LoginValidate from './blocks/autheficate/loginAuth';
+import MainPage from './mainpage/mainpage';
+import Block from './baseview';
+import Info from './info/info';
+import Registration from './signup/registration';
+import Login from './login/login';
+import RegistrationValidate from '../blocks/autheficate/registrationAuth';
+import LoginValidate from '../blocks/autheficate/loginAuth';
 
-import UserService from './servises/user-service';
+
+import UserService from '../servises/user-service';
 
 const userService = new UserService();
 const application = new Block(document.getElementById('application'));
@@ -42,6 +43,7 @@ let back = () => {
 let loginButton = document.querySelector('div > a');
 
 loginButton.addEventListener('click', function() {
+
     wrapper.worker("login-form",login);
     back();
 });

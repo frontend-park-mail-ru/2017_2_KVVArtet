@@ -1,5 +1,5 @@
-import Block from '../block/block';
-import  './main-page.css';
+import Block from '../baseview';
+import './main-page.css';
 
 export const buttons = [
     {
@@ -22,6 +22,7 @@ export class MainPage extends Block {
     constructor() {
         super('div', ['main-menu'], {});
         this.createChildren();
+        //console.log(document.getElementsByClassName(("buttonFirst")));
         return this;
     }
 

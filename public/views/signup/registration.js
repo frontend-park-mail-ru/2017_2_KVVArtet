@@ -1,6 +1,6 @@
-import Block from '../block/block';
-import Input from '../forms/input';
-import  './forms.css';
+import Block from '../baseview';
+import Input from '../../blocks/forms/input';
+import '../../blocks/forms/forms.css';
 
 const fieldPrototypes = [
     {
