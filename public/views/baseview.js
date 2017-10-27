@@ -2,7 +2,7 @@
  * Модуль, реализующий общее поведение для каждого блока
  * @module Block
  */
-class Generator {
+class Block {
     constructor(...args) {
         this._eventsListening = [];
         this._childBlocks = {};
@@ -68,4 +68,4 @@ class Generator {
 
 }
 
-export default Generator;
+export default Block;

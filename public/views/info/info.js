@@ -1,5 +1,5 @@
-import Block from '../block/block';
-import  './info.css';
+import Block from '../baseview';
+import './info.css';
 
 
 const infoBlock = "textBlock";

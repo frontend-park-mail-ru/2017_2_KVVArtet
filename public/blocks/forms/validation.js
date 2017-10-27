@@ -27,9 +27,9 @@ static userError () {
     div.innerHTML = "<p> Sorry,user is already exist </p> ";
     if (form.getElementsByTagName('p').length === 0 ){
         form.appendChild(div);
-     }
     }
 
+}
     static formError(formName) {
         let form = document.querySelector(formName);
         let div = document.createElement('div');
