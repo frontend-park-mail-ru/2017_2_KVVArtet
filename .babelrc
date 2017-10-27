@@ -1,9 +1,0 @@
-{
-  "presets": [
-    "es2016",
-    "stage-0"
-  ],
-  "plugins": [
-    "transform-regenerator"
-  ]
-}
