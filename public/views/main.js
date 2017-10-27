@@ -37,6 +37,7 @@ let back = () => {
     let buttonBack = document.querySelector('a.buttonBack');
     buttonBack.addEventListener('click', () => {
         wrapper.worker('main-menu',mainMenu);
+        history.pushState(4, "/", "/");
     });
 };
 
@@ -45,6 +46,7 @@ let loginButton = document.querySelector('div > a');
 loginButton.addEventListener('click', function() {
 
     wrapper.worker("login-form",login);
+    history.pushState(1, "login", "/login");
     back();
 });
 
@@ -70,6 +72,7 @@ let registrationButton = document.querySelector('a.buttonSecond');
 
 registrationButton.addEventListener('click', function() {
     wrapper.worker("registration-form",registration);
+    history.pushState(2, "signup", "/signup");
     back();
 });
 
@@ -77,6 +80,7 @@ let infoButton = document.querySelector('a.buttonThird');
 
 infoButton.addEventListener('click', function() {
     wrapper.worker("info-menu",information);
+    history.pushState(3, "info", "/info");
     back();
 });
 
