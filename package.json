@@ -2,7 +2,7 @@
   "name": "rpg",
   "version": "0.0.0",
   "scripts": {
-    "start": "npm run build && node server.js",
+    "start": "npm run build && node ./public/server.js",
     "build": "webpack",
     "compile-pug": "pug -c --extension 'pug.js' --name-after-file ./public/blocks/",
     "test": "echo \"Error: no test specified\" && exit 1"

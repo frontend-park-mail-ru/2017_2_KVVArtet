@@ -4,15 +4,19 @@ import './main-page.css';
 export const buttons = [
     {
         name: 'First',
-        text: 'New Game'
+        text: 'New Game',
+        href:'/login'
     },
     {
         name: 'Second',
-        text: 'Registration'
+        text: 'Registration',
+        href:'/login'
+
     },
     {
         name: 'Third',
-        text: 'Information'
+        text: 'Information',
+
     }
 ];
 
