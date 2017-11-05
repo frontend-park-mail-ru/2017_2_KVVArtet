@@ -5,7 +5,7 @@ import Validate from '../forms/validation';
  * @return {string || null} возвращает null если ошибок нет
  */
 let LoginValidate = (login,password) => {
-
+console.log('valide works')
     if (!Validate.validateLogin(login)) {
         Validate.formError('form.login-form');
         return false;
