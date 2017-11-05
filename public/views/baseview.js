@@ -44,8 +44,11 @@ class Block {
     }
 
     on(event, callback) {
+        console.log('on inside')
         if (this._eventsListening.indexOf(event) === -1) {
             this._element.addEventListener(event, callback);
+            console.log('on works')
+
             this._eventsListening.push(event);
         }
     }

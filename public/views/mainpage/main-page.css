@@ -22,7 +22,8 @@
     left: 50%;
     padding: 10px;
     font-family:fantasy;
-    font-size :250%;
+    font-size :200%;
+    cursor:  pointer;
 
 }
 
@@ -45,11 +46,11 @@
     font-family:fantasy;
     margin: -125px 0 0 -125px;
     position: absolute;
-    top: 64%;
+    top: 84%;
     left: 50%;
     padding: 10px;
-    font-size :250%
-
+    font-size :200%;
+    cursor:  pointer;
 }
 
 .buttonSecond:hover {
@@ -71,10 +72,11 @@
     font-family:fantasy;
     margin: -125px 0 0 -125px;
     position: absolute;
-    top: 84%;
+    top: 104%;
     left: 50%;
     padding: 10px;
-    font-size :250%
+    font-size :200%;
+    cursor:  pointer;
 }
 
 .buttonThird:hover {
@@ -84,3 +86,30 @@
 .buttonThird:active {
     background: white;
 }
+
+.buttonFour {
+    display: inline-block;
+    color: white;
+    outline: none;
+    border: 2px solid;
+    border-radius: 100px;
+    transition: 0.2s;
+    background-size: cover;
+    font-family:fantasy;
+    margin: -125px 0 0 -125px;
+    position: absolute;
+    top: 64%;
+    left: 50%;
+    padding: 10px;
+    font-size :200%;
+    cursor:  pointer;
+}
+
+.buttonFour:hover {
+    background: green;
+}
+
+.buttonFour:active {
+    background: white;
+}
+
