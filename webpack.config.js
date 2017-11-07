@@ -28,6 +28,15 @@ module.exports = {
             }, {
                 test: /\.(pug|jade)$/,
                 loader: 'pug-loader'
+            },
+            {
+                test: /\.(html)$/,
+                use: {
+                    loader: 'html-loader',
+                    options: {
+                        attrs: [':data-src']
+                    }
+                }
             }
         ],
     },

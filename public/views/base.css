@@ -32,7 +32,9 @@ body {
 
     top: 10%;
     left: 1%;
-    font-size :250%
+    font-size :250%;
+    cursor:  pointer;
+
 }
 .buttonBack:hover {
     background: green;
@@ -51,4 +53,24 @@ body {
     font-size: 14px;
     cursor: pointer;
 }
+
+
+.notfound {
+    margin: -215px 0 0 -125px;
+    position: absolute;
+
+    color:white;
+    font-family:fantasy;
+
+
+    text-transform: uppercase;
+    outline: 0;
+    padding: 35px;
+    font-size: 250%;
+    top: 45%;
+    left: 40%;
+}
+
+
+
 
