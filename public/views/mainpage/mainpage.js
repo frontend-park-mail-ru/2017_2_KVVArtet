@@ -64,8 +64,9 @@ export class MainPage extends Block {
         linkSecond.setAttribute('value','/signup');
         let linkThird = document.querySelector('a.buttonThird');
         linkThird.setAttribute('value','/info');
-        let linkFour = document.querySelector('a.buttonThird');
-        linkFour.setAttribute('value','/info');
+        let linkFour = document.querySelector('a.buttonFour');
+        linkFour.setAttribute('value','/singleplay');
+
 
     }
  }

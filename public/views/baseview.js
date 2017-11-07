@@ -22,6 +22,7 @@ class Block {
         } else if (args[0] instanceof Node) {
             this._element = args[0];
         }
+        this.template = null;
     }
 
     setText(text) {

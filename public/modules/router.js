@@ -1,8 +1,4 @@
 import {signin ,signup }from  '../views/main'
-//import from '../views/main'
-
-import Blocks from  '../views/baseview'
-
 
 export default  class Router{
 
@@ -10,7 +6,6 @@ export default  class Router{
         if (Router.__instance) {
             return Router.__instance;
         }
-
         this.routes = new Map();
 
         Router.__instance = this;
@@ -18,9 +13,7 @@ export default  class Router{
 
     register(path, view) {
         this.routes.set(path, view);
-       //console.log(path,view,'\n');
-     //  console.log(this.routes);
-       // console.log(path);
+
         return this;
     }
 
@@ -38,10 +31,8 @@ export default  class Router{
 
             if (event.target.tagName.toLowerCase() === 'a' ) {
 
-
                 event.preventDefault();
                 const element = event.target;
-
                 const pathname = element.getAttribute('value');
 
                 console.log(pathname);
@@ -49,7 +40,6 @@ export default  class Router{
                 if (pathname !== null) {
 
                     this.go(pathname);
-                    console.log('click working\n');
                     console.log(pathname);
                 }
                 this.go(window.location.pathname);
@@ -69,19 +59,15 @@ export default  class Router{
 
         if (window.location.pathname !== path) {
             window.history.pushState({}, '', path);
-
-            console.log('works go');
         }
 
 
         view.creation();
     if (path === '/login') {
-        console.log('signin')
 
         signin(view);
      }
      else if (path === '/signup') {
-        console.log('func signup')
         signup(view)
       }
     }
