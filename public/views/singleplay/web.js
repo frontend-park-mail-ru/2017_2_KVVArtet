@@ -1,5 +1,9 @@
 import Block from '../baseview'
 import  Background from './Background'
+import DungeonMapMaker from "./DungeonMapMaker"
+import GameManager from "./GameManager"
+
+
 export default class SinglePlay extends Block {
     constructor() {
         super();
@@ -9,12 +13,13 @@ export default class SinglePlay extends Block {
 
     creation() {
      //  this._element.innerHTML = this.template;
-        document.body.innerHTML = this.template;
+      document.body.innerHTML = this.template;
 
         // document.body.remove();
-        //попытка напряумую вызвать методы классов для генерации контента
-      // const back = new Background();
-       //back.InitMapAndSprites();
+      const back = new Background(new DungeonMapMaker().dungeonMapMaker(Math.random() * 10 + 25));
+       back.render();
+        const units = new GameManager();
+        units.startGameRendering();
     }
 
 }

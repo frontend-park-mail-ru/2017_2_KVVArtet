@@ -1,4 +1,5 @@
-class Loader {
+
+export default class  Loader {
   constructor(paths, gl) {
     this.gl = gl;
     this.paths = paths;
@@ -15,6 +16,7 @@ class Loader {
   load(callback1, callback2) {
     let imagesToLoad = this.paths.length;
     let onImageLoad = function(image, i) {
+      console.log("LOAD IMAGE:" + i);
       imagesToLoad--;
       let tex = this.gl.createTexture();
       this.gl.bindTexture(this.gl.TEXTURE_2D, tex);
@@ -24,7 +26,7 @@ class Loader {
       this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
       this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, image);
       this.images[i] = tex;
-      if (imagesToLoad == 0) {
+      if (imagesToLoad === 0) {
         callback1(this.images);
         if (callback2) {
           callback2();

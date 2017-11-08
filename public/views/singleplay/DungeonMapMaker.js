@@ -1,15 +1,16 @@
 
-//import Tile from "Tile.js"
+import Tile from "./Tile"
 
-WIDTH = 16;
-HEIGHT = 12;
+let WIDTH = 16;
+let HEIGHT = 12;
+//console.log(WIDTH);
  export default class DungeonMapMaker {
     constructor() {
         this.UP = 0;
         this.LEFT = 1;
         this.DOWN = 2;
         this.RIGHT = 3;
-        this.counter = window.WIDTH * window.HEIGHT;
+        this.counter = WIDTH * HEIGHT;
     }
 
     isDirectionValid(curX, curY, direction) {
@@ -18,11 +19,11 @@ HEIGHT = 12;
             case this.UP:
                 return (curY - 1) >= 0;
             case this.DOWN:
-                return (curY + 1) < window.HEIGHT;
+                return (curY + 1) < HEIGHT;
             case this.LEFT:
                 return (curX - 1) >= 0;
             case this.RIGHT:
-                return (curX + 1) < window.WIDTH;
+                return (curX + 1) < WIDTH;
             default:
                 break;
         }
@@ -30,9 +31,9 @@ HEIGHT = 12;
 
     dungeonMapMaker(tileWalls) {
         let map = [];
-        for (let i = 0; i < window.WIDTH; i++) {
+        for (let i = 0; i < WIDTH; i++) {
             map[i] = [];
-            for (let j = 0; j < window.HEIGHT; j++) {
+            for (let j = 0; j < HEIGHT; j++) {
                 let newTile = new Tile();
                 newTile.xpos = i;
                 newTile.ypos = j;
@@ -41,9 +42,11 @@ HEIGHT = 12;
             }
         }
 
-        let randY = Math.floor(Math.random() * window.HEIGHT);
-        let randX = Math.floor(Math.random() * window.WIDTH);
+        let randY = Math.floor(Math.random() * HEIGHT);
+        let randX = Math.floor(Math.random() * WIDTH);
         let pointer = [randX, randY];
+        console.log(HEIGHT + ' ' +WIDTH);
+        console.log(randY+ ' ' +randX);
         map[randX][randY].isWall = 0;
         this.counter--;
         let direction;
@@ -77,3 +80,4 @@ HEIGHT = 12;
         return map;
     }
 }
+export {WIDTH,HEIGHT}

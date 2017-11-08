@@ -52,10 +52,10 @@ export default  class Router{
         let view = this.routes.get(path);
         console.log(view);
 
-        if (!view) {
+       /* if (!view) {
             document.body.innerHTML = '<h class="notfound"> We didnot do such page )';
             return;
-        }
+        }*/
 
         if (window.location.pathname !== path) {
             window.history.pushState({}, '', path);

@@ -1,4 +1,4 @@
-class AnimationManager {
+  export default class AnimationManager {
   constructor(spriteManager, activeTile, state, animations) {
     this.state = state;
     this.spriteManager = spriteManager;

@@ -1,4 +1,4 @@
-class SpriteManager {
+export default class SpriteManager {
   constructor(engine) {
     this.indexes = [];
     this.count = 0;

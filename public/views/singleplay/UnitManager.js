@@ -1,4 +1,4 @@
-class UnitManager {
+export default class UnitManager {
   constructor(animationManager, spriteManager, activeTile, state, entities, textures, conditions) {
     this.units = [];
     this.spriteManager = spriteManager;
@@ -142,30 +142,30 @@ class UnitManager {
           }.bind(this);
           ul.appendChild(li);
         }.bind(this);
-        if (elem.isOccupied() && elem.unitOnTile.type == unit.type) {
+        if (elem.isOccupied() && elem.unitOnTile.type === unit.type) {
           console.log("Союзник");
           unit.skills.forEach(function(item, i) {
-            if (item.name != 'Move' && item.typeOfArea == "circle" && item.damage[0] < 0) {
+            if (item.name !=='Move' && item.typeOfArea == "circle" && item.damage[0] < 0) {
               func(item);
             }
           });
         } else if (elem.isOccupied() && elem.unitOnTile.type != unit.type) {
           console.log("Противник")
           unit.skills.forEach(function(item, i) {
-            if (item.name != 'Move' && item.damage[0] > 0) {
+            if (item.name !== 'Move' && item.damage[0] > 0) {
               func(item);
             }
           });
         } else {
           console.log("Карта")
           unit.skills.forEach(function(item, i) {
-            if (item.typeOfArea == "circle" || (item.name == 'Move' && elem.active)) {
+            if (item.typeOfArea === "circle" || (item.name === 'Move' && elem.active)) {
               func(item);
             }
           });
         }
         document.getElementsByClassName('container')[0].appendChild(div);
-      } else if (event.which == 1 && this.dropMenu != 0 && event.target.tagName != 'LI') {
+      } else if (event.which === 1 && this.dropMenu !== 0 && event.target.tagName !== 'LI') {
         this.dropMenu.remove();
         this.dropMenu = 0;
       }

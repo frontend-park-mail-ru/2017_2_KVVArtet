@@ -1,2 +1,0 @@
-# frontgame
-for personal tests

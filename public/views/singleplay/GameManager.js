@@ -1,4 +1,16 @@
-class GameManager {
+import GraphicEngine from './GraphicEngine'
+import SpriteManager from './SpriteManager'
+import State from './State'
+import Loader from './Loader'
+import Utils from './Utils'
+import AnimationManager from './AnimationManager'
+import UnitManager from './UnitManager'
+//import {tiledMap,test} from './GameModule'
+//import   './GameModule'
+
+
+
+export default  class GameManager {
   constructor() {
     this.ratio = 16/9;
     this.engine =  new GraphicEngine('canvas', true);
@@ -8,19 +20,20 @@ class GameManager {
   }
 
   startGameRendering(callback) {
-    let loaderTextures = new Loader(['textures/activeGrass.jpg', 'textures/activeTile.png', 'textures/select.png', 'icons/fullscreen.png'], this.engine.gl);
-    let loaderAnimations = new Loader(['animations/fireball.png', 'animations/explosion.png', 'animations/thunderbolt1.png'], this.engine.gl);
-    let loaderConditions = new Loader(['conditions/WarriorAngry.png', 'conditions/WarriorAttack.png', 'conditions/WarriorDead.png',
-                                       'conditions/MageAngry.png', 'conditions/MageAttack.png', 'conditions/MageDead.png',
-                                       'conditions/ThiefAngry.png', 'conditions/ThiefAttack.png', 'conditions/ThiefDead.png',
-                                       'conditions/PriestAngry.png', 'conditions/PriestAttack.png', 'conditions/PriestDead.png',
-                                       'conditions/Skeleton1Angry.png', 'conditions/Skeleton1Attack.png', 'conditions/Skeleton1Dead.png',
-                                       'conditions/Skeleton2Angry.png', 'conditions/Skeleton2Attack.png', 'conditions/Skeleton2Dead.png'], this.engine.gl);
-    let loaderEntities = new Loader(['entity/warrior_portrait.png', 'entity/mage_portrait.png',
-                                     'entity/thief_portrait.png', 'entity/priest_portrait.png',
-                                     'entity/skeleton1_portrait.png', 'entity/skeleton2_portrait.png',
-                                     'entity/warrior.png', 'entity/mage.png', 'entity/thief.png',
-                                     'entity/priest.png', 'entity/skeleton1.png', 'entity/skeleton2.png'], this.engine.gl);
+    console.log("work rendering uints")
+    let loaderTextures = new Loader(['/views/singleplay/textures/activeGrass.jpg', '/views/singleplay/textures/activeTile.png', '/views/singleplay/textures/select.png', '/views/singleplay/icons/fullscreen.png'], this.engine.gl);
+    let loaderAnimations = new Loader(['/views/singleplay/animations/fireball.png', '/views/singleplay/animations/explosion.png', '/views/singleplay/animations/thunderbolt1.png'], this.engine.gl);
+    let loaderConditions = new Loader(['/views/singleplay/conditions/WarriorAngry.png', '/views/singleplay/conditions/WarriorAttack.png', '/views/singleplay/conditions/WarriorDead.png',
+                                       '/views/singleplay/conditions/MageAngry.png', '/views/singleplay/conditions/MageAttack.png', '/views/singleplay/conditions/MageDead.png',
+                                       '/views/singleplay/conditions/ThiefAngry.png', '/views/singleplay/conditions/ThiefAttack.png', '/views/singleplay/conditions/ThiefDead.png',
+                                       '/views/singleplay/conditions/PriestAngry.png', '/views/singleplay/conditions/PriestAttack.png', '/views/singleplay/conditions/PriestDead.png',
+                                       '/views/singleplay/conditions/Skeleton1Angry.png', '/views/singleplay/conditions/Skeleton1Attack.png', '/views/singleplay/conditions/Skeleton1Dead.png',
+                                       '/views/singleplay/conditions/Skeleton2Angry.png', '/views/singleplay/conditions/Skeleton2Attack.png', '/views/singleplay/conditions/Skeleton2Dead.png'], this.engine.gl);
+    let loaderEntities = new Loader(['/views/singleplay/entity/warrior_portrait.png', '/views/singleplay/entity/mage_portrait.png',
+                                     '/views/singleplay/entity/thief_portrait.png', '/views/singleplay/entity/priest_portrait.png',
+                                     '/views/singleplay/entity/skeleton1_portrait.png', '/views/singleplay/entity/skeleton2_portrait.png',
+                                     '/views/singleplay/entity/warrior.png', '/views/singleplay/entity/mage.png', '/views/singleplay/entity/thief.png',
+                                     '/views/singleplay/entity/priest.png', '/views/singleplay/entity/skeleton1.png', '/views/singleplay/entity/skeleton2.png'], this.engine.gl);
     loaderTextures.load((textures) => {
       loaderAnimations.load((animations) => {
         loaderConditions.load((conditions) => {
@@ -44,8 +57,14 @@ class GameManager {
       if (x >= 0.2 && x <= 0.8 && y >= 0.065 && y <= 0.865 && document.getElementById('menu').hidden && !this.state.AnimationOnMap) {
         let i = Math.floor(((x - 0.2) / 0.6) / (1 / 16));
         let j = Math.floor(((y - 0.065) / 0.8) / (1 / 12));
-        if (window.tiledMap[i][j].active) {
-          this.spriteManager.getSprite(this.activeElem).setTrans(Utils.translationOnMap(j, i));
+        console.log(i ," ", j);
+          console.log(tiledMap[i][j]);
+
+          //  console.log(window.tiledMap[i][j].active)
+
+          if (window.tiledMap[i][j].active) {
+
+            this.spriteManager.getSprite(this.activeElem).setTrans(Utils.translationOnMap(j, i));
         } else {
           this.spriteManager.getSprite(this.activeElem).setTrans([-2, -2]);
         }

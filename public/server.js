@@ -1,4 +1,3 @@
-
 routing =()=>{ require('./routing')};
 const express = require('express');
 const body = require('body-parser');
@@ -38,4 +37,7 @@ app.post('/signout',
         res.status(200).json(null);
     }
 );
-
+/*
+app.get("/singleplay", function(req, res) {
+    res.render( __dirname +'../public/views/singleplay/web.html');
+});*/

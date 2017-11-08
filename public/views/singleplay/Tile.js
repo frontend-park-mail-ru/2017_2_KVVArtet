@@ -1,4 +1,4 @@
- class Tile{
+export default class Tile{
 	constructor() {
 		this.xpos = null;
 		this.ypos = null;

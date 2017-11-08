@@ -22,6 +22,7 @@ export default  class GraphicEngine {
   }
 
   addSprite(translation, texture, vertexs, blend, texCoord) {
+    console.log("texture " + texture);
     let attributes = [new Attribute('a_position', vertexs),
       new Attribute('a_texcoord', texCoord ? texCoord : Utils.madeRectangle(0, 0, 1, 1))
     ];
@@ -53,10 +54,10 @@ export default  class GraphicEngine {
 
     let lastProgram;
     this.sprites.forEach((sprite) => {
-      if (lastProgram == undefined) {
+      if (lastProgram === undefined) {
         this.gl.useProgram(sprite.program);
         lastProgram = sprite.program;
-      } else if (lastProgram != sprite.program) {
+      } else if (lastProgram !== sprite.program) {
         this.gl.useProgram(sprite.program);
         lastProgram = sprite.program;
       }

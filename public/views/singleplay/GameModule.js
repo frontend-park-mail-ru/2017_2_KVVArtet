@@ -2,7 +2,7 @@
 // import Game from "DemoGameModule.js"
 
 tiledMap = new DungeonMapMaker().dungeonMapMaker(Math.random() * 10 + 25);
-actionDeque = [];
+ actionDeque = [];
 interval = 100;
 // WIDTH = 16;
 HEIGHT = 12;
@@ -20,9 +20,11 @@ class GameModule {
   }
 
   gameGraphic() {
-    let back = new Background(tiledMap);
+      let back = new Background(tiledMap);
     back.render();
     gameManager = new GameManager();
     gameManager.startGameRendering(this.gameStart.bind(this));
   }
 }
+
+//export {tiledMap}
