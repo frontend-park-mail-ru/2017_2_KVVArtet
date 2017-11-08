@@ -1,5 +1,6 @@
 import Block from '../baseview';
 import './info.css';
+import Router from '../../modules/router';
 
 
 const infoBlock = "textBlock";
@@ -19,6 +20,21 @@ class Info extends Block {
             this.appendChildBlock("buttonBack",
                 new Block('a', [buttonBack]));
     }
+
+    creation() {
+
+        let test = document.querySelector('div.wrapper');
+        if (test.childNodes[0] !== undefined) {
+            test.removeChild(test.childNodes[0])
+        }
+        test.appendChild(this._element);
+
+        let navigator = document.querySelector('a.buttonBack');
+        navigator.addEventListener('click', () => {
+            new Router().go('/')
+        });
+    }
+
 }
 export default Info;
 
