@@ -1,4 +1,3 @@
-//import {vertexShader,fragmentShader,vertexShader1 ,fragmentShader1} from './Shaders'
 export default class Program {
   constructor(gl, vertexShader, fragmentShader) {
     this.gl = gl;

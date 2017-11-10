@@ -1,6 +1,14 @@
-class Pathfinding {
-    constructor(start){
+export default class Pathfinding {
+    constructor(start, tiledMap){
         this.distance = new Map();
+        this.WIDTH = 16;
+        this.HEIGHT = 12;
+        this.PARTYSIZE = 4;
+        this.ENEMIESSIZE = 2;
+        this.kek = 3;
+        this.NOTWALL = 0;
+        this.WALL = 1;
+        this.tiledMap = tiledMap;
         this.path = new Map();
         this.sender = start.getInhabitant();
         this.frontier = [];
@@ -29,24 +37,24 @@ class Pathfinding {
 
     tileNeighbors(current) {
         let neighbors = [];
-        if (current.xpos + 1 < window.WIDTH && window.tiledMap[current.xpos + 1][current.ypos].isWall === window.NOTWALL
-            && !window.tiledMap[current.xpos + 1][current.ypos].isOccupied()) {
-            neighbors.push(window.tiledMap[current.xpos + 1][current.ypos]);
+        if (current.xpos + 1 < this.WIDTH && this.tiledMap[current.xpos + 1][current.ypos].isWall === this.NOTWALL
+            && !this.tiledMap[current.xpos + 1][current.ypos].isOccupied()) {
+            neighbors.push(this.tiledMap[current.xpos + 1][current.ypos]);
         }
 
-        if (current.ypos + 1 < window.HEIGHT && window.tiledMap[current.xpos][current.ypos + 1].isWall === window.NOTWALL
-            && !window.tiledMap[current.xpos][current.ypos + 1].isOccupied()) {
-            neighbors.push(window.tiledMap[current.xpos][current.ypos + 1]);
+        if (current.ypos + 1 < this.HEIGHT && this.tiledMap[current.xpos][current.ypos + 1].isWall === this.NOTWALL
+            && !this.tiledMap[current.xpos][current.ypos + 1].isOccupied()) {
+            neighbors.push(this.tiledMap[current.xpos][current.ypos + 1]);
         }
 
-        if (current.xpos - 1 >= 0 && window.tiledMap[current.xpos -1][current.ypos].isWall === window.NOTWALL
-            && !window.tiledMap[current.xpos - 1][current.ypos].isOccupied()) {
-            neighbors.push(window.tiledMap[current.xpos - 1][current.ypos]);
+        if (current.xpos - 1 >= 0 && this.tiledMap[current.xpos -1][current.ypos].isWall === this.NOTWALL
+            && !this.tiledMap[current.xpos - 1][current.ypos].isOccupied()) {
+            neighbors.push(this.tiledMap[current.xpos - 1][current.ypos]);
         }
 
-        if (current.ypos -1 >= 0 && window.tiledMap[current.xpos][current.ypos - 1].isWall === window.NOTWALL
-            && !window.tiledMap[current.xpos][current.ypos - 1].isOccupied()) {
-            neighbors.push(window.tiledMap[current.xpos][current.ypos - 1]);
+        if (current.ypos -1 >= 0 && this.tiledMap[current.xpos][current.ypos - 1].isWall === this.NOTWALL
+            && !this.tiledMap[current.xpos][current.ypos - 1].isOccupied()) {
+            neighbors.push(this.tiledMap[current.xpos][current.ypos - 1]);
         }
 
         return neighbors;

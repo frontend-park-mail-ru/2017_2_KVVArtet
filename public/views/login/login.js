@@ -1,6 +1,6 @@
 import Block from '../../blocks/block/block';
 import Input from '../../blocks/forms/input';
-import '../../blocks/forms/forms.css';
+import '../../blocks/forms/forms.scss';
 import Router from '../../modules/router';
 
 const fieldPrototypes = [
@@ -57,10 +57,8 @@ class Login extends Block {
     }
 
     onSubmit(callback) {
-        console.log('this._element');
 
         this.on('submit', (event) => {
-            console.log('on works');
 
             event.preventDefault();
             const formdata = {};

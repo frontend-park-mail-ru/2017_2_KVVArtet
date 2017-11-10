@@ -16,7 +16,6 @@ export default class  Loader {
   load(callback1, callback2) {
     let imagesToLoad = this.paths.length;
     let onImageLoad = function(image, i) {
-      console.log("LOAD IMAGE:" + i);
       imagesToLoad--;
       let tex = this.gl.createTexture();
       this.gl.bindTexture(this.gl.TEXTURE_2D, tex);

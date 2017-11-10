@@ -1,4 +1,4 @@
-class InitiativeLine{
+export default class InitiativeLine {
 	constructor() {
 		this.queue = [];
 	}
@@ -13,7 +13,7 @@ class InitiativeLine{
 			resultString += this.queue[i].xpos;
 			resultString += ",";
 			resultString += this.queue[i].ypos;
-			resultString += "]";	
+			resultString += "]";
 			resultString += "  ";
 		}
 		return resultString;
@@ -34,7 +34,7 @@ class InitiativeLine{
 
 	CurrentUnit() {
 		return this.queue[0];
-	}	
+	}
 
 	RemoveUnit(unit) {
 		this.queue.splice(unit.lineId, 1);

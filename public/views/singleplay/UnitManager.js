@@ -1,6 +1,14 @@
+import Entity from "./Entity"
+import Utils from "./Utils"
+import Action from "./Action"
+
 export default class UnitManager {
-  constructor(animationManager, spriteManager, activeTile, state, entities, textures, conditions) {
+  constructor(Animation, actionDeque, tiledMap, animationManager, spriteManager, activeTile, state, entities, textures, conditions) {
+    this.Animation = Animation;
     this.units = [];
+    this.ratio = 16/9;
+    this.actionDeque = actionDeque
+    this.tiledMap = tiledMap;
     this.spriteManager = spriteManager;
     this.animationManager = animationManager;
     this.entities = entities;
@@ -59,8 +67,8 @@ export default class UnitManager {
 
   addUnit(unit) {
     unit.entity = new Entity();
-    unit.entity.lowbarId = this.spriteManager.addSprite(0, Utils.transOnLowbar(this.units.length),this.entities[this.indexUnit[unit.class]], Utils.madeRectangle(0, 0, 0.09, -0.09 * ratio), true);
-    unit.entity.mapId = this.spriteManager.addSprite(unit.ypos, Utils.translationForUnits(unit), this.entities[6 + this.indexUnit[unit.class]], Utils.madeRectangle(0, 0, (1.2 / 9) * 1.7, -(1.2 / 9) * 1.7 * ratio), true);
+    unit.entity.lowbarId = this.spriteManager.addSprite(0, Utils.transOnLowbar(this.units.length),this.entities[this.indexUnit[unit.class]], Utils.madeRectangle(0, 0, 0.09, -0.09 * this.ratio), true);
+    unit.entity.mapId = this.spriteManager.addSprite(unit.ypos, Utils.translationForUnits(unit), this.entities[6 + this.indexUnit[unit.class]], Utils.madeRectangle(0, 0, (1.2 / 9) * 1.7, -(1.2 / 9) * 1.7 * this.ratio), true);
     unit.entity.healthbarId = this.spriteManager.addColorSprite(unit.ypos, Utils.transForHealthbar(unit), Utils.madeRectangle(0, 0, 1.2 / 16 - 0.006, -0.015), [250 / 255, 44 / 255, 31 / 255, 1.0]);
     this.units.push(unit);
   }
@@ -73,18 +81,18 @@ export default class UnitManager {
     this.units.splice(0, 1);
     this.units.push(x);
     let t = Utils.transOnLowbar(0);
-    Animation.MoveAnimation(t, [t[0], t[1] + 0.17], 0.5, this.units[this.units.length - 1].entity.lowbarId);
+    this.Animation.MoveAnimation(t, [t[0], t[1] + 0.17], 0.5, this.units[this.units.length - 1].entity.lowbarId);
     for (let i = 0; i < this.units.length - 1; i++) {
-      Animation.MoveAnimation(Utils.transOnLowbar(i + 1), Utils.transOnLowbar(i),
+      this.Animation.MoveAnimation(Utils.transOnLowbar(i + 1), Utils.transOnLowbar(i),
         0.8, this.units[i].entity.lowbarId);
     }
     setTimeout(function() {
       let t = Utils.transOnLowbar(0);
-      Animation.MoveAnimation([t[0], t[1] + 0.17], [t[0] + (this.units.length - 1) * 0.1, t[1] + 0.17], 0.5, this.units[this.units.length - 1].entity.lowbarId);
+      this.Animation.MoveAnimation([t[0], t[1] + 0.17], [t[0] + (this.units.length - 1) * 0.1, t[1] + 0.17], 0.5, this.units[this.units.length - 1].entity.lowbarId);
     }.bind(this), 600);
     setTimeout(function() {
       let t = Utils.transOnLowbar(this.units.length - 1);
-      Animation.MoveAnimation([t[0], t[1] + 0.17], t, 0.5, this.units[this.units.length - 1].entity.lowbarId);
+      this.Animation.MoveAnimation([t[0], t[1] + 0.17], t, 0.5, this.units[this.units.length - 1].entity.lowbarId);
     }.bind(this), 1120);
     setTimeout(function() {
       this.state.AnimationOnLowbar = false;
@@ -100,7 +108,7 @@ export default class UnitManager {
       this.spriteManager.deleteSprite(unit.entity.lowbarId);
     }.bind(this));
     this.units.forEach(function(unit, i) {
-      Animation.MoveAnimation(this.spriteManager.getSprite(unit.entity.lowbarId).getTrans(), Utils.transOnLowbar(i), 0.5, unit.entity.lowbarId);
+      this.Animation.MoveAnimation(this.spriteManager.getSprite(unit.entity.lowbarId).getTrans(), Utils.transOnLowbar(i), 0.5, unit.entity.lowbarId);
     }.bind(this));
     setTimeout(function() {
       this.state.AnimationOnLowbar = false;
@@ -127,16 +135,16 @@ export default class UnitManager {
         div.style.left = event.clientX - 40 + 'px';
         div.style.top = event.clientY - 15 + 'px';
         div.appendChild(ul);
-        let elem = window.tiledMap[i][j];
+        let elem = this.tiledMap[i][j];
         let func = function(item) {
           let li = document.createElement('li');
           li.innerHTML = item.name;
           li.onclick = function() {
             let action = new Action();
-            action.sender = window.tiledMap[unit.xpos][unit.ypos];
-            action.target = window.tiledMap[i][j];
+            action.sender = this.tiledMap[unit.xpos][unit.ypos];
+            action.target = this.tiledMap[i][j];
             action.ability = item;
-            actionDeque.push(action);
+            this.actionDeque.push(action);
             this.dropMenu.remove();
             this.dropMenu = 0;
           }.bind(this);
@@ -200,17 +208,17 @@ export default class UnitManager {
 
   showPossibleMoves(path) {
     for (let i = 0; i < this.possibleMoves.length; i++) {
-      window.tiledMap[this.possibleMoves[i].xpos][this.possibleMoves[i].ypos].active = false;
+      this.tiledMap[this.possibleMoves[i].xpos][this.possibleMoves[i].ypos].active = false;
       this.spriteManager.deleteSprite(this.possibleMoves[i].id);
     }
     this.possibleMoves = [];
     for (let i = 0; i < path.length; i++) {
       this.possibleMoves.push({
-        id: this.spriteManager.addSprite(-2, Utils.translationOnMap(path[i].ypos, path[i].xpos), this.textures[0], Utils.madeRectangle(0, 0, 1.2 / 16, -(1.2 / 16) * ratio)),
+        id: this.spriteManager.addSprite(-2, Utils.translationOnMap(path[i].ypos, path[i].xpos), this.textures[0], Utils.madeRectangle(0, 0, 1.2 / 16, -(1.2 / 16) * this.ratio)),
         xpos: path[i].xpos,
         ypos: path[i].ypos
       });
-      window.tiledMap[path[i].xpos][path[i].ypos].active = true;
+      this.tiledMap[path[i].xpos][path[i].ypos].active = true;
     }
     this.units.forEach((unit) => {
       this.spriteManager.getSprite(unit.entity.mapId).order = unit.ypos;

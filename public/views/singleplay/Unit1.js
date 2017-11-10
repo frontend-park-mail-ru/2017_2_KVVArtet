@@ -1,7 +1,5 @@
-// import Skill from "Skill.js"
-
-/*export default*/
-class Unit {
+import Skill from "./Skill1"
+export default class Unit {
   constructor() {
     this.name = "noname";
     this.class = "noname";

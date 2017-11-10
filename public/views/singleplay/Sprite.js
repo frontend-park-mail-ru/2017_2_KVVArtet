@@ -1,5 +1,4 @@
-
-export default class Sprite {
+class Sprite {
   constructor(gl, program, attributes, uniforms, blend, texture) {
     this.gl = gl;
     this.program = program;
@@ -107,3 +106,5 @@ class Uniform {
     this.value = value;
   }
 }
+
+export {Sprite,Attribute,Uniform};

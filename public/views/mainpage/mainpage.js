@@ -1,5 +1,6 @@
 import Block from '../baseview';
-import './main-page.css';
+import './main-page.scss';
+import ChangeTheme from './mainStyle';
 
 export const buttons = [
     {
@@ -26,6 +27,11 @@ export const buttons = [
         text: 'Singleplayer',
         value:'/singleplayer'
 
+    },
+    {
+        //name: 'Change-theme',
+        name: 'Change-theme',
+        text: 'Change Theme'
     }
 ];
 
@@ -35,7 +41,6 @@ export class MainPage extends Block {
     constructor() {
         super('div', ['main-menu'], {});
         this.createChildren();
-        //console.log(document.getElementsByClassName(("buttonFirst")));
         return this;
     }
 
@@ -43,11 +48,8 @@ export class MainPage extends Block {
             buttons.forEach((button) => {
                 this.appendChildBlock(button.name,
                     new Block('a', [blockClass + button.name]).setText(button.text))
-
             });
 
-//            buttons[0].href.setAttribute('href','/login');
-  //          console.log(buttons[0].href);
         }
     creation() {
 
@@ -56,7 +58,6 @@ export class MainPage extends Block {
             test.removeChild(test.childNodes[0])
         }
         test.appendChild(this._element);
-        console.log(this._element);
 
         let linkFirst = document.querySelector('a.buttonFirst');
         linkFirst.setAttribute('value','/login');
@@ -67,7 +68,11 @@ export class MainPage extends Block {
         let linkFour = document.querySelector('a.buttonFour');
         linkFour.setAttribute('value','/singleplay');
 
-
+        let changer = document.querySelector('a.buttonChange-theme');
+        changer.setAttribute('value','/');
+        changer.addEventListener('click', () => {
+            ChangeTheme();
+        });
     }
  }
 export default MainPage;

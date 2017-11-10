@@ -1,5 +1,5 @@
 import Block from '../baseview';
-import './game.css';
+import './game.scss';
 
 
 const infoBlock = "textBlock";

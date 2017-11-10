@@ -1,17 +1,13 @@
- import DungeonMapMaker from "./DungeonMapMaker"
-// import Game from "DemoGameModule.js"
+import Background from './Background'
+import DungeonMapMaker from "./DungeonMapMaker"
+import GameManager from "./GameManager"
+import DemoGameModule from "./DemoGameModule"
 
-tiledMap = new DungeonMapMaker().dungeonMapMaker(Math.random() * 10 + 25);
- actionDeque = [];
-interval = 100;
-// WIDTH = 16;
-HEIGHT = 12;
-PARTYSIZE = 4;
-ENEMIESSIZE = 6;
-
-class GameModule {
+export default class GameModule {
   constructor() {
-    this.game = new DemoGameModule();
+    this.actionDeque = [];
+    this.tiledMap = new DungeonMapMaker().dungeonMapMaker(Math.random() * 10 + 25);
+    this.actionDeque = [];
   }
 
   gameStart() {
@@ -20,11 +16,10 @@ class GameModule {
   }
 
   gameGraphic() {
-      let back = new Background(tiledMap);
+    let back = new Background(this.tiledMap);
     back.render();
-    gameManager = new GameManager();
+    let gameManager = new GameManager(this.tiledMap, this.actionDeque);
+    this.game = new DemoGameModule(this.tiledMap, gameManager, this.actionDeque);
     gameManager.startGameRendering(this.gameStart.bind(this));
   }
 }
-
-//export {tiledMap}

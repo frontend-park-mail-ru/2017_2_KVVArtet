@@ -17,14 +17,10 @@ export default  class Router{
         return this;
     }
 
-    setNotFoundPage(view) {
-        this.page404 = view;
-    }
 
     navigate() {
         window.onpopstate = event => {
             this.go(window.location.pathname);
-            console.log('reload work');
         };
 
         document.body.addEventListener('click', event => {
@@ -35,12 +31,8 @@ export default  class Router{
                 const element = event.target;
                 const pathname = element.getAttribute('value');
 
-                console.log(pathname);
-
                 if (pathname !== null) {
-
                     this.go(pathname);
-                    console.log(pathname);
                 }
                 this.go(window.location.pathname);
             }
@@ -50,12 +42,10 @@ export default  class Router{
 
     go(path) {
         let view = this.routes.get(path);
-        console.log(view);
-
-       /* if (!view) {
+        if (!view) {
             document.body.innerHTML = '<h class="notfound"> We didnot do such page )';
             return;
-        }*/
+        }
 
         if (window.location.pathname !== path) {
             window.history.pushState({}, '', path);

@@ -1,6 +1,6 @@
 import Block from '../baseview';
 import Input from '../../blocks/forms/input';
-import '../../blocks/forms/forms.css';
+import '../../blocks/forms/forms.scss';
 import Router from '../../modules/router';
 
 const fieldPrototypes = [

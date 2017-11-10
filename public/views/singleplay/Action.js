@@ -1,6 +1,6 @@
-// import Tile from "Tile.js"
-// import Skill from "Skill.js"
-/*export default*/ class Action{
+import Tile from "./Tile1.js"
+import Skill from "./Skill1.js"
+export default class Action{
 	constructor(){
 		this.target = new Tile();
 		this.sender = new Tile();

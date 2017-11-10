@@ -21,14 +21,11 @@ application.appendChildBlock('wrapper', wrapper);
 
 
  function signin(login) {
-    console.log('submit worker');
 
     login.onSubmit((formdata) => {
-        console.log('submit worker');
         const authValidation = LoginValidate(formdata[0], formdata[1]);
         console.log(formdata[0], formdata[1]);
         if (authValidation === false) {
-            console.log('vLIDE')
             return;
         }
         userService.signin(formdata[0], formdata[1])
@@ -45,7 +42,6 @@ application.appendChildBlock('wrapper', wrapper);
 }
 
  function signup(registration) {
-     console.log('signup')
      registration.onSubmit((formdata) => {
          const authValidation = RegistrationValidate(formdata[0], formdata[1], formdata[2], formdata[3]);
          if (authValidation === false) {

@@ -1,8 +1,7 @@
 import {vertexShader,fragmentShader,vertexShader1 ,fragmentShader1} from './Shaders'
 import Program from './Program'
-import {DrawObject,Attribute,Uniform} from './DrawObject'
 import Utils from './Utils'
-import Sprite from './Sprite'
+import {Sprite,Attribute,Uniform} from './Sprite'
 
 export default  class GraphicEngine {
   constructor(idCanvas, loop) {
@@ -22,7 +21,6 @@ export default  class GraphicEngine {
   }
 
   addSprite(translation, texture, vertexs, blend, texCoord) {
-    console.log("texture " + texture);
     let attributes = [new Attribute('a_position', vertexs),
       new Attribute('a_texcoord', texCoord ? texCoord : Utils.madeRectangle(0, 0, 1, 1))
     ];

@@ -1,54 +1,61 @@
-// import InitiativeLine from "InitiativeLine.js"
-// import Unit from "./Unit";
-WIDTH = 16;
-HEIGHT = 12;
-PARTYSIZE = 4;
-ENEMIESSIZE = 2;
-NOTWALL = 0;
-WALL = 1;
+import InitiativeLine from "./InitiativeLine"
+import Unit from "./Unit1";
+import Pathfinding from "./Pathfinding"
 
 /*export default */
-class DemoGameModule {
-    constructor() {
-    this.players = [];
-    this.enemies = [];
-    this.initiativeLine = new InitiativeLine();
-    this.activeUnit = null;
-    this.timer = 30000;
-    this.intervalId = 0;
+export default class DemoGameModule {
+    constructor(tiledMap, gameManager, actionDeque) {
+      this.tiledMap = tiledMap;
+      this.actionDeque = actionDeque;
+      this.gameManager = gameManager
+      this.WIDTH = 16;
+      this.HEIGHT = 12;
+      this.PARTYSIZE = 4;
+      this.ENEMIESSIZE = 2;
+      this.kek = 3;
+      this.NOTWALL = 0;
+      this.WALL = 1;
+      this.players = [];
+      this.enemies = [];
+      this.initiativeLine = new InitiativeLine();
+      this.activeUnit = null;
+      this.timer = 30000;
+      this.intervalId = 0;
+      this.interval = 100;
     }
 
     gamePrepare() {
-        this.players = DemoGameModule.generatePlayers();
-        this.enemies = DemoGameModule.generateEnemies();
+        this.players = this.generatePlayers();
+        this.enemies = this.generateEnemies();
         this.initiativeLine.PushEveryone(this.players, this.enemies);
-        DemoGameModule.setPlayersPositions(this.players);
-        DemoGameModule.setEnemiesPositions(this.enemies);
+        this.setPlayersPositions(this.players);
+        this.setEnemiesPositions(this.enemies);
         console.log("Everyone on positions: ");
         //отрисовка персонажей
 
-        for (let i = 0; i < window.PARTYSIZE + window.ENEMIESSIZE; i++) {
-            gameManager.unitManager.addUnit(this.initiativeLine.queue[i]);
+        for (let i = 0; i < this.PARTYSIZE + this.ENEMIESSIZE; i++) {
+          console.log(this.enemies);
+            this.gameManager.unitManager.addUnit(this.initiativeLine.queue[i]);
         }
 
         this.activeUnit = this.initiativeLine.CurrentUnit();
         console.log(this.activeUnit.name + " - let's start with you!");
-        gameManager.unitManager.activeUnit(this.activeUnit);
+        this.gameManager.unitManager.activeUnit(this.activeUnit);
         this.sendPossibleMoves();
     }
 
 
     gameLoop() {
         if (!this.isPartyDead() && !this.isEnemiesDead()) {
-            this.timer -= window.interval;
+            this.timer -= this.interval;
             document.getElementById('time').innerHTML = "00:" + Math.ceil(this.timer / 1000);
             document.getElementById('time').style.fontSize = "2em";
             //где-то здесь есть работа с АИ
             //отрисовка скилов для каждого персонажа, информация для dropdown и позиций
-            if (window.actionDeque.length > 0) {
+            if (this.actionDeque.length > 0) {
                 console.log("action begin");
                 this.activeUnit.actionPoint--;
-                let action = window.actionDeque.shift();
+                let action = this.actionDeque.shift();
                 if (action.isMovement() && !action.target.isOccupied()) {
                     this.makeMove(action);
                 } else if (action.isAbility()) {
@@ -85,7 +92,7 @@ class DemoGameModule {
     makeMove(action) {
         console.log(action.sender.getInhabitant().name + " make move from [" + action.sender.xpos + "," + action.sender.ypos + "]" + " to [" + action.target.xpos + "," + action.target.ypos + "]");
         let toMove = action.sender.getInhabitant();
-        let pathfinding = new Pathfinding(action.sender);
+        let pathfinding = new Pathfinding(action.sender, this.tiledMap);
         let allMoves = pathfinding.possibleMoves();
         let path = [];
         let currentTile = action.target;
@@ -95,7 +102,7 @@ class DemoGameModule {
             currentTile = allMoves.get(currentTile);
         }
         console.log(path);
-        gameManager.animtaionManager.movingTo(action.sender, path);
+        this.gameManager.animtaionManager.movingTo(action.sender, path);
         action.sender.unoccupy();
         action.target.occupy(toMove);
         this.activeUnit.xpos = action.target.xpos;
@@ -111,13 +118,13 @@ class DemoGameModule {
           console.log("THIS IS AOE HILL");
           for(let i = action.target.xpos-action.ability.area; i <= action.target.xpos + action.ability.area; i++) {
               for(let j = action.target.ypos-action.ability.area; j <= action.target.ypos + action.ability.area; j++) {
-                  if(i >= 0 && j >= 0 && i < WIDTH && j < HEIGHT) {
+                  if(i >= 0 && j >= 0 && i < this.WIDTH && j < this.HEIGHT) {
                       console.log("WTF is " + i + " " + j);
-                      if(window.tiledMap[i][j].isOccupied() && window.tiledMap[i][j].getInhabitant().type === action.sender.getInhabitant().type) {
+                      if(this.tiledMap[i][j].isOccupied() && this.tiledMap[i][j].getInhabitant().type === action.sender.getInhabitant().type) {
                           console.log("this is AOE hill on someone: " + i + " " + j);
-                          healedAllies.push(window.tiledMap[i][j].getInhabitant());
-                          action.sender.getInhabitant().useHealSkill(window.tiledMap[i][j].getInhabitant(), action.ability);
-                          console.log("health end: " +window.tiledMap[i][j].getInhabitant().healthpoint);
+                          healedAllies.push(this.tiledMap[i][j].getInhabitant());
+                          action.sender.getInhabitant().useHealSkill(this.tiledMap[i][j].getInhabitant(), action.ability);
+                          console.log("health end: " +this.tiledMap[i][j].getInhabitant().healthpoint);
                       }
                   }
               }
@@ -127,7 +134,7 @@ class DemoGameModule {
           healedAllies.push(action.target.getInhabitant());
           console.log("health end: " + action.target.getInhabitant().healthpoint);
         }
-        gameManager.unitManager.unitAttack(action.ability.name, action.sender, action.target, healedAllies);
+        this.gameManager.unitManager.unitAttack(action.ability.name, action.sender, action.target, healedAllies);
     }
 
     makeDamage(action) {
@@ -144,16 +151,16 @@ class DemoGameModule {
             for(let i = action.target.xpos-action.ability.area; i <= action.target.xpos + action.ability.area; i++) {
                 for(let j = action.target.ypos-action.ability.area; j <= action.target.ypos + action.ability.area; j++) {
                     console.log("i: " + i + " j: " + j);
-                    if(i > 0 && j > 0 && i < WIDTH && j < HEIGHT) {
-                        if(window.tiledMap[i][j].isOccupied()) {
-                            console.log(window.tiledMap[i][j].getInhabitant().name + " IS WOUNDED");
-                            action.sender.getInhabitant().useDamageSkill(window.tiledMap[i][j].getInhabitant(), action.ability);
-                            if(window.tiledMap[i][j].getInhabitant().deadMark === false) {
-                                if (window.tiledMap[i][j].getInhabitant().isDead()) {
-                                    deadEnemies.push(window.tiledMap[i][j].getInhabitant());
-                                    window.tiledMap[i][j].getInhabitant().deadMark = true;
+                    if(i > 0 && j > 0 && i < this.WIDTH && j < this.HEIGHT) {
+                        if(this.tiledMap[i][j].isOccupied()) {
+                            console.log(this.tiledMap[i][j].getInhabitant().name + " IS WOUNDED");
+                            action.sender.getInhabitant().useDamageSkill(this.tiledMap[i][j].getInhabitant(), action.ability);
+                            if(this.tiledMap[i][j].getInhabitant().deadMark === false) {
+                                if (this.tiledMap[i][j].getInhabitant().isDead()) {
+                                    deadEnemies.push(this.tiledMap[i][j].getInhabitant());
+                                    this.tiledMap[i][j].getInhabitant().deadMark = true;
                                 } else {
-                                    woundedEnemies.push(window.tiledMap[i][j].getInhabitant());
+                                    woundedEnemies.push(this.tiledMap[i][j].getInhabitant());
                                 }
                                 //console.log("health end: " + action.target.getInhabitant().healthpoint);
                             }
@@ -176,13 +183,13 @@ class DemoGameModule {
         if (deadEnemies.length > 0) {
            // console.log(action.target.getInhabitant().name + " IS DEAD");
 
-            gameManager.unitManager.unitAttackAndKill(action.ability.name, action.sender, action.target, deadEnemies, woundedEnemies);
+            this.gameManager.unitManager.unitAttackAndKill(action.ability.name, action.sender, action.target, deadEnemies, woundedEnemies);
             for(let i = 0; i < deadEnemies.length; i++) {
                 this.initiativeLine.RemoveUnit(deadEnemies[i]);
             }            //graph.deleteFromLowBar(action.target.getInhabitant().barIndex);
         } else {
             console.log("SOMEONE GET WOUNDED: ", woundedEnemies);
-            gameManager.unitManager.unitAttack(action.ability.name, action.sender, action.target, woundedEnemies);
+            this.gameManager.unitManager.unitAttack(action.ability.name, action.sender, action.target, woundedEnemies);
         }
     }
 
@@ -201,7 +208,7 @@ class DemoGameModule {
         //createoverlaywin
     }
 
-    static generatePlayers() {
+    generatePlayers() {
         let newPlayers = [];
         let Roderick = new Unit();
         Roderick.makeWarrior("Roderick");
@@ -220,9 +227,10 @@ class DemoGameModule {
         return newPlayers;
     }
 
-    static generateEnemies() {
+    generateEnemies() {
         let newEnemies = [];
-        for (let i = 0; i < window.ENEMIESSIZE; i++) {
+        for (let i = 0; i < this.ENEMIESSIZE; i++) {
+          console.log(i);
             let Skeleton = new Unit();
             let texture;
             if (i % 2 === 0) {
@@ -236,42 +244,42 @@ class DemoGameModule {
         return newEnemies;
     }
 
-    static setPlayersPositions(players) {
-        for (let i = 0; i < window.PARTYSIZE; i++) {
+    setPlayersPositions(players) {
+        for (let i = 0; i < this.PARTYSIZE; i++) {
             let randRow;
             let randCol;
             while (true) {
-                randRow = Math.floor(Math.random() * window.HEIGHT);
+                randRow = Math.floor(Math.random() * this.HEIGHT);
                 randCol = Math.floor(Math.random() * 3); //первые три столбца поля
-                if (window.tiledMap[randCol][randRow].isWall === NOTWALL && !window.tiledMap[randCol][randRow].isOccupied()) {
+                if (this.tiledMap[randCol][randRow].isWall === this.NOTWALL && !this.tiledMap[randCol][randRow].isOccupied()) {
                     break;
                 }
             }
             players[i].xpos = randCol;
             players[i].ypos = randRow;
-            window.tiledMap[randCol][randRow].occupy(players[i]);
+            this.tiledMap[randCol][randRow].occupy(players[i]);
         }
     }
 
-    static setEnemiesPositions(enemies) {
-        for (let i = 0; i < window.ENEMIESSIZE; i++) {
+    setEnemiesPositions(enemies) {
+        for (let i = 0; i < this.ENEMIESSIZE; i++) {
           let randRow;
           let randCol;
           while (true) {
-            randRow = Math.floor(Math.random() * window.HEIGHT);
-            randCol = Math.floor(Math.random() * 3) + window.WIDTH - 3; //последние три столбца поля
-            if (window.tiledMap[randCol][randRow].isWall === NOTWALL && !window.tiledMap[randCol][randRow].isOccupied()) {
+            randRow = Math.floor(Math.random() * this.HEIGHT);
+            randCol = Math.floor(Math.random() * 3) + this.WIDTH - 3; //последние три столбца поля
+            if (this.tiledMap[randCol][randRow].isWall === this.NOTWALL && !this.tiledMap[randCol][randRow].isOccupied()) {
                 break;
             }
           }
           enemies[i].xpos = randCol;
           enemies[i].ypos = randRow;
-          window.tiledMap[randCol][randRow].occupy(enemies[i]);
+          this.tiledMap[randCol][randRow].occupy(enemies[i]);
         }
     }
 
     isPartyDead() {
-        for (let i = 0; i < PARTYSIZE; i++) {
+        for (let i = 0; i < this.PARTYSIZE; i++) {
           if (!this.players[i].isDead()) {
             return false;
           }
@@ -280,7 +288,7 @@ class DemoGameModule {
     }
 
     isEnemiesDead() {
-        for (let i = 0; i < ENEMIESSIZE; i++) {
+        for (let i = 0; i < this.ENEMIESSIZE; i++) {
           if (!this.enemies[i].isDead()) {
             return false;
           }
@@ -290,7 +298,7 @@ class DemoGameModule {
     }
 
     startGameLoop() {
-        this.intervalId = setInterval(() => this.gameLoop(), window.interval);
+        this.intervalId = setInterval(() => this.gameLoop(), this.interval);
     }
 
     stopGameLoop() {
@@ -305,14 +313,14 @@ class DemoGameModule {
     }
 
     sendPossibleMoves() {
-        let pathfinding = new Pathfinding(window.tiledMap[this.activeUnit.xpos][this.activeUnit.ypos]);
+        let pathfinding = new Pathfinding(this.tiledMap[this.activeUnit.xpos][this.activeUnit.ypos], this.tiledMap);
         let allMoves = pathfinding.possibleMoves();
         let path = [];
         for(let key of allMoves.keys()){
             path.push(key);
         }
         path.shift();
-        gameManager.unitManager.showPossibleMoves(path);
+        this.gameManager.unitManager.showPossibleMoves(path);
     }
 
     beginTurn() {
@@ -321,7 +329,7 @@ class DemoGameModule {
         console.log(this.initiativeLine.ShowEveryoneInLine());
         console.log(this.activeUnit.name + " = now your move! Cause initiative:" + this.activeUnit.initiative);
         this.activeUnit.actionPoint = 2;
-        gameManager.unitManager.activeUnit(this.activeUnit);
+        this.gameManager.unitManager.activeUnit(this.activeUnit);
         this.sendPossibleMoves();
         //изменяем LowerBar
         //изменяем activeEntity

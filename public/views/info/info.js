@@ -1,5 +1,5 @@
 import Block from '../baseview';
-import './info.css';
+import './info.scss';
 import Router from '../../modules/router';
 
 

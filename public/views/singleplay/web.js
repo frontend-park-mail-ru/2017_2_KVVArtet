@@ -1,25 +1,19 @@
 import Block from '../baseview'
-import  Background from './Background'
-import DungeonMapMaker from "./DungeonMapMaker"
-import GameManager from "./GameManager"
-
+import GameModule from "./GameModule"
 
 export default class SinglePlay extends Block {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.template = require('./web.html');
-    }
+    this.template = require('./web.html');
+  }
 
-    creation() {
-     //  this._element.innerHTML = this.template;
-      document.body.innerHTML = this.template;
+  creation() {
+    document.body.innerHTML = this.template;
 
-        // document.body.remove();
-      const back = new Background(new DungeonMapMaker().dungeonMapMaker(Math.random() * 10 + 25));
-       back.render();
-        const units = new GameManager();
-        units.startGameRendering();
-    }
+    let gamegame = new GameModule();
+    gamegame.gameGraphic();
+
+  }
 
 }

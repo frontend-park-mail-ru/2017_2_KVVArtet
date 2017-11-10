@@ -25,7 +25,7 @@ export default class Utils {
   }
 
   static translationForUnits(unit) {
-    return [-0.6 - 0.08 + unit.xpos*(1.2/16), 0.85 - unit.ypos*(1.2/16)*16/9 + (1.2 / 12) * ratio];
+    return [-0.6 - 0.08 + unit.xpos*(1.2/16), 0.85 - unit.ypos*(1.2/16)*16/9 + (1.2 / 12) * 16/9];
   }
 
   static transOnLowbar(i) {
@@ -33,6 +33,6 @@ export default class Utils {
   }
 
   static transForHealthbar(unit) {
-    return [-0.6 + 0.003 + unit.xpos*(1.2/16), 0.85 - unit.ypos*(1.2/16)*16/9 + (1.2/17)* ratio];
+    return [-0.6 + 0.003 + unit.xpos*(1.2/16), 0.85 - unit.ypos*(1.2/16)*16/9 + (1.2/17)* 16/9];
   }
 }
