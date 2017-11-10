@@ -1,9 +1,8 @@
-body {
+html {
     background: url(../images/backGround.png) no-repeat 50% fixed;
-    background-size: cover
+    background-size: cover;
 }
-
-.error  {
+.error {
     font-family: fantasy;
     outline: 0;
     background: #f2f2f2;
@@ -16,8 +15,7 @@ body {
     border: 2px solid red;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-
-.buttonBack{
+.buttonBack {
     display: inline-block;
     color: white;
     outline: none;
@@ -25,20 +23,18 @@ body {
     border-radius: 100px;
     transition: 0.2s;
     background-size: cover;
-    font-family:fantasy;
+    font-family: fantasy;
     position: absolute;
     padding: 30px;
     background-image: url(../images/arrow.jpg);
-
     top: 10%;
     left: 1%;
-    font-size :250%
+    font-size: 250%;
+    cursor: pointer;
 }
 .buttonBack:hover {
     background: green;
 }
-
-
 .logout {
     font-family: fantasy;
     text-transform: uppercase;
@@ -47,8 +43,19 @@ body {
     width: 100%;
     border: 0;
     padding: 15px;
-    color: #FFFFFF;
+    color: #fff;
     font-size: 14px;
     cursor: pointer;
 }
-
+.notfound {
+    margin: -215px 0 0 -125px;
+    position: absolute;
+    color: white;
+    font-family: fantasy;
+    text-transform: uppercase;
+    outline: 0;
+    padding: 35px;
+    font-size: 250%;
+    top: 45%;
+    left: 40%;
+}

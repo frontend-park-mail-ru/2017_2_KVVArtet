@@ -1,5 +1,5 @@
 import Generator from '../block/block';
-import  './forms.css';
+import  './forms.scss';
 
 
 class Input extends Generator {
