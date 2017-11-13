@@ -34,7 +34,6 @@ export default  class Router{
                 if (pathname !== null) {
                     this.go(pathname);
                 }
-                this.go(window.location.pathname);
             }
         });
         this.go(window.location.pathname);

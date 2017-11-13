@@ -1,3 +1,11 @@
+@viewport {
+  width: 640px;
+  height: 440px;
+  zoom: 2;
+  user-zoom: fixed;
+}
+
+
 .main {
   width: 100%;
   height: 110px;
@@ -125,4 +133,95 @@
   &:active {
     background: white;
   }
+}
+@media screen and (max-width: 600px){
+  .buttonChange-theme {
+    padding: 1px;
+  }
+  .buttonFirst{
+    font-size: 150%;
+    margin: -95px 0 0 -75px;
+  }
+  .buttonSecond{
+    font-size: 150%;
+    margin: -95px 0 0 -75px;
+  }
+
+  .buttonThird{
+    font-size: 150%;
+    margin: -95px 0 0 -75px;
+  }
+  .buttonFour{
+    font-size: 150%;
+    margin: -95px 0 0 -75px;
+  }
+  .main{
+    font-size: 220%;
+  }
+}
+
+
+@media screen and (min-width: 640px) and (max-width: 900px) and (min-height:1000px ){
+  .buttonChange-theme {
+    top: 15%;
+    padding: 1px;
+
+  }
+  .buttonFirst{
+    font-size: 300%;
+  }
+  .buttonSecond{
+    top: 75%;
+    left: 50%;
+    font-size: 300%;
+  }
+
+  .buttonThird{
+    top: 90%;
+    left: 50%;
+    font-size: 300%;;
+  }
+  .buttonFour{
+    top: 60%;
+    left: 50%;
+    font-size: 300%;
+  }
+  .main{
+    font-size: 80px;
+  }
+}
+
+
+@media screen and (max-width: 640px) and (orientation: landscape) {
+  .buttonFirst{
+    top:95%;
+  }
+  .buttonSecond{
+    top: 175%;
+  }
+
+  .buttonThird{
+    top: 215%;
+  }
+  .buttonFour{
+    top: 135%;
+  }
+
+}
+
+@media screen and (min-width: 900px) and (orientation: landscape) {
+  .buttonFirst{
+    top:50%;
+  }
+  .buttonSecond{
+    top: 90%;
+  }
+
+  .buttonThird{
+    top: 110%;
+  }
+  .buttonFour{
+    top: 70%;
+  }
+
 }

@@ -2,7 +2,7 @@ import {vertexShader,fragmentShader,vertexShader1 ,fragmentShader1} from './Shad
 import Program from './Program'
 import Utils from './Utils'
 import {Sprite,Attribute,Uniform} from './Sprite'
-
+import "./global.js"
 export default  class GraphicEngine {
   constructor(idCanvas, loop) {
     this.sprites = [];

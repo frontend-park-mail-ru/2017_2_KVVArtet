@@ -1,19 +1,19 @@
-import Block from '../baseview'
-import GameModule from "./GameModule"
+import Block from '../baseview';
+import DemoGameModule from './DemoGameModule';
 
 export default class SinglePlay extends Block {
-  constructor() {
-    super();
+    constructor() {
+        super();
 
-    this.template = require('./web.html');
-  }
+        this.template = require('./web.html');
+    }
 
-  creation() {
-    document.body.innerHTML = this.template;
+    creation() {
+        document.body.innerHTML = this.template;
 
-    let gamegame = new GameModule();
-    gamegame.gameGraphic();
+        let game = new DemoGameModule();
+        game.gamePreRender();
 
-  }
+    }
 
 }

@@ -1,27 +1,38 @@
-import InitiativeLine from "./InitiativeLine"
-import Unit from "./Unit1";
-import Pathfinding from "./Pathfinding"
+import InitiativeLine from './InitiativeLine';
+import Unit from './Unit';
+import Pathfinding from './Pathfinding';
+import Background from './Background';
+import GameManager from './GameManager';
 
 /*export default */
 export default class DemoGameModule {
-    constructor(tiledMap, gameManager, actionDeque) {
-      this.tiledMap = tiledMap;
-      this.actionDeque = actionDeque;
-      this.gameManager = gameManager
-      this.WIDTH = 16;
-      this.HEIGHT = 12;
-      this.PARTYSIZE = 4;
-      this.ENEMIESSIZE = 2;
-      this.kek = 3;
-      this.NOTWALL = 0;
-      this.WALL = 1;
-      this.players = [];
-      this.enemies = [];
-      this.initiativeLine = new InitiativeLine();
-      this.activeUnit = null;
-      this.timer = 30000;
-      this.intervalId = 0;
-      this.interval = 100;
+    constructor() {
+        this.gameManager = new GameManager();
+        this.WIDTH = 16;
+        this.HEIGHT = 12;
+        this.PARTYSIZE = 4;
+        this.ENEMIESSIZE = 2;
+        this.kek = 3;
+        this.NOTWALL = 0;
+        this.WALL = 1;
+        this.players = [];
+        this.enemies = [];
+        this.initiativeLine = new InitiativeLine();
+        this.activeUnit = null;
+        this.timer = 30000;
+        this.intervalId = 0;
+        this.interval = 100;
+    }
+
+    gameStart() {
+        this.gamePrepare();
+        this.startGameLoop();
+    }
+
+    gamePreRender() {
+        let back = new Background();
+        back.render();
+        this.gameManager.startGameRendering(this.gameStart.bind(this));
     }
 
     gamePrepare() {
@@ -30,16 +41,16 @@ export default class DemoGameModule {
         this.initiativeLine.PushEveryone(this.players, this.enemies);
         this.setPlayersPositions(this.players);
         this.setEnemiesPositions(this.enemies);
-        console.log("Everyone on positions: ");
+        console.log('Everyone on positions: ');
         //отрисовка персонажей
 
         for (let i = 0; i < this.PARTYSIZE + this.ENEMIESSIZE; i++) {
-          console.log(this.enemies);
+            console.log(this.enemies);
             this.gameManager.unitManager.addUnit(this.initiativeLine.queue[i]);
         }
 
         this.activeUnit = this.initiativeLine.CurrentUnit();
-        console.log(this.activeUnit.name + " - let's start with you!");
+        console.log(this.activeUnit.name + ' - let\'s start with you!');
         this.gameManager.unitManager.activeUnit(this.activeUnit);
         this.sendPossibleMoves();
     }
@@ -48,18 +59,18 @@ export default class DemoGameModule {
     gameLoop() {
         if (!this.isPartyDead() && !this.isEnemiesDead()) {
             this.timer -= this.interval;
-            document.getElementById('time').innerHTML = "00:" + Math.ceil(this.timer / 1000);
-            document.getElementById('time').style.fontSize = "2em";
+            document.getElementById('time').innerHTML = '00:' + Math.ceil(this.timer / 1000);
+            document.getElementById('time').style.fontSize = '2em';
             //где-то здесь есть работа с АИ
             //отрисовка скилов для каждого персонажа, информация для dropdown и позиций
-            if (this.actionDeque.length > 0) {
-                console.log("action begin");
+            if (global.actionDeque.length > 0) {
+                console.log('action begin');
                 this.activeUnit.actionPoint--;
-                let action = this.actionDeque.shift();
+                let action = global.actionDeque.shift();
                 if (action.isMovement() && !action.target.isOccupied()) {
                     this.makeMove(action);
                 } else if (action.isAbility()) {
-                    console.log("this is ability: " + action.ability.name);
+                    console.log('this is ability: ' + action.ability.name);
                     if (action.ability.damage[1] < 0) {
                         this.makeHill(action);
                     } else if (action.ability.damage[1] > 0) {
@@ -73,7 +84,7 @@ export default class DemoGameModule {
                     this.sendPossibleMoves();
                 }
             }
-            console.log("action point: " + this.activeUnit.actionPoint);
+            console.log('action point: ' + this.activeUnit.actionPoint);
 
             if (this.activeUnit.actionPoint === 0 || Math.ceil(this.timer / 1000) === 0 || this.activeUnit.isDead()){
                 this.skipAction();
@@ -90,15 +101,15 @@ export default class DemoGameModule {
     }
 
     makeMove(action) {
-        console.log(action.sender.getInhabitant().name + " make move from [" + action.sender.xpos + "," + action.sender.ypos + "]" + " to [" + action.target.xpos + "," + action.target.ypos + "]");
+        console.log(action.sender.getInhabitant().name + ' make move from [' + action.sender.xpos + ',' + action.sender.ypos + ']' + ' to [' + action.target.xpos + ',' + action.target.ypos + ']');
         let toMove = action.sender.getInhabitant();
-        let pathfinding = new Pathfinding(action.sender, this.tiledMap);
+        let pathfinding = new Pathfinding(action.sender, global.tiledMap);
         let allMoves = pathfinding.possibleMoves();
         let path = [];
         let currentTile = action.target;
         while (allMoves.get(currentTile) !== null) {
             path.push(currentTile);
-            console.log("current tile - [" + currentTile.xpos + "]" + "[" + currentTile.ypos + "]");
+            console.log('current tile - [' + currentTile.xpos + ']' + '[' + currentTile.ypos + ']');
             currentTile = allMoves.get(currentTile);
         }
         console.log(path);
@@ -107,32 +118,32 @@ export default class DemoGameModule {
         action.target.occupy(toMove);
         this.activeUnit.xpos = action.target.xpos;
         this.activeUnit.ypos = action.target.ypos;
-        console.log("check on unoccupy: " + action.sender.isOccupied());
-        console.log("check on occupy: " + action.target.isOccupied());
+        console.log('check on unoccupy: ' + action.sender.isOccupied());
+        console.log('check on occupy: ' + action.target.isOccupied());
     }
 
     makeHill(action) {
         let healedAllies = [];
         //AOE HILL
-        if(action.ability.typeOfArea === "circle") {
-          console.log("THIS IS AOE HILL");
-          for(let i = action.target.xpos-action.ability.area; i <= action.target.xpos + action.ability.area; i++) {
-              for(let j = action.target.ypos-action.ability.area; j <= action.target.ypos + action.ability.area; j++) {
-                  if(i >= 0 && j >= 0 && i < this.WIDTH && j < this.HEIGHT) {
-                      console.log("WTF is " + i + " " + j);
-                      if(this.tiledMap[i][j].isOccupied() && this.tiledMap[i][j].getInhabitant().type === action.sender.getInhabitant().type) {
-                          console.log("this is AOE hill on someone: " + i + " " + j);
-                          healedAllies.push(this.tiledMap[i][j].getInhabitant());
-                          action.sender.getInhabitant().useHealSkill(this.tiledMap[i][j].getInhabitant(), action.ability);
-                          console.log("health end: " +this.tiledMap[i][j].getInhabitant().healthpoint);
-                      }
-                  }
-              }
-          }
+        if(action.ability.typeOfArea === 'circle') {
+            console.log('THIS IS AOE HILL');
+            for(let i = action.target.xpos-action.ability.area; i <= action.target.xpos + action.ability.area; i++) {
+                for(let j = action.target.ypos-action.ability.area; j <= action.target.ypos + action.ability.area; j++) {
+                    if(i >= 0 && j >= 0 && i < this.WIDTH && j < this.HEIGHT) {
+                        console.log('WTF is ' + i + ' ' + j);
+                        if(global.tiledMap[i][j].isOccupied() && global.tiledMap[i][j].getInhabitant().type === action.sender.getInhabitant().type) {
+                            console.log('this is AOE hill on someone: ' + i + ' ' + j);
+                            healedAllies.push(global.tiledMap[i][j].getInhabitant());
+                            action.sender.getInhabitant().useHealSkill(global.tiledMap[i][j].getInhabitant(), action.ability);
+                            console.log('health end: ' +global.tiledMap[i][j].getInhabitant().healthpoint);
+                        }
+                    }
+                }
+            }
         } else {
-          action.sender.getInhabitant().useHealSkill(action.target.getInhabitant(), action.ability);
-          healedAllies.push(action.target.getInhabitant());
-          console.log("health end: " + action.target.getInhabitant().healthpoint);
+            action.sender.getInhabitant().useHealSkill(action.target.getInhabitant(), action.ability);
+            healedAllies.push(action.target.getInhabitant());
+            console.log('health end: ' + action.target.getInhabitant().healthpoint);
         }
         this.gameManager.unitManager.unitAttack(action.ability.name, action.sender, action.target, healedAllies);
     }
@@ -140,27 +151,27 @@ export default class DemoGameModule {
     makeDamage(action) {
         let woundedEnemies = [];
         let deadEnemies = [];
-        console.log(action.sender.getInhabitant().name + " make damage");
-        console.log("this is damage: " + action.ability.name);
-       // console.log("health begin: " + action.target.getInhabitant().healthpoint);
+        console.log(action.sender.getInhabitant().name + ' make damage');
+        console.log('this is damage: ' + action.ability.name);
+        // console.log("health begin: " + action.target.getInhabitant().healthpoint);
 
         //AOE DAMAGE
-        if(action.ability.typeOfArea === "circle") {
-            console.log("THIS IS AOE DAMAGE");
-            console.log("target on " + action.target.xpos + " " + action.target.ypos);
+        if(action.ability.typeOfArea === 'circle') {
+            console.log('THIS IS AOE DAMAGE');
+            console.log('target on ' + action.target.xpos + ' ' + action.target.ypos);
             for(let i = action.target.xpos-action.ability.area; i <= action.target.xpos + action.ability.area; i++) {
                 for(let j = action.target.ypos-action.ability.area; j <= action.target.ypos + action.ability.area; j++) {
-                    console.log("i: " + i + " j: " + j);
+                    console.log('i: ' + i + ' j: ' + j);
                     if(i > 0 && j > 0 && i < this.WIDTH && j < this.HEIGHT) {
-                        if(this.tiledMap[i][j].isOccupied()) {
-                            console.log(this.tiledMap[i][j].getInhabitant().name + " IS WOUNDED");
-                            action.sender.getInhabitant().useDamageSkill(this.tiledMap[i][j].getInhabitant(), action.ability);
-                            if(this.tiledMap[i][j].getInhabitant().deadMark === false) {
-                                if (this.tiledMap[i][j].getInhabitant().isDead()) {
-                                    deadEnemies.push(this.tiledMap[i][j].getInhabitant());
-                                    this.tiledMap[i][j].getInhabitant().deadMark = true;
+                        if(global.tiledMap[i][j].isOccupied()) {
+                            console.log(global.tiledMap[i][j].getInhabitant().name + ' IS WOUNDED');
+                            action.sender.getInhabitant().useDamageSkill(global.tiledMap[i][j].getInhabitant(), action.ability);
+                            if(global.tiledMap[i][j].getInhabitant().deadMark === false) {
+                                if (global.tiledMap[i][j].getInhabitant().isDead()) {
+                                    deadEnemies.push(global.tiledMap[i][j].getInhabitant());
+                                    global.tiledMap[i][j].getInhabitant().deadMark = true;
                                 } else {
-                                    woundedEnemies.push(this.tiledMap[i][j].getInhabitant());
+                                    woundedEnemies.push(global.tiledMap[i][j].getInhabitant());
                                 }
                                 //console.log("health end: " + action.target.getInhabitant().healthpoint);
                             }
@@ -177,18 +188,18 @@ export default class DemoGameModule {
             } else {
                 woundedEnemies.push(action.target.getInhabitant());
             }
-            console.log("health end: " + action.target.getInhabitant().healthpoint);
+            console.log('health end: ' + action.target.getInhabitant().healthpoint);
         }
 
         if (deadEnemies.length > 0) {
-           // console.log(action.target.getInhabitant().name + " IS DEAD");
+            // console.log(action.target.getInhabitant().name + " IS DEAD");
 
             this.gameManager.unitManager.unitAttackAndKill(action.ability.name, action.sender, action.target, deadEnemies, woundedEnemies);
             for(let i = 0; i < deadEnemies.length; i++) {
                 this.initiativeLine.RemoveUnit(deadEnemies[i]);
             }            //graph.deleteFromLowBar(action.target.getInhabitant().barIndex);
         } else {
-            console.log("SOMEONE GET WOUNDED: ", woundedEnemies);
+            console.log('SOMEONE GET WOUNDED: ', woundedEnemies);
             this.gameManager.unitManager.unitAttack(action.ability.name, action.sender, action.target, woundedEnemies);
         }
     }
@@ -211,13 +222,13 @@ export default class DemoGameModule {
     generatePlayers() {
         let newPlayers = [];
         let Roderick = new Unit();
-        Roderick.makeWarrior("Roderick");
+        Roderick.makeWarrior('Roderick');
         let Gendalf = new Unit();
-        Gendalf.makeMage("Gendalf");
+        Gendalf.makeMage('Gendalf');
         let Garreth = new Unit();
-        Garreth.makeThief("Garreth");
+        Garreth.makeThief('Garreth');
         let Ethelstan = new Unit();
-        Ethelstan.makePriest("Ethelstan");
+        Ethelstan.makePriest('Ethelstan');
 
         newPlayers.push(Roderick);
         newPlayers.push(Gendalf);
@@ -230,13 +241,13 @@ export default class DemoGameModule {
     generateEnemies() {
         let newEnemies = [];
         for (let i = 0; i < this.ENEMIESSIZE; i++) {
-          console.log(i);
+            console.log(i);
             let Skeleton = new Unit();
             let texture;
             if (i % 2 === 0) {
-                texture = "skeleton1";
+                texture = 'skeleton1';
             } else {
-                texture = "skeleton2";
+                texture = 'skeleton2';
             }
             Skeleton.makeSkeleton(texture);
             newEnemies.push(Skeleton);
@@ -251,47 +262,47 @@ export default class DemoGameModule {
             while (true) {
                 randRow = Math.floor(Math.random() * this.HEIGHT);
                 randCol = Math.floor(Math.random() * 3); //первые три столбца поля
-                if (this.tiledMap[randCol][randRow].isWall === this.NOTWALL && !this.tiledMap[randCol][randRow].isOccupied()) {
+                if (global.tiledMap[randCol][randRow].isWall === this.NOTWALL && !global.tiledMap[randCol][randRow].isOccupied()) {
                     break;
                 }
             }
             players[i].xpos = randCol;
             players[i].ypos = randRow;
-            this.tiledMap[randCol][randRow].occupy(players[i]);
+            global.tiledMap[randCol][randRow].occupy(players[i]);
         }
     }
 
     setEnemiesPositions(enemies) {
         for (let i = 0; i < this.ENEMIESSIZE; i++) {
-          let randRow;
-          let randCol;
-          while (true) {
-            randRow = Math.floor(Math.random() * this.HEIGHT);
-            randCol = Math.floor(Math.random() * 3) + this.WIDTH - 3; //последние три столбца поля
-            if (this.tiledMap[randCol][randRow].isWall === this.NOTWALL && !this.tiledMap[randCol][randRow].isOccupied()) {
-                break;
+            let randRow;
+            let randCol;
+            while (true) {
+                randRow = Math.floor(Math.random() * this.HEIGHT);
+                randCol = Math.floor(Math.random() * 3) + this.WIDTH - 3; //последние три столбца поля
+                if (global.tiledMap[randCol][randRow].isWall === this.NOTWALL && !global.tiledMap[randCol][randRow].isOccupied()) {
+                    break;
+                }
             }
-          }
-          enemies[i].xpos = randCol;
-          enemies[i].ypos = randRow;
-          this.tiledMap[randCol][randRow].occupy(enemies[i]);
+            enemies[i].xpos = randCol;
+            enemies[i].ypos = randRow;
+            global.tiledMap[randCol][randRow].occupy(enemies[i]);
         }
     }
 
     isPartyDead() {
         for (let i = 0; i < this.PARTYSIZE; i++) {
-          if (!this.players[i].isDead()) {
-            return false;
-          }
+            if (!this.players[i].isDead()) {
+                return false;
+            }
         }
         return true;
     }
 
     isEnemiesDead() {
         for (let i = 0; i < this.ENEMIESSIZE; i++) {
-          if (!this.enemies[i].isDead()) {
-            return false;
-          }
+            if (!this.enemies[i].isDead()) {
+                return false;
+            }
         }
         return true;
 
@@ -303,7 +314,7 @@ export default class DemoGameModule {
 
     stopGameLoop() {
         if (this.intervalId) {
-          clearInterval(this.intervalId);
+            clearInterval(this.intervalId);
         }
     }
 
@@ -313,7 +324,7 @@ export default class DemoGameModule {
     }
 
     sendPossibleMoves() {
-        let pathfinding = new Pathfinding(this.tiledMap[this.activeUnit.xpos][this.activeUnit.ypos], this.tiledMap);
+        let pathfinding = new Pathfinding(global.tiledMap[this.activeUnit.xpos][this.activeUnit.ypos], global.tiledMap);
         let allMoves = pathfinding.possibleMoves();
         let path = [];
         for(let key of allMoves.keys()){
@@ -325,9 +336,9 @@ export default class DemoGameModule {
 
     beginTurn() {
         this.activeUnit = this.initiativeLine.NextUnit();
-        console.log("This turn: ");
+        console.log('This turn: ');
         console.log(this.initiativeLine.ShowEveryoneInLine());
-        console.log(this.activeUnit.name + " = now your move! Cause initiative:" + this.activeUnit.initiative);
+        console.log(this.activeUnit.name + ' = now your move! Cause initiative:' + this.activeUnit.initiative);
         this.activeUnit.actionPoint = 2;
         this.gameManager.unitManager.activeUnit(this.activeUnit);
         this.sendPossibleMoves();

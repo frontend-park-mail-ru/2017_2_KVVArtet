@@ -32,11 +32,11 @@ app.listen(port, function(){
 });
 
 app.post('/signout',
-    (req, res) => {
+    (function(req, res) {
         res.cookie('cookie', null, {expires: new Date(Date.now() + 1000 * 60 * 10)});
         res.status(200).json(null);
     }
-);
+));
 /*
 app.get("/singleplay", function(req, res) {
     res.render( __dirname +'../public/views/singleplay/web.html');

@@ -1,7 +1,18 @@
 html {
     background: url(../images/backGround.png) no-repeat 50% fixed;
-    background-size: cover;
+    background-size: auto;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
 }
+
+@viewport {
+    width: 780px;
+    height: 1280px;
+    zoom: 2;
+    user-zoom: fixed;
+    orientation: portrait;
+}
+
 .error {
     font-family: fantasy;
     outline: 0;
@@ -59,3 +70,33 @@ html {
     top: 45%;
     left: 40%;
 }
+
+@media screen and (max-width: 600px) {
+    .buttonBack {
+        padding: 20px;
+        top:17%;
+    }
+    html {
+        background-size:auto;
+    }
+}
+
+@media screen and (min-width: 640px) and (max-width: 900px) and (min-height:1000px ) {
+    .buttonBack {
+        top:12%;
+    }
+}
+
+@media screen and (max-width: 640px) and (orientation: landscape) {
+    html {
+        background-size:auto;
+    }
+}
+
+@media screen and (min-width: 960px) and (orientation: landscape) {
+    html {
+        background-size:auto;
+    }
+}
+
+

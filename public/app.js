@@ -19,15 +19,12 @@ requireAll(require.context('./modules/', true, /\.(js)$/));
 requireAll(require.context('./images/', true, /\.(png)$/));
 requireAll(require.context('./images', true, /\.(jpg)$/));
 
-
-
 const login = new Login();
 const mainMenu = new MainPage();
 const signup = new Registration();
 const info = new Info();
 const game = new Game();
 const single = new SinglePlay();
-
 
 const router = new  Router();
 router.register('/', mainMenu)
