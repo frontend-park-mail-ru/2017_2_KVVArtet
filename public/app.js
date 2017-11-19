@@ -17,7 +17,6 @@ requireAll(require.context('./blocks/', true, /\.(css)$/));
 requireAll(require.context('./blocks/', true, /\.(scss)$/));
 requireAll(require.context('./modules/', true, /\.(js)$/));
 requireAll(require.context('./images/', true, /\.(png)$/));
-requireAll(require.context('./images', true, /\.(jpg)$/));
 
 const login = new Login();
 const mainMenu = new MainPage();
@@ -25,6 +24,14 @@ const signup = new Registration();
 const info = new Info();
 const game = new Game();
 const single = new SinglePlay();
+
+navigator.serviceWorker.register("/service_worker.js", { scope: "/" })
+    .then((registration) => {
+        console.log('ServiceWorker registration', registration);
+    })
+    .catch((error) => {
+        throw new Error(`ServiceWorker error: ${error}`);
+    });
 
 const router = new  Router();
 router.register('/', mainMenu)
