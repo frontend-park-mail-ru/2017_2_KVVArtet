@@ -5,6 +5,7 @@ export default class Action{
         this.target = new Tile();
         this.sender = new Tile();
         this.ability = new Skill();
+        this.toPrepare = false;
     }
 
     isMovement() {
@@ -18,5 +19,9 @@ export default class Action{
 
     isAbility() {
 	    return this.ability !== null;
+    }
+
+    isPrepareAbility() {
+        return this.ability !== null && this.toPrepare === true;
     }
 }

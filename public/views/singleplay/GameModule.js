@@ -4,11 +4,6 @@ import GameManager from "./GameManager"
 import DemoGameModule from "./DemoGameModule"
 
 export default class GameModule {
-  constructor() {
-    this.actionDeque = [];
-    this.tiledMap = new DungeonMapMaker().dungeonMapMaker(Math.random() * 10 + 25);
-    this.actionDeque = [];
-  }
 
   gameStart() {
     this.game.gamePrepare();
@@ -16,10 +11,8 @@ export default class GameModule {
   }
 
   gameGraphic() {
-    let back = new Background(this.tiledMap);
-    back.render();
-    let gameManager = new GameManager(this.tiledMap, this.actionDeque);
-    this.game = new DemoGameModule(this.tiledMap, gameManager, this.actionDeque);
+    let gameManager = new GameManager();
+    this.game = new DemoGameModule();
     gameManager.startGameRendering(this.gameStart.bind(this));
   }
 }

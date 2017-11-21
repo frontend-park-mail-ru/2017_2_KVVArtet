@@ -12,12 +12,9 @@ export default  class GraphicEngine {
       alert('Error in initializate ' + idCanvas + ': Беда, брат! Твой браузер не поддерживает WebGl, но ты держись :D');
       return;
     }
-    window.addEventListener('resize', function() {
-      this.render(performance.now());
-    }.bind(this));
     this.programForSprite = new Program(this.gl, vertexShader, fragmentShader).create();
     this.programForColorObj = new Program(this.gl, vertexShader1, fragmentShader1).create();
-    this.time = performance.now() + 1;
+    // this.time = performance.now() + 1;
   }
 
   addSprite(translation, texture, vertexs, blend, texCoord) {
@@ -39,12 +36,13 @@ export default  class GraphicEngine {
   }
 
   render(now) {
-    now *= 0.001;
-    let deltaTime = now - this.time;
-    this.time = now;
-    if (deltaTime != 0) {
-      document.getElementById('fps').innerHTML = (1 / deltaTime).toFixed(0);
-    }
+    // now *= 0.001;
+    // let deltaTime = now - this.time;
+    // this.time = now;
+    // if (deltaTime != 0) {
+    //   document.getElementById('fps').innerHTML = (1 / deltaTime).toFixed(0);
+    //   document.getElementById('fps').style.color = 'white';
+    // }
 
     Utils.resize(this.gl);
     this.gl.clearColor(0, 0, 0, 0);

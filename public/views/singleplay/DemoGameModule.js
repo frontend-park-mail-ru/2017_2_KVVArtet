@@ -30,7 +30,8 @@ export default class DemoGameModule {
     }
 
     gamePreRender() {
-        let back = new Background();
+        let numberSchene = 0;
+        let back = new Background(numberSchene);
         back.render();
         this.gameManager.startGameRendering(this.gameStart.bind(this));
     }
@@ -59,8 +60,11 @@ export default class DemoGameModule {
     gameLoop() {
         if (!this.isPartyDead() && !this.isEnemiesDead()) {
             this.timer -= this.interval;
-            document.getElementById('time').innerHTML = '00:' + Math.ceil(this.timer / 1000);
-            document.getElementById('time').style.fontSize = '2em';
+            let sec = Math.ceil(this.timer/1000);
+            if (sec < 10) {
+                sec = '0' + sec;
+            }
+            document.getElementById('time').innerHTML = '00:' + sec;
             //где-то здесь есть работа с АИ
             //отрисовка скилов для каждого персонажа, информация для dropdown и позиций
             if (global.actionDeque.length > 0) {
@@ -69,6 +73,8 @@ export default class DemoGameModule {
                 let action = global.actionDeque.shift();
                 if (action.isMovement() && !action.target.isOccupied()) {
                     this.makeMove(action);
+                // } else if (action.isPrepareAbility()) {
+                //     this.makePrepareAbility(action);
                 } else if (action.isAbility()) {
                     console.log('this is ability: ' + action.ability.name);
                     if (action.ability.damage[1] < 0) {
@@ -99,6 +105,11 @@ export default class DemoGameModule {
             }
         }
     }
+
+    // makePrepareAbility(action) {
+    //     if (action.ability.typeOfArea === "circle") {
+    //     }
+    // }
 
     makeMove(action) {
         console.log(action.sender.getInhabitant().name + ' make move from [' + action.sender.xpos + ',' + action.sender.ypos + ']' + ' to [' + action.target.xpos + ',' + action.target.ypos + ']');
@@ -161,20 +172,18 @@ export default class DemoGameModule {
             console.log('target on ' + action.target.xpos + ' ' + action.target.ypos);
             for(let i = action.target.xpos-action.ability.area; i <= action.target.xpos + action.ability.area; i++) {
                 for(let j = action.target.ypos-action.ability.area; j <= action.target.ypos + action.ability.area; j++) {
-                    console.log('i: ' + i + ' j: ' + j);
-                    if(i > 0 && j > 0 && i < this.WIDTH && j < this.HEIGHT) {
-                        if(global.tiledMap[i][j].isOccupied()) {
-                            console.log(global.tiledMap[i][j].getInhabitant().name + ' IS WOUNDED');
+                    console.log("i: " + i + " j: " + j);
+                    if(i >= 0 && j >= 0 && i < this.WIDTH && j < this.HEIGHT) {
+                        if(global.tiledMap[i][j].isOccupied() && global.tiledMap[i][j].getInhabitant().deadMark === false) {
+                            console.log(global.tiledMap[i][j].getInhabitant().name + " IS WOUNDED");
                             action.sender.getInhabitant().useDamageSkill(global.tiledMap[i][j].getInhabitant(), action.ability);
-                            if(global.tiledMap[i][j].getInhabitant().deadMark === false) {
-                                if (global.tiledMap[i][j].getInhabitant().isDead()) {
-                                    deadEnemies.push(global.tiledMap[i][j].getInhabitant());
-                                    global.tiledMap[i][j].getInhabitant().deadMark = true;
-                                } else {
-                                    woundedEnemies.push(global.tiledMap[i][j].getInhabitant());
-                                }
-                                //console.log("health end: " + action.target.getInhabitant().healthpoint);
+                            if (global.tiledMap[i][j].getInhabitant().isDead()) {
+                                deadEnemies.push(global.tiledMap[i][j].getInhabitant());
+                                global.tiledMap[i][j].getInhabitant().deadMark = true;
+                            } else {
+                                woundedEnemies.push(global.tiledMap[i][j].getInhabitant());
                             }
+                            //console.log("health end: " + action.target.getInhabitant().healthpoint);
                         }
                     }
 
@@ -206,16 +215,15 @@ export default class DemoGameModule {
 
     loseGame() {
         this.stopGameLoop();
+        document.getElementsByClassName('container')[0].setAttribute('class', 'blur container');
+        document.getElementById('lose').removeAttribute('hidden');
         //createoverlaylose
     }
 
     winGame() {
-        setTimeout(function() {
-            document.getElementsByClassName('container')[0].setAttribute('class', 'blur container');
-            document.getElementById('menu').removeAttribute('hidden');
-            document.getElementById('menu').innerHTML = 'Вы победили!';
-        }, 1000);
         this.stopGameLoop();
+        document.getElementsByClassName('container')[0].setAttribute('class', 'blur container');
+        document.getElementById('win').removeAttribute('hidden');
         //createoverlaywin
     }
 

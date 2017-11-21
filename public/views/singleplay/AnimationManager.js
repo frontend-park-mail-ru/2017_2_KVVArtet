@@ -1,11 +1,16 @@
 import Utils from './Utils';
 export default class AnimationManager {
-    constructor(Animation, spriteManager, activeTile, state, animations) {
+    constructor(Animation, spriteManager, activeTile, actionPoint, state, animations, texture) {
         this.Animation = Animation;
         this.state = state;
         this.spriteManager = spriteManager;
+        this.texture = texture;
         this.activeTile = activeTile;
+        this.actionPoint = actionPoint;
         this.animations = animations;
+        // this.activetile = this.spriteManager.addSprite(12, [-2, -2], this.animations[7], Utils.madeRectangle(0, 0, 1.2 / 16 + 0.04, (1.2/16)*global.ratio - 0.06), true,
+        //     Utils.madeRectangle(0, 0, 1/5, -1/4));
+        // this.loopActiveTile();
     }
 
     stateCheck(callback) {
@@ -22,6 +27,7 @@ export default class AnimationManager {
         if (this.stateCheck(this.movingTo.bind(this, TileStart, path))) {
             return;
         }
+        this.spriteManager.getSprite(this.actionPoint).setTexture(this.texture);
         let unit = TileStart.unitOnTile;
         for (let i = path.length - 1; i >= 0; i--) {
             if (i == path.length - 1) {
@@ -51,11 +57,12 @@ export default class AnimationManager {
     }
 
     fireball(TileStart, TileDest) {
+        let timeA = Math.sqrt(Math.pow(TileStart.xpos - TileDest.xpos, 2) + Math.pow(TileStart.ypos - TileDest.ypos, 2))/6;
         let fireballId = this.spriteManager.addSprite(12, Utils.translationOnMap(TileStart.ypos, TileDest.xpos), this.animations[0], Utils.madeRectangle(0, 0, 0.06, -0.06 * 16/9), true,
             Utils.madeRectangle(0, 0, 1 / 6, -1 / 6));
-        this.Animation.FrameAnimation(fireballId, 1.5, 32, 6, 6, true);
+        this.Animation.FrameAnimation(fireballId, timeA, 32, 6, 6, true);
         this.Animation.MoveAnimation(Utils.translationForUnits(TileStart), Utils.translationOnMap(TileDest.ypos, TileDest.xpos),
-            1.5, fireballId);
+            timeA, fireballId);
         setTimeout(function() {
             for (let ii = TileDest.xpos - 2; ii < TileDest.xpos + 3; ii++) {
                 for (let jj = TileDest.ypos - 2; jj < TileDest.ypos + 3; jj++) {
@@ -66,7 +73,7 @@ export default class AnimationManager {
                     }
                 }
             }
-        }.bind(this), 1500);
+        }.bind(this), timeA*1000);
     }
 
     healing(units) {
@@ -90,9 +97,22 @@ export default class AnimationManager {
     }
 
     holly_wrath(sender, target) {
+        let timeA = Math.sqrt(Math.pow(sender.xpos - target.xpos, 2) + Math.pow(sender.ypos - target.ypos, 2))/6;
         let holly_wrathId = this.spriteManager.addSprite(12, Utils.translationOnMap(sender.ypos - 1, sender.xpos - 1), this.animations[6], Utils.madeRectangle(0, 0, 3.6/16, -(3.6/16) * 16/9), true,
             Utils.madeRectangle(0, 0, 1 / 6, -1 / 6));
-        this.Animation.FrameAnimation(holly_wrathId, 1.5, 21, 5, 5, true);
-        this.Animation.MoveAnimation(Utils.translationForUnits(sender), Utils.translationOnMap(target.ypos - 1, target.xpos - 1), 1.5, holly_wrathId);
+        this.Animation.FrameAnimation(holly_wrathId, timeA, 21, 5, 5, true);
+        this.Animation.MoveAnimation(Utils.translationForUnits(sender), Utils.translationOnMap(target.ypos - 1, target.xpos - 1), timeA, holly_wrathId);
+    }
+
+    loopActiveTile() {
+        this.Animation.FrameAnimation(this.activetile, 1, 11, 5, 4);
+        setTimeout(function() {
+            this.loopActiveTile();
+        }.bind(this), 1000);
+    }
+
+    animationActiveTile(unit) {
+        let trans = Utils.transForHealthbar(unit);
+        this.spriteManager.getSprite(this.activetile).setTrans([trans[0] - 0.02, trans[1] - 0.01]);
     }
 }

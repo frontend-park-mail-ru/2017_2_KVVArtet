@@ -32,6 +32,25 @@ export default class Animation {
     }
   }
 
+  MoveHtmlAnimation(element, start, dest, time) {
+    let currentTime = performance.now() * 0.001;
+    let deltaT = [dest[0] - start[0], dest[1] - start[1]];
+    requestAnimationFrame(Moving.bind(this));
+    function Moving(now) {
+      now *= 0.001;
+      let deltaTime = now - currentTime;
+      if (deltaTime >= time) {
+        element.style.right = dest[0] + 'vw';
+        element.style.top = dest[1] + 'vh';
+      } else {
+        let dT = Animation.deltaTrans(start, deltaT, deltaTime, time);
+        element.style.right = dT[0] + 'vw';
+        element.style.top = dT[1] + 'vh';
+        requestAnimationFrame(Moving.bind(this));
+      }
+    }
+  }
+
   FrameAnimation(id, timeA, countFrames,colls, rows, deleteInEnd) {
     let currentTime = performance.now() * 0.001;
     requestAnimationFrame(FrameAnim.bind(this));
