@@ -1,0 +1,227 @@
+@viewport {
+  width: 640px;
+  height: 440px;
+  zoom: 2;
+  user-zoom: fixed;
+}
+
+
+.main {
+  width: 100%;
+  height: 110px;
+  text-align: center;
+  color: #0cf;
+  font-size: 50px;
+  padding-top: 40px;
+  font-family: fantasy;
+}
+
+.buttonFirst {
+  display: inline-block;
+  color: white;
+  border: 2px solid;
+  border-radius: 100px;
+  transition: 0.2s;
+  background-size: cover;
+  margin: -125px 0 0 -125px;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  padding: 10px;
+  font-family: fantasy;
+  font-size: 200%;
+  cursor: pointer;
+
+
+  &:hover {
+    background: green;
+  }
+  &:active {
+    background: white;
+  }
+}
+
+.buttonSecond {
+  display: inline-block;
+  color: white;
+  outline: none;
+  border: 2px solid;
+  border-radius: 100px;
+  transition: 0.2s;
+  background-size: cover;
+  font-family: fantasy;
+  margin: -125px 0 0 -125px;
+  position: absolute;
+  top: 84%;
+  left: 50%;
+  padding: 10px;
+  font-size: 200%;
+  cursor: pointer;
+  &:hover {
+    background: green;
+  }
+  &:active {
+    background: white;
+  }
+}
+
+.buttonThird {
+  display: inline-block;
+  color: white;
+  outline: none;
+  border: 2px solid;
+  border-radius: 100px;
+  transition: 0.2s;
+  background-size: cover;
+  font-family: fantasy;
+  margin: -125px 0 0 -125px;
+  position: absolute;
+  top: 104%;
+  left: 50%;
+  padding: 10px;
+  font-size: 200%;
+  cursor: pointer;
+  &:hover {
+    background: green;
+  }
+  &:active {
+    background: white;
+  }
+}
+
+.buttonFour {
+  display: inline-block;
+  color: white;
+  outline: none;
+  border: 2px solid;
+  border-radius: 100px;
+  transition: 0.2s;
+  background-size: cover;
+  font-family: fantasy;
+  margin: -125px 0 0 -125px;
+  position: absolute;
+  top: 64%;
+  left: 50%;
+  padding: 10px;
+  font-size: 200%;
+  cursor: pointer;
+  &:hover {
+    background: green;
+  }
+  &:active {
+    background: white;
+  }
+}
+
+.buttonChange-theme {
+  font-family: fantasy;
+  text-transform: uppercase;
+  outline: 0;
+  background: purple;
+  border: 0;
+  padding: 15px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  right: 5%;
+  position: absolute;
+  width: 120px;
+  top: 5%;
+  &:hover {
+    background: green;
+  }
+  &:active {
+    background: white;
+  }
+}
+@media screen and (max-width: 600px){
+  .buttonChange-theme {
+    padding: 1px;
+  }
+  .buttonFirst{
+    font-size: 150%;
+    margin: -95px 0 0 -75px;
+  }
+  .buttonSecond{
+    font-size: 150%;
+    margin: -95px 0 0 -75px;
+  }
+
+  .buttonThird{
+    font-size: 150%;
+    margin: -95px 0 0 -75px;
+  }
+  .buttonFour{
+    font-size: 150%;
+    margin: -95px 0 0 -75px;
+  }
+  .main{
+    font-size: 220%;
+  }
+}
+
+
+@media screen and (min-width: 640px) and (max-width: 900px) and (min-height:1000px ){
+  .buttonChange-theme {
+    top: 15%;
+    padding: 1px;
+
+  }
+  .buttonFirst{
+    font-size: 300%;
+  }
+  .buttonSecond{
+    top: 75%;
+    left: 50%;
+    font-size: 300%;
+  }
+
+  .buttonThird{
+    top: 90%;
+    left: 50%;
+    font-size: 300%;;
+  }
+  .buttonFour{
+    top: 60%;
+    left: 50%;
+    font-size: 300%;
+  }
+  .main{
+    font-size: 80px;
+  }
+}
+
+
+@media screen and (max-width: 640px) and (orientation: landscape) {
+  .buttonFirst{
+    top:95%;
+  }
+  .buttonSecond{
+    top: 175%;
+  }
+
+  .buttonThird{
+    top: 215%;
+  }
+  .buttonFour{
+    top: 135%;
+  }
+
+}
+
+@media screen and (min-width: 900px) and (orientation: landscape) {
+  .buttonFirst{
+    top:50%;
+  }
+  .buttonSecond{
+    top: 90%;
+  }
+
+  .buttonThird{
+    top: 110%;
+  }
+  .buttonFour{
+    top: 70%;
+  }
+
+}

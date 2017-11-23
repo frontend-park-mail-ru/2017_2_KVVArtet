@@ -1,0 +1,53 @@
+.textBlock {
+  width: 400px;
+  height: 350px;
+  background: purple;
+  margin: -215px 0 0 -125px;
+  position: absolute;
+  top: 65%;
+  left: 45%;
+  padding: 10px;
+  border: solid 3px black;
+  color: white;
+  font-family: fantasy;
+  font-size: 150%;
+  background-size: cover;
+}
+
+@media screen and (max-width: 600px) {
+  .textBlock {
+    width: 200px;
+    height:250px ;
+    margin: -215px 0 0 -100px;
+    top: 75%;
+    left: 45%;
+  }
+}
+
+@media screen and (min-width: 640px) and (max-width: 900px) and (min-height:1000px ) {
+  .textBlock {
+    width: 50%;
+    height: 40%;
+    top: 45%;
+    left: 42%;
+  }
+}
+
+@media screen and (max-width: 640px) and (orientation: landscape) {
+  .textBlock {
+    width: 50%;
+    height:50% ;
+    top: 145%;
+    left: 45%;
+  }
+
+}
+
+@media screen and (min-width: 900px) and (orientation: landscape) {
+  .textBlock {
+    width: 35%;
+    height: 55%;
+    top: 72%;
+    left: 43%;
+  }
+}

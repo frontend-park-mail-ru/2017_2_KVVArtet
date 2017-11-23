@@ -1,0 +1,57 @@
+body,
+html {
+  margin: 0;
+  position: relative;
+}
+/* растягиваем canvas на всю область просмотра */
+
+canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  position: absolute;
+}
+
+.container {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.fps,
+.time {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+
+.drop-menu {
+  position: absolute;
+}
+
+.drop-menu ul {}
+
+.drop-menu li {
+  list-style-type: none;
+  padding: 2px;
+  vertical-align: middle;
+  background: rgba(222, 244, 255, 1);
+  border-bottom: 1px solid black;
+}
+
+.drop-menu li:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+.drop-menu li.last-child {
+  border-bottom: 0px;
+}
+
+.blur {
+  -webkit-filter: blur(4px);
+  -moz-filter: blur(4px);
+  -o-filter: blur(4px);
+  -ms-filter: blur(4px);
+  filter: blur(4px);
+}
