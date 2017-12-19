@@ -5,223 +5,41 @@
   user-zoom: fixed;
 }
 
+//.menu {
+//  background: url("../../images/banner.png") no-repeat;
+//  width: 543px;
+//  background-size: contain;
+//  height: 591px;
+//  margin: -40px auto auto;
+//}
 
-.main {
-  width: 100%;
-  height: 110px;
+.menu  ul, form {
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 100px;
+  padding-left: 0;
+  width: 200px;
+  list-style-type: none;
+}
+
+.menu form {
+  width: 350px;
+}
+
+.menu li {
+  font-size: 1.5em;
+  border-radius: 17px;
+  background: #731509 radial-gradient(150% 100% at 50% 5px, rgba(255, 255, 255, 0.2), transparent);
+  box-shadow: inset rgba(0, 0, 0, 0.6) 0 -2px 5px, inset rgba(252, 255, 255, 0.7) 0 2px 5px, rgba(0, 0, 0, 0.8) 0 2px 5px -1px;
+  color: #c58818;
+  border: 2px solid;
+  padding: 20px;
   text-align: center;
-  color: #0cf;
-  font-size: 50px;
-  padding-top: 40px;
-  font-family: fantasy;
+  margin-bottom: 15px;
+  cursor: pointer;
+
 }
 
-.buttonFirst {
-  display: inline-block;
+.menu li:hover {
   color: white;
-  border: 2px solid;
-  border-radius: 100px;
-  transition: 0.2s;
-  background-size: cover;
-  margin: -125px 0 0 -125px;
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  padding: 10px;
-  font-family: fantasy;
-  font-size: 200%;
-  cursor: pointer;
-
-
-  &:hover {
-    background: green;
-  }
-  &:active {
-    background: white;
-  }
-}
-
-.buttonSecond {
-  display: inline-block;
-  color: white;
-  outline: none;
-  border: 2px solid;
-  border-radius: 100px;
-  transition: 0.2s;
-  background-size: cover;
-  font-family: fantasy;
-  margin: -125px 0 0 -125px;
-  position: absolute;
-  top: 84%;
-  left: 50%;
-  padding: 10px;
-  font-size: 200%;
-  cursor: pointer;
-  &:hover {
-    background: green;
-  }
-  &:active {
-    background: white;
-  }
-}
-
-.buttonThird {
-  display: inline-block;
-  color: white;
-  outline: none;
-  border: 2px solid;
-  border-radius: 100px;
-  transition: 0.2s;
-  background-size: cover;
-  font-family: fantasy;
-  margin: -125px 0 0 -125px;
-  position: absolute;
-  top: 104%;
-  left: 50%;
-  padding: 10px;
-  font-size: 200%;
-  cursor: pointer;
-  &:hover {
-    background: green;
-  }
-  &:active {
-    background: white;
-  }
-}
-
-.buttonFour {
-  display: inline-block;
-  color: white;
-  outline: none;
-  border: 2px solid;
-  border-radius: 100px;
-  transition: 0.2s;
-  background-size: cover;
-  font-family: fantasy;
-  margin: -125px 0 0 -125px;
-  position: absolute;
-  top: 64%;
-  left: 50%;
-  padding: 10px;
-  font-size: 200%;
-  cursor: pointer;
-  &:hover {
-    background: green;
-  }
-  &:active {
-    background: white;
-  }
-}
-
-.buttonChange-theme {
-  font-family: fantasy;
-  text-transform: uppercase;
-  outline: 0;
-  background: purple;
-  border: 0;
-  padding: 15px;
-  color: #fff;
-  font-size: 14px;
-  cursor: pointer;
-  right: 5%;
-  position: absolute;
-  width: 120px;
-  top: 5%;
-  &:hover {
-    background: green;
-  }
-  &:active {
-    background: white;
-  }
-}
-@media screen and (max-width: 600px){
-  .buttonChange-theme {
-    padding: 1px;
-  }
-  .buttonFirst{
-    font-size: 150%;
-    margin: -95px 0 0 -75px;
-  }
-  .buttonSecond{
-    font-size: 150%;
-    margin: -95px 0 0 -75px;
-  }
-
-  .buttonThird{
-    font-size: 150%;
-    margin: -95px 0 0 -75px;
-  }
-  .buttonFour{
-    font-size: 150%;
-    margin: -95px 0 0 -75px;
-  }
-  .main{
-    font-size: 220%;
-  }
-}
-
-
-@media screen and (min-width: 640px) and (max-width: 900px) and (min-height:1000px ){
-  .buttonChange-theme {
-    top: 15%;
-    padding: 1px;
-
-  }
-  .buttonFirst{
-    font-size: 300%;
-  }
-  .buttonSecond{
-    top: 75%;
-    left: 50%;
-    font-size: 300%;
-  }
-
-  .buttonThird{
-    top: 90%;
-    left: 50%;
-    font-size: 300%;;
-  }
-  .buttonFour{
-    top: 60%;
-    left: 50%;
-    font-size: 300%;
-  }
-  .main{
-    font-size: 80px;
-  }
-}
-
-
-@media screen and (max-width: 640px) and (orientation: landscape) {
-  .buttonFirst{
-    top:95%;
-  }
-  .buttonSecond{
-    top: 175%;
-  }
-
-  .buttonThird{
-    top: 215%;
-  }
-  .buttonFour{
-    top: 135%;
-  }
-
-}
-
-@media screen and (min-width: 900px) and (orientation: landscape) {
-  .buttonFirst{
-    top:50%;
-  }
-  .buttonSecond{
-    top: 90%;
-  }
-
-  .buttonThird{
-    top: 110%;
-  }
-  .buttonFour{
-    top: 70%;
-  }
-
 }

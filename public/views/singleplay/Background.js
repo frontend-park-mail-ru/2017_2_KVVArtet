@@ -26,11 +26,11 @@ export default class Background {
                 }
             }.bind(this));
         }.bind(this));
-        for (let i = -0.6; i <= 0.6; i += 1.2/16) {
+        for (let i = global.mapShiftX; i <= 1.2 + global.mapShiftX; i += 1.2/16) {
             this.engine.addColorSprite([i, 0.65], Utils.madeRectangle(0, 0, 0.001, -1.6), [1, 1, 1, 1]);
         }
         for (let i = -0.95; i <= 0.65; i += 1.2/16*global.ratio) {
-            this.engine.addColorSprite([-0.6, i], Utils.madeRectangle(0, 0, 1.2, -0.0018), [1, 1, 1, 1]);
+            this.engine.addColorSprite([global.mapShiftX, i], Utils.madeRectangle(0, 0, 1.2, -0.0018), [1, 1, 1, 1]);
         }
         this.engine.addSprite([-0.6, 0.995], this.textures[5], Utils.madeRectangle(0, 0, 0.1875, -0.13), true);
         this.engine.addSprite([0.68, 0.97], this.textures[6], Utils.madeRectangle(0, 0, 0.07, -0.07*global.ratio));

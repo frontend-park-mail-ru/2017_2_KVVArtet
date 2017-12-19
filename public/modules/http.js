@@ -20,6 +20,20 @@ class Http {
         return this._GetXMLHttpRequest(url);
     }
 
+    static Delete(address) {
+        return fetch(address, {
+            method: 'DELETE',
+            mode: 'cors',
+            credentials: 'include'
+        })
+            .then((response) => {
+                if (response.status >= 400) {
+                    throw response;
+                }
+                return response.json();
+              //  return response
+            });
+    }
     /**
      * Выполняет POST-запрос с использованием fetch (по возможности) или XMLHttpRequest
      * @param {string} address - "ручка"
@@ -30,6 +44,7 @@ class Http {
         const url = (Http.BaseUrl || baseUrl) + address;
         if (typeof window.fetch !== 'undefined') {
             console.log("function post work");
+            console.log(this._FetchPost(body, url))
             return this._FetchPost(body, url);
         }
         return false;
@@ -50,7 +65,7 @@ class Http {
             xhr.onreadystatechange = function () {
                 if (xhr.readyState !== 4) return;
                 if (+xhr.status >= 400) {
-                    alert(xhr.responseText);
+                   // alert(xhr.responseText);
                     reject(xhr);
                     return;
                 }

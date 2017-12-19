@@ -1,13 +1,23 @@
-.field {
+
+.menu form {
+  width: 350px;
+}
+.menu input {
   font-family: fantasy;
   outline: 0;
-  background: white;
+  background: #291b1f;
   width: 100%;
   margin: 0 0 15px;
   padding: 15px;
   box-sizing: border-box;
-  border: 2px solid purple;
+  border: 2px solid #c58818;
   font-size: 14px;
+  color: white;
+}
+
+.menu input:hover {
+  border-radius: 10px;
+  border: 2px solid white;
 }
 
 .message-error {
@@ -15,39 +25,4 @@
   color: red;
   font-size: 25px;
   font-family: fantasy;
-}
-
-.login-form {
-  font-family: fantasy;
-  outline: 0;
-  background: #f2f2f2;
-  width: 100%;
-  max-width: 360px;
-  margin: 0 auto 100px;
-  padding: 15px;
-  box-sizing: border-box;
-  border: 2px red;
-  font-size: 14px;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
-
-.registration-form {
-  z-index: 1;
-  background: #FFFFFF;
-  max-width: 360px;
-  margin: 0 auto 100px;
-  padding: 45px;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
-
-@media screen and (min-width: 640px) and (max-width: 900px) and (min-height:1000px ) {
-.login-form{
-    margin: 45% auto 100px;
-  }
-}
-@media screen and (min-width: 640px) and (max-width: 900px) and (min-height:1000px ) {
-  .registration-form{
-    margin: 45% auto 100px;
-  }
 }

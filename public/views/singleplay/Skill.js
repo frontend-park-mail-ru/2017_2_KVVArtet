@@ -9,7 +9,7 @@ export default class Skill{
     }
 
 
-    createSkill(name, description, typeOfArea, area, damage, cooldown){
+    createSkill(name, description, typeOfArea, area, damage, cooldown) {
         this.name = name;
         this.description = description;
         this.typeOfArea = typeOfArea;
@@ -19,7 +19,7 @@ export default class Skill{
     }
 
     getDesciption() {
-        if(damage[1] >= 0) {
+        if(this.damage[1] >= 0) {
             return this.name + '\nDam: ' + this.damage[0] + '-' + this.damage[1] + ' Type: ' + this.typeOfArea + ' with area: ' + this.area + '\n' + ' Cooldown: ' + this.cooldown + '\n' + this.description;
         }
 

@@ -9,9 +9,10 @@ export default class SinglePlay extends Block {
     }
 
     creation() {
-        document.body.innerHTML = this.template;
-
+         document.getElementById('application').innerHTML = this.template;
+       // document.querySelector('div.wrapper').innerHTML = this.template;
         let game = new DemoGameModule();
+
         game.gamePreRender();
 
     }

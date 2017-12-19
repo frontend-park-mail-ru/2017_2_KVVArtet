@@ -1,0 +1,32 @@
+.info{
+    top: 40%;
+    left: 37.5%;
+    position: absolute;
+}
+.authors_header {
+    font-size: 160%;
+    margin: -11px 0px 7px;
+    width: 100%;
+    padding: 8px;
+    color: white;
+}
+.authors {
+    font-size: 160%;
+    margin: 0 20px 15px;
+    width: 100%;
+    padding: 15px;
+    color: #e9a818;
+}
+
+@media screen and (min-width: 960px) and (max-width: 1280px) and (orientation: landscape) {
+    .info{
+        top: 46%;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 767px) and (orientation: landscape) {
+    .info{
+        top: 80%;
+        font-size: 78%;
+    }
+}

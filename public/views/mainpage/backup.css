@@ -1,0 +1,229 @@
+@viewport {
+    width: 640px;
+    height: 440px;
+    zoom: 2;
+    user-zoom: fixed;
+}
+
+
+
+.buttonFirst {
+    display: inline-block;
+    /*   width: 150px;
+       height: 60px;*/
+    width: 7em;
+    height: 2em;
+    line-height: 60px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px rgba(154, 33, 33, 0.2), 0 -1px rgba(82, 11, 11, 0.8);
+    border-radius: 17px;
+    background: #731509 radial-gradient(150% 100% at 50% 5px, rgba(255,255,255,.2), rgba(0,0,0,0));
+    box-shadow: inset rgba(0,0,0,.6) 0 -2px 5px, inset rgba(252,255,255,.7) 0 2px 5px, rgba(0,0,0,.8) 0 2px 5px -1px;
+    color: #c58818;
+    /* user-select: none; */
+    position: absolute;
+    border: 2px solid;
+    top:46%;
+    left:44%;
+    font-size: 164%;
+}
+.buttonFirst:hover {
+    color: white;
+    cursor: pointer;
+}
+.buttonFirst:active {
+
+    padding-bottom: 1px;
+    box-shadow:
+
+            inset rgba(0,0,0,1) 0 1px 3px,
+            inset rgba(0,0,0,.6) 0 -2px 5px,
+            inset rgba(252,255,255,.7) 0 2px 5px,
+            0 1px rgba(255,255,255,.08);
+    color: rgb(128,207,214);
+}
+
+
+.buttonSecond {
+    display: inline-block;
+    /*   width: 150px;
+       height: 60px;*/
+    width: 7em;
+    height: 2em;
+    line-height: 60px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px rgba(154, 33, 33, 0.2), 0 -1px rgba(82, 11, 11, 0.8);
+    border-radius: 17px;
+    background: #731509 radial-gradient(150% 100% at 50% 5px, rgba(255,255,255,.2), rgba(0,0,0,0));
+    box-shadow: inset rgba(0,0,0,.6) 0 -2px 5px, inset rgba(252,255,255,.7) 0 2px 5px, rgba(0,0,0,.8) 0 2px 5px -1px;
+    color: #c58818;
+    /* user-select: none; */
+    position: absolute;
+    border: 2px solid;
+    top:58%;
+    left:44%;
+    font-size: 164%;
+}
+
+.buttonSecond:hover {
+    color: white;
+    cursor: pointer;
+}
+.buttonSecond:active {
+
+    padding-bottom: 1px;
+    box-shadow:
+
+            inset rgba(0,0,0,1) 0 1px 3px,
+            inset rgba(0,0,0,.6) 0 -2px 5px,
+            inset rgba(252,255,255,.7) 0 2px 5px,
+            0 1px rgba(255,255,255,.08);
+    color: rgb(128,207,214);
+}
+
+
+.buttonThird {
+    display: inline-block;
+    /*   width: 150px;
+       height: 60px;*/
+    width: 7em;
+    height: 2em;
+    line-height: 60px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px rgba(154, 33, 33, 0.2), 0 -1px rgba(82, 11, 11, 0.8);
+    border-radius: 17px;
+    background: #731509 radial-gradient(150% 100% at 50% 5px, rgba(255,255,255,.2), rgba(0,0,0,0));
+    box-shadow: inset rgba(0,0,0,.6) 0 -2px 5px, inset rgba(252,255,255,.7) 0 2px 5px, rgba(0,0,0,.8) 0 2px 5px -1px;
+    color: #c58818;
+    position: absolute;
+    border: 2px solid;
+    top:71%;
+    left:44%;
+    font-size: 164%;
+}
+
+.buttonThird:hover {
+    color: white;
+    cursor: pointer;
+}
+.buttonThird:active {
+
+    padding-bottom: 1px;
+    box-shadow:
+
+            inset rgba(0,0,0,1) 0 1px 3px,
+            inset rgba(0,0,0,.6) 0 -2px 5px,
+            inset rgba(252,255,255,.7) 0 2px 5px,
+            0 1px rgba(255,255,255,.08);
+    color: rgb(128,207,214);
+}
+
+.buttonFour {
+    display: inline-block;
+    /*   width: 150px;
+       height: 60px;*/
+    width: 7em;
+    height: 2em;
+    line-height: 60px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px rgba(154, 33, 33, 0.2), 0 -1px rgba(82, 11, 11, 0.8);
+    border-radius: 17px;
+    background: #731509 radial-gradient(150% 100% at 50% 5px, rgba(255,255,255,.2), rgba(0,0,0,0));
+    box-shadow: inset rgba(0,0,0,.6) 0 -2px 5px, inset rgba(252,255,255,.7) 0 2px 5px, rgba(0,0,0,.8) 0 2px 5px -1px;
+    color: #c58818;
+    /* user-select: none; */
+    position: absolute;
+    border: 2px solid;
+    top:83%;
+    left:44%;
+    font-size: 164%;
+
+}
+
+.buttonFour:hover {
+    color: white;
+    cursor: pointer;
+}
+.buttonFour:active {
+
+    padding-bottom: 1px;
+    box-shadow:
+
+            inset rgba(0,0,0,1) 0 1px 3px,
+            inset rgba(0,0,0,.6) 0 -2px 5px,
+            inset rgba(252,255,255,.7) 0 2px 5px,
+            0 1px rgba(255,255,255,.08);
+    color: rgb(128,207,214);
+}
+
+
+@media screen and (min-width: 960px) and (max-width: 1280px) and (orientation: landscape) {
+    .buttonFirst{
+        top: 56%;
+        left: 41%;
+        width: 21vw;
+        height: 9vh;
+    }
+    .buttonSecond{
+        top: 74%;
+        left: 41%;
+        width: 21vw;
+        height: 9vh;
+    }
+    .buttonThird{
+        top: 94%;
+        left: 41%;
+        width: 21vw;
+        height: 9vh;
+    }
+    .buttonFour{
+        top: 112%;
+        left: 41%;
+        width: 21vw;
+        height: 9vh;
+    }
+}
+
+
+@media (min-width: 481px) and (max-width: 767px) and (orientation: landscape){
+    .buttonFirst {
+        width: 19vw;
+        height: 11vh;
+        line-height: 30px;
+        top: 85%;
+        left: 42%;
+        font-size: 115%;
+    }
+
+    .buttonSecond {
+        width: 19vw;
+        height: 11vh;
+        line-height: 30px;
+        top: 115%;
+        left: 42%;
+        font-size: 115%;
+    }
+
+    .buttonThird{
+        width: 19vw;
+        height: 11vh;
+        line-height: 30px;
+        top: 145%;
+        left: 42%;
+        font-size: 115%;
+    }
+
+    .buttonFour{
+        width: 19vw;
+        height: 11vh;
+        line-height: 30px;
+        top: 175%;
+        left: 42%;
+        font-size: 115%;
+    }
+}
+
