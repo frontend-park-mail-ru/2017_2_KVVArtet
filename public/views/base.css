@@ -1,9 +1,39 @@
 html {
-    background: url(../images/backGround.png) no-repeat 50% fixed;
-    background-size: auto;
+    background-color: #281d1f;
     -webkit-text-size-adjust: none;
     text-size-adjust: none;
+    overflow-x: hidden;
+
 }
+
+
+@keyframes snow {
+    0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+    100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}
+}
+#application {
+    background-image: url(../images/snowflake.png), url(../images/snowflake3.png), url(../images/snowflake2.png);
+    height: 100%;
+    animation: snow 20s linear infinite;
+}
+
+
+.logo{
+    margin-left: -4px;
+    max-width: 100%;
+    min-width: 99%;
+    /* max-height: 56%; */
+    min-height: 12%;
+}
+
+.menu {
+    background: url("../images/banner.png") no-repeat;
+    width: 543px;
+    background-size: contain;
+    height: 591px;
+    margin: -40px auto auto;
+}
+
 
 @viewport {
     width: 780px;
@@ -26,26 +56,7 @@ html {
     border: 2px solid red;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-.buttonBack {
-    display: inline-block;
-    color: white;
-    outline: none;
-    border: 2px solid;
-    border-radius: 100px;
-    transition: 0.2s;
-    background-size: cover;
-    font-family: fantasy;
-    position: absolute;
-    padding: 30px;
-    background-image: url(../images/arrow.jpg);
-    top: 10%;
-    left: 1%;
-    font-size: 250%;
-    cursor: pointer;
-}
-.buttonBack:hover {
-    background: green;
-}
+
 .logout {
     font-family: fantasy;
     text-transform: uppercase;
@@ -71,32 +82,32 @@ html {
     left: 40%;
 }
 
-@media screen and (max-width: 600px) {
-    .buttonBack {
-        padding: 20px;
-        top:17%;
+@media screen and (min-width: 960px) and (max-width: 1280px) and (orientation: landscape) {
+    html{
+        overflow-x: hidden;
     }
-    html {
-        background-size:auto;
+    .logo {
+        width: 960px;
+        height: 190px;
     }
-}
-
-@media screen and (min-width: 640px) and (max-width: 900px) and (min-height:1000px ) {
-    .buttonBack {
-        top:12%;
+    .for-wall__img{
+        margin-left: 22%;
     }
-}
-
-@media screen and (max-width: 640px) and (orientation: landscape) {
-    html {
-        background-size:auto;
+    .notfound{
+        left: 31%;
     }
 }
 
-@media screen and (min-width: 960px) and (orientation: landscape) {
-    html {
-        background-size:auto;
+@media (min-width: 481px) and (max-width: 767px) and (orientation: landscape) {
+    .logo {
+        width: 100vw;
+        height: 40vh;
+    }
+
+    .for-wall__img {
+        margin-top: 14%;
+        margin-left: 28%;
+        width: 49vw;
+        height: 197vh;
     }
 }
-
-

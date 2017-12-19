@@ -22,38 +22,26 @@ const fieldPrototypes = [
         type: 'submit',
         attributes: {
             value: 'COMPLEATE',
-            //formmethod:'post'
         }
     }
 ];
 
 class Login extends Block {
     constructor() {
-        super('form', ['login-form']);
+        super('form', ['login']);
         fieldPrototypes.forEach((fieldPrototype) => {
             this.appendChildBlock(fieldPrototype.attributes.name,
                 new Input(fieldPrototype.type, ['field'], fieldPrototype.attributes));
         });
-        const buttonBack = "buttonBack";
-        this.appendChildBlock("buttonBack",
-            new Block('a', [buttonBack]));
-
-
-
     }
 
     creation() {
 
-        let test = document.querySelector('div.wrapper');
-        if (test.childNodes[0] !== undefined) {
-            test.removeChild(test.childNodes[0])
+        const wrappe = document.querySelector('div.menu');
+        if (wrappe.childNodes[0] !== undefined) {
+            wrappe.removeChild(wrappe.childNodes[0])
         }
-        test.appendChild(this._element);
-
-        let navigator = document.querySelector('a.buttonBack');
-        navigator.addEventListener('click', () => {
-            new Router().go('/')
-        });
+        wrappe.appendChild(this._element);
     }
 
     onSubmit(callback) {

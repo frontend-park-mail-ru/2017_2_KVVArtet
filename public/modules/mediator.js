@@ -22,9 +22,11 @@ export default class Mediator {
 
     publish(name, payload = null) {
         if (!this.channels.get(name)) {
+            console.log('dont-work')
             return;
         }
         this.channels.get(name).forEach(func => {
+            console.log('work')
             func(payload);
         });
     }

@@ -1,37 +1,43 @@
 import Block from '../baseview';
 import './info.scss';
-import Router from '../../modules/router';
 
-
-const infoBlock = "textBlock";
 const buttonBack = "buttonBack";
-
+const authors = [
+    {
+        name: "Kirill",
+        link:"https://github.com/KCherkasov"
+    },
+    {
+        name: "Veniamin",
+        link:"https://github.com/WorldVirus"
+    },
+    {
+        name: "Vlad",
+        link:"https://github.com/torrentino555"
+    },
+    {
+        name: "Artur",
+        link: "https://github.com/zonder129"
+    }
+];
 class Info extends Block {
     constructor() {
-        super('div', ['info'], {});
-        this.createChildren();
-        return this;
-    }
-
-    createChildren() {
-            this.appendChildBlock("first",
-                new Block('div', [infoBlock]).setText("TextBlock"));
-
-            this.appendChildBlock("buttonBack",
-                new Block('a', [buttonBack]));
+        super('ul', ['info'], {});
     }
 
     creation() {
+        const wrape = document.querySelector('div.menu');
 
-        let test = document.querySelector('div.wrapper');
-        if (test.childNodes[0] !== undefined) {
-            test.removeChild(test.childNodes[0])
+        if (document.querySelector('div.menu').childNodes[0] !== undefined) {
+            document.querySelector('div.menu').removeChild(document.querySelector('div.menu').childNodes[0]);
         }
-        test.appendChild(this._element);
+        wrape.appendChild(this._element);
 
-        let navigator = document.querySelector('a.buttonBack');
-        navigator.addEventListener('click', () => {
-            new Router().go('/')
+        authors.forEach((i) => {
+            this.appendChildBlock('li',new Block('li', [i.name]));
+            let but  =  document.querySelector('li.' + i.name);
+            but.innerHTML = `<a>${i.name}</a>`;
+            but.querySelector('a').setAttribute('href',i.link);
         });
     }
 

@@ -1,4 +1,7 @@
 'use strict'
+
+import Mediator from '../modules/mediator'
+
 export default class Transport {
     constructor() {
         if (Transport.__instance) {
@@ -10,14 +13,18 @@ export default class Transport {
 
 
         this.mediator = new Mediator;
-        this.url = "wss:https://kvvartet2017.herokuapp.com/game/";
+        this.url = "wss:https://kvvartet2017.herokuapp.com/game";
         this.ws = new WebSocket(this.url);
-
+        this.open();
     }
+
     open() {
         this.ws.onopen = function (event) {
             this.connected = true;
-            this.ws.onmessage = this.handleMessage.bind(this);
+            this.ws.onmessage = function(event) {
+                this.handleMessage(event).bind(this);
+            };
+
             this.interval = setInterval(
                 (() => {
                     this.send("UPDATE");
@@ -33,6 +40,7 @@ export default class Transport {
 
     send(type, payload) {
         if (!this.connected) {
+            console.log('websockets_dont_work_');
             setTimeout(() => {
                 if (this.count > 20) {
                     return;
@@ -42,8 +50,13 @@ export default class Transport {
             }, 1000)
         }
         else {
-            this.ws.send(JSON.stringify({type: type, content: payload}));
+            console.log('websockets_work_');
+            this.ws.send(JSON.stringify({class: type, content: payload}));
         }
+    }
+
+    handleMessage(jsonMessage) {
+        this.mediator.publish(jsonMessage.class, jsonMessage);
     }
 
     close() {

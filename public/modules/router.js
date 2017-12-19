@@ -1,6 +1,6 @@
 import {signin ,signup }from  '../views/main'
 
-export default  class Router{
+export default  class Router {
 
     constructor() {
         if (Router.__instance) {
@@ -25,14 +25,14 @@ export default  class Router{
 
         document.body.addEventListener('click', event => {
 
-            if (event.target.tagName.toLowerCase() === 'a' ) {
-
+            if (event.target.tagName.toLowerCase() === 'li' ) {
                 event.preventDefault();
                 const element = event.target;
                 const pathname = element.getAttribute('value');
 
                 if (pathname !== null) {
-                    this.go(pathname);
+                    console.log('secondwork')
+                   this.go(pathname);
                 }
             }
         });
@@ -40,10 +40,16 @@ export default  class Router{
     }
 
     go(path) {
-        let view = this.routes.get(path);
+        const view = this.routes.get(path);
         if (!view) {
             document.body.innerHTML = '<h class="notfound"> We didnot do such page )';
             return;
+        }
+
+        if ((window.innerHeight > window.innerWidth) && ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)))
+        {
+            alert('It is game only for laptop view');
+            return ;
         }
 
         if (window.location.pathname !== path) {

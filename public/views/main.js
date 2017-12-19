@@ -5,39 +5,42 @@ import LoginValidate from '../blocks/autheficate/loginAuth';
 
 import Router from "../modules/router";
 
-
 import UserService from '../servises/user-service';
-
+import Mediator from '../modules/mediator'
 const userService = new UserService();
+
 const application = new Block(document.getElementById('application'));
 
-const gameName = new Block('div', ['game-name']);
 const wrapper = new Block('div', ['wrapper']);
-const game = new Block('div', ['game']);
 
-application.appendChildBlock('game-name', gameName);
-gameName.appendChildBlock('game-name', new Block('div', ['main']).setText('Lands & Dungeons'));
-application.appendChildBlock('wrapper', wrapper);
+ const images = "logo";
+application.appendChildBlock("logo",
+    new Block('img', [images]));
 
+const logo = document.querySelector('img.logo');
+logo.setAttribute('src','../images/logo2.png');
+
+application.appendChildBlock('application', wrapper);
+wrapper.appendChildBlock('menu',new Block('div',['menu']))
 
  function signin(login) {
-
     login.onSubmit((formdata) => {
         const authValidation = LoginValidate(formdata[0], formdata[1]);
         console.log(formdata[0], formdata[1]);
         if (authValidation === false) {
             return;
         }
-        userService.signin(formdata[0], formdata[1])
+        userService.login(formdata[0], formdata[1])
             .then(() => new Router().go('/game'))
-            .then(() => game.appendChildBlock('game', new Block('a', ['logout']).setText('logout')))
             .then(() => {
-                let logout = document.querySelector('a.logout');
+                let logout = document.querySelector('a.back');
                 logout.addEventListener('click', function () {
-                    userService.logout()
-                    new Router().go('/')
+                    document.querySelector('div.choose').remove();
+                    userService.logout();
+                    new Router().go('/');
                 })
             })
+            .then (() => new Mediator().publish('VIEW_LOAD'))
     });
 }
 
@@ -49,17 +52,19 @@ application.appendChildBlock('wrapper', wrapper);
          }
          userService.signup(formdata[0], formdata[1], formdata[2])
              .then(() => new Router().go('/game'))
-             .then(() => game.appendChildBlock('game', new Block('a', ['logout']).setText('logout')))
-             .then(() => {
-                 let logout = document.querySelector('a.logout');
-                 logout.addEventListener('click', function () {
+              .then(() => {
+                  let logout = document.querySelector('a.back')
+                  logout.addEventListener('click', function () {
+                      console.log('back_work')
+                     document.querySelector('div.choose').remove();
                      userService.logout()
                      new Router().go('/')
                  })
              })
-
+            .then (() => new Mediator().publish('VIEW_LOAD'))
      });
  }
+
 
 export {signup,signin};
 
