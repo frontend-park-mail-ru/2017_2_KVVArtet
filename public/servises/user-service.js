@@ -46,21 +46,21 @@ class UserService {
      * Выход пользователя
      * @return {Promise}
      */
-    logout() {
-        return Http.Delete('/signout', {});
+    logout(username,password) {
+        console.log('logout work')
+        return Http.Delete('/signout', {username,password});
     }
 
 
     /**
-     * Загружает данные о текущем пользователе
+     * Загружает scoreboard
      * @return {Promise}
      */
-    /*getData() {
-        return Http.Post('/session')
-            .then(userdata => {
-                return userdata;
-            });
-    }*/
+
+
+    scores() {
+        return Http.Get('/scoreboard');
+    }
 
 }
 

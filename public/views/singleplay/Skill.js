@@ -9,7 +9,7 @@ export default class Skill{
     }
 
 
-    createSkill(name, description, typeOfArea, area, damage, cooldown) {
+    createSkill(name, description, typeOfArea, area, damage, cooldown){
         this.name = name;
         this.description = description;
         this.typeOfArea = typeOfArea;

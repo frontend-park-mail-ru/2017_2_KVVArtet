@@ -30,13 +30,14 @@ wrapper.appendChildBlock('menu',new Block('div',['menu']))
         if (authValidation === false) {
             return;
         }
-        userService.login(formdata[0], formdata[1])
+
+       userService.login(formdata[0], formdata[1])
             .then(() => new Router().go('/game'))
             .then(() => {
                 let logout = document.querySelector('a.back');
                 logout.addEventListener('click', function () {
                     document.querySelector('div.choose').remove();
-                    userService.logout();
+                    userService.logout(formdata[0],formdata[1]);
                     new Router().go('/');
                 })
             })
@@ -57,7 +58,7 @@ wrapper.appendChildBlock('menu',new Block('div',['menu']))
                   logout.addEventListener('click', function () {
                       console.log('back_work')
                      document.querySelector('div.choose').remove();
-                     userService.logout()
+                      userService.logout(formdata[0],formdata[2]);
                      new Router().go('/')
                  })
              })

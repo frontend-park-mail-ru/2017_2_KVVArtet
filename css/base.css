@@ -1,5 +1,8 @@
 html {
+    /*  background: url(../images/back_with_logo.png) no-repeat 50% fixed;*/
     background-color: #281d1f;
+    /* background-size: auto;*/
+    /*background: url(../images/back_start.png) no-repeat 10% fixed;*/
     -webkit-text-size-adjust: none;
     text-size-adjust: none;
     overflow-x: hidden;
@@ -7,12 +10,13 @@ html {
 }
 
 
+
 @keyframes snow {
     0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
     100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}
 }
 #application {
-    background-image: url(../images/snowflake.png), url(../images/snowflake3.png), url(../images/snowflake2.png);
+    background-image: url(../public/images/snowflake.png), url(../public/images/snowflake3.png), url(../public/images/snowflake2.png);
     height: 100%;
     animation: snow 20s linear infinite;
 }
@@ -27,7 +31,7 @@ html {
 }
 
 .menu {
-    background: url("../images/banner.png") no-repeat;
+    background: url("../public/images/banner.png") no-repeat;
     width: 543px;
     background-size: contain;
     height: 591px;

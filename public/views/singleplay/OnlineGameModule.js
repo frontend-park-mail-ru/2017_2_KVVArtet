@@ -31,16 +31,16 @@ export default class OnlineGameModule {
             this.characterListResponse(event).bind(this);
         });
         this.mediator.subscribe("ActionResponseMessage", (event) => {
-            this.actionResponse(event).bind(this);
+            this.actionResponse(event).bind(this)
         });
         this.mediator.subscribe("LobbyResponseMessage", (event) => {
-            this.lobbyResponse(event).bind(this);
+            this.lobbyResponse(event).bind(this)
         });
         this.mediator.subscribe("NextRoomResponseMessage", (event) => {
-            this.nextRoomResponse(event).bind(this);
+            this.nextRoomResponse(event).bind(this)
         });
         this.mediator.subscribe("StayInLineResponseMessage", (event) => {
-            this.stayInLineResponse(event).bind(this);
+            this.stayInLineResponse(event).bind(this)
         });
     }
 
@@ -73,42 +73,17 @@ export default class OnlineGameModule {
         let action = new Action();
         action.sender = content.sender;
         action.target = content.target;
-        action.ability = content.properties;
-        switch(content.type){
-            case "ApplyEffectEvent":
-                break;
-            case "CastEvent":
-                break;
-            case "EndTurnEvent":
-                this.skipAction();
-                break;
-            case "HitpointsChangeEvent":
-                let amount = content.type.HitpointsChangeEvent.amount;
-                if(amount >=0) {
-                    this.makeDamage(action, amount);
-                } else {
-                    this.makeHill(action, amount);
-                }
-                break;
-            case "MoveEvent":
-                let route = content.type.ApplyEffectEvent.route; //test how it will be
-                this.makeMove(action, route);
-                break;
-            case "RewardEvent":
-                break;
-            case "RollbackEvent":
-                break;
-            default:
-                console.log("wrong type of event");
-                break;
-        }
+        action.ability = content.ability;
+        //TODO events = content.events
+        //TODO обработка действий как в геймлупе
     }
 
 
     lobbyResponse(content) {
         if(content.message === "success"){
-           this.gamePreRender();
+            this.gamePreRender();
         } else {
+            //TODO setTimeout
             this.messageRequest("LobbyRequestMessage");
         }
     }
@@ -132,12 +107,10 @@ export default class OnlineGameModule {
         this.setEnemiesPositions(this.enemies);
         console.log('Everyone on positions: ');
         //отрисовка персонажей
-
         for (let i = 0; i < this.PARTYSIZE + this.ENEMIESSIZE; i++) {
             console.log(this.enemies);
             this.gameManager.unitManager.addUnit(this.initiativeLine.queue[i]);
         }
-
         this.activeUnit = this.initiativeLine.CurrentUnit();
         console.log(this.activeUnit.name + ' - let\'s start with you!');
         this.gameManager.unitManager.activeUnit(this.activeUnit);
@@ -149,46 +122,12 @@ export default class OnlineGameModule {
 
 
     gameLoop() {
-        if (!this.isPartyDead() && !this.isEnemiesDead()) {
-            if (global.actionDeque.length > 0) {
-                console.log('action begin');
-
-                this.messageRequest("ActionRequestMessage", global.actionDeque.shift());
-                this.activeUnit.actionPoint = 1;
-                // this.activeUnit.actionPoint--;
-                // let action = global.actionDeque.shift();
-                // if (action.isMovement() && !action.target.isOccupied()) {
-                //     this.makeMove(action);
-                //     // } else if (action.isPrepareAbility()) {
-                //     //     this.makePrepareAbility(action);
-                // } else if (action.isAbility()) {
-                //     console.log('this is ability: ' + action.ability.name);
-                //     if (action.ability.damage[1] < 0) {
-                //         this.makeHill(action);
-                //     } else if (action.ability.damage[1] > 0) {
-                //         this.makeDamage(action);
-                //     }
-                // } else if (action.isSkip()) {
-                //     this.skipAction();
-                // }
-                //
-                // if(this.activeUnit.actionPoint === 1) {
-                //     this.sendPossibleMoves();
-                // }
-            }
-            //
-            // if (this.activeUnit.actionPoint === 0 || Math.ceil(this.timer / 1000) === 0 || this.activeUnit.isDead()){
-            //     this.skipAction();
-            // }
-        } else {
-            if (this.isPartyDead()) {
-                this.loseGame();
-            }
-
-            if (this.isEnemiesDead()) {
-                this.winGame();
-            }
+        this.timer -= this.interval;
+        let sec = Math.ceil(this.timer/1000);
+        if (sec < 10) {
+            sec = '0' + sec;
         }
+        document.getElementById('time').innerHTML = '00:' + sec;
     }
 
     // makePrepareAbility(action) {
@@ -196,22 +135,105 @@ export default class OnlineGameModule {
     //     }
     // }
 
-    makeMove(action, route) {
-        this.gameManager.animtaionManager.movingTo(action.sender, route);
+    makeMove(action) {
+        console.log(action.sender.getInhabitant().name + ' make move from [' + action.sender.xpos + ',' + action.sender.ypos + ']' + ' to [' + action.target.xpos + ',' + action.target.ypos + ']');
+        let toMove = action.sender.getInhabitant();
+        let pathfinding = new Pathfinding(action.sender, global.tiledMap);
+        let allMoves = pathfinding.possibleMoves();
+        let path = [];
+        let currentTile = action.target;
+        while (allMoves.get(currentTile) !== null) {
+            path.push(currentTile);
+            console.log('current tile - [' + currentTile.xpos + ']' + '[' + currentTile.ypos + ']');
+            currentTile = allMoves.get(currentTile);
+        }
+        console.log(path);
+        this.gameManager.animtaionManager.movingTo(action.sender, path);
+        action.sender.unoccupy();
+        action.target.occupy(toMove);
+        this.activeUnit.xpos = action.target.xpos;
+        this.activeUnit.ypos = action.target.ypos;
+        console.log('check on unoccupy: ' + action.sender.isOccupied());
+        console.log('check on occupy: ' + action.target.isOccupied());
     }
 
-    makeHill(action, amount) {
-        action.target.getInhabitant().healthpoint += amount;
-        this.gameManager.unitManager.unitAttack(action.ability.name, action.sender, action.target, [action.target.getInhabitant()]);
-    }
-
-    makeDamage(action, amount) {
-        action.target.getInhabitant().healthpoint -= amount;
-        if(action.target.getInhabitant().healthpoint > 0) {
-            this.gameManager.unitManager.unitAttack(action.ability.name, action.sender, action.target, [action.target]);
+    makeHill(action) {
+        let healedAllies = [];
+        //AOE HILL
+        if(action.ability.typeOfArea === 'circle') {
+            console.log('THIS IS AOE HILL');
+            for(let i = action.target.xpos-action.ability.area; i <= action.target.xpos + action.ability.area; i++) {
+                for(let j = action.target.ypos-action.ability.area; j <= action.target.ypos + action.ability.area; j++) {
+                    if(i >= 0 && j >= 0 && i < this.WIDTH && j < this.HEIGHT) {
+                        console.log('WTF is ' + i + ' ' + j);
+                        if(global.tiledMap[i][j].isOccupied() && global.tiledMap[i][j].getInhabitant().type === action.sender.getInhabitant().type) {
+                            console.log('this is AOE hill on someone: ' + i + ' ' + j);
+                            healedAllies.push(global.tiledMap[i][j].getInhabitant());
+                            action.sender.getInhabitant().useHealSkill(global.tiledMap[i][j].getInhabitant(), action.ability);
+                            console.log('health end: ' +global.tiledMap[i][j].getInhabitant().healthpoint);
+                        }
+                    }
+                }
+            }
         } else {
-            this.gameManager.unitManager.unitAttackAndKill(action.ability.name, action.sender, action.target, [action.target], []);
-            this.initiativeLine.RemoveUnit(action.target);
+            action.sender.getInhabitant().useHealSkill(action.target.getInhabitant(), action.ability);
+            healedAllies.push(action.target.getInhabitant());
+            console.log('health end: ' + action.target.getInhabitant().healthpoint);
+        }
+        this.gameManager.unitManager.unitAttack(action.ability.name, action.sender, action.target, healedAllies);
+    }
+
+    makeDamage(action) {
+        let woundedEnemies = [];
+        let deadEnemies = [];
+        console.log(action.sender.getInhabitant().name + ' make damage');
+        console.log('this is damage: ' + action.ability.name);
+        // console.log("health begin: " + action.target.getInhabitant().healthpoint);
+
+        //AOE DAMAGE
+        if(action.ability.typeOfArea === 'circle') {
+            console.log('THIS IS AOE DAMAGE');
+            console.log('target on ' + action.target.xpos + ' ' + action.target.ypos);
+            for(let i = action.target.xpos-action.ability.area; i <= action.target.xpos + action.ability.area; i++) {
+                for(let j = action.target.ypos-action.ability.area; j <= action.target.ypos + action.ability.area; j++) {
+                    console.log("i: " + i + " j: " + j);
+                    if(i >= 0 && j >= 0 && i < this.WIDTH && j < this.HEIGHT) {
+                        if(global.tiledMap[i][j].isOccupied() && global.tiledMap[i][j].getInhabitant().deadMark === false) {
+                            console.log(global.tiledMap[i][j].getInhabitant().name + " IS WOUNDED");
+                            action.sender.getInhabitant().useDamageSkill(global.tiledMap[i][j].getInhabitant(), action.ability);
+                            if (global.tiledMap[i][j].getInhabitant().isDead()) {
+                                deadEnemies.push(global.tiledMap[i][j].getInhabitant());
+                                global.tiledMap[i][j].getInhabitant().deadMark = true;
+                            } else {
+                                woundedEnemies.push(global.tiledMap[i][j].getInhabitant());
+                            }
+                            //console.log("health end: " + action.target.getInhabitant().healthpoint);
+                        }
+                    }
+
+                }
+            }
+
+        } else {
+            action.sender.getInhabitant().useDamageSkill(action.target.getInhabitant(), action.ability);
+            if(action.target.getInhabitant().isDead()) {
+                deadEnemies.push(action.target.getInhabitant());
+            } else {
+                woundedEnemies.push(action.target.getInhabitant());
+            }
+            console.log('health end: ' + action.target.getInhabitant().healthpoint);
+        }
+
+        if (deadEnemies.length > 0) {
+            // console.log(action.target.getInhabitant().name + " IS DEAD");
+
+            this.gameManager.unitManager.unitAttackAndKill(action.ability.name, action.sender, action.target, deadEnemies, woundedEnemies);
+            for(let i = 0; i < deadEnemies.length; i++) {
+                this.initiativeLine.RemoveUnit(deadEnemies[i]);
+            }            //graph.deleteFromLowBar(action.target.getInhabitant().barIndex);
+        } else {
+            console.log('SOMEONE GET WOUNDED: ', woundedEnemies);
+            this.gameManager.unitManager.unitAttack(action.ability.name, action.sender, action.target, woundedEnemies);
         }
     }
 
@@ -330,6 +352,7 @@ export default class OnlineGameModule {
     }
 
     skipAction() {
+        this.timer = 30000;
         this.beginTurn();
     }
 
@@ -346,6 +369,9 @@ export default class OnlineGameModule {
 
     beginTurn() {
         this.activeUnit = this.initiativeLine.NextUnit();
+        console.log('This turn: ');
+        console.log(this.initiativeLine.ShowEveryoneInLine());
+        console.log(this.activeUnit.name + ' = now your move! Cause initiative:' + this.activeUnit.initiative);
         this.activeUnit.actionPoint = 2;
         this.gameManager.unitManager.activeUnit(this.activeUnit);
         this.sendPossibleMoves();
