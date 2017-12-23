@@ -1,0 +1,173 @@
+{
+  "name": "Lands & Dungeous",
+  "short_name": "lands-dungeous",
+  "description": "Пошаговая рпг ",
+  "lang": "en-En",
+  "start_url": "/",
+  "scope": "/",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "textures": [
+    {
+      "src": "images/backGround.png",
+      "sizes": "1920x1080",
+      "type": "image/png"
+    },
+    {
+      "src": "images/arrow.jpg",
+      "sizes": "338x338",
+      "type": "image/jpg"
+    },
+    {
+      "src": "views/singleplay/textures/background.png",
+      "sizes": "1920x1080",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/textures/hourglass.png",
+      "sizes": "204x297",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/textures/grid.png",
+      "sizes": "1121x846",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/textures/initiativeLine.png",
+      "sizes": "1100x97",
+      "type": "image/png"
+    },
+    {
+      "src":"views/singleplay/textures/grid.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/textures/wall.jpg",
+      "sizes": "64x64",
+      "type": "image/jpg"
+    },
+    {
+      "src": "views/singleplay/textures/grass.jpg",
+      "sizes": "64x64",
+      "type": "image/jpg"
+    },
+    {
+      "src": "views/singleplay/textures/select.jpg",
+      "sizes": "64x64",
+      "type": "image/jpg"
+    }
+  ],
+
+  "icons": [
+    {
+      "src": "views/singleplay/icons/fireball.png",
+      "sizes": "800x318",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/icons/lighting.png",
+      "sizes": "546x597",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/icons/thunderball.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/icons/fullscreen.png",
+      "sizes": "200x200",
+      "type": "image/png"
+    },
+    {
+      "src":"views/singleplay/icons/magic arrow.png",
+      "sizes": "380x380",
+      "type": "image/png"
+    }
+  ],
+
+  "enity": [
+    {
+      "src": "views/singleplay/enity/mage.png",
+      "sizes": "800x318",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/enity/mage_portait.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/enity/priest.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/enity/priest_portait.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/enity/sceleton1.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/enity/sceleton2.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/enity/thief.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/enity/warrior.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    }
+  ],
+
+  "animations": [
+    {
+      "src": "views/singleplay/animations/attack.png",
+      "sizes": "960x384",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/animations/blade_flurry.png",
+      "sizes": "960x768",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/animations/Fire 5.png",
+      "sizes": "960x768",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/animations/fireball.png",
+      "sizes": "1536x536",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/animations/healing.png",
+      "sizes": "960x960",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/animations/holly_wrath.png",
+      "sizes": "960x960",
+      "type": "image/png"
+    },
+    {
+      "src": "views/singleplay/animations/thunderbolt.png",
+      "sizes": "800x318",
+      "type": "image/png"
+    }
+  ],
+
+  "splash_pages": null
+}

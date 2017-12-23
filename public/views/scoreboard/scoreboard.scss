@@ -1,0 +1,35 @@
+
+.score{
+  color: #FAE7B5;
+}
+table{
+  background-color: #731509;
+  border-radius: 73px;
+  font-size: 2.1em;
+  width: 50%;
+  color: black;
+  padding: 10px;
+  border-spacing: 66px;
+  margin-left: 360px;
+}
+
+table th{
+  color:#c58818;
+}
+table tr:hover {
+  color: green;
+}
+
+table.animated-button.thar-four:before {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 0px;
+  z-index: -1;
+  content: '';
+  color: #000 !important;
+  background: #F7CA18;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}

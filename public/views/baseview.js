@@ -2,7 +2,7 @@
  * Модуль, реализующий общее поведение для каждого блока
  * @module Block
  */
-class Generator {
+class Block {
     constructor(...args) {
         this._eventsListening = [];
         this._childBlocks = {};
@@ -22,6 +22,7 @@ class Generator {
         } else if (args[0] instanceof Node) {
             this._element = args[0];
         }
+        this.template = null;
     }
 
     setText(text) {
@@ -44,8 +45,11 @@ class Generator {
     }
 
     on(event, callback) {
+        console.log('on inside')
         if (this._eventsListening.indexOf(event) === -1) {
             this._element.addEventListener(event, callback);
+            console.log('on works')
+
             this._eventsListening.push(event);
         }
     }
@@ -68,4 +72,4 @@ class Generator {
 
 }
 
-export default Generator;
+export default Block;
