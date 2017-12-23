@@ -30,4 +30,5 @@ Dungeon crawler. Город с вендорами выступает в каче
 ## Howto run frontend
 
 npm install
+
 start: npm run imgo && npm run build && node ./public/server.js
