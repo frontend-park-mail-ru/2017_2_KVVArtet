@@ -10,6 +10,7 @@ import Scoreboard from './views/scoreboard/scoreboard';
 
 import SinglePlay from "./views/singleplay/web";
 import Choose from "./views/multiplayer/registration-module/charlist";
+import GameType from "./views/multiplayer/choose/choose";
 function requireAll(r) { r.keys().forEach(r); }
 require('./views/main.js');
 require('../css/base.css');
@@ -27,6 +28,8 @@ const info = new Info();
 const single = new SinglePlay();
 const choose = new Choose();
 const scoreboard = new Scoreboard();
+const typeGame = new GameType();
+
 
 
 // navigator.serviceWorker.register("/service_worker.js", { scope: "/" })
@@ -45,5 +48,6 @@ router.register('/', mainMenu)
     .register('/singleplay',single )
     .register('/game',choose)
     .register('/scoreboard',scoreboard)
+    .register('/mode',typeGame)
     .navigate();
 

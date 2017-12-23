@@ -6,7 +6,7 @@ import './custom-module.scss'
         super('div', ['win'], {});
     }
 
-    creation() {
+    creation(text) {
         const wrape = document.querySelector('div.wrapper');
 
         wrape.appendChild(this._element);
@@ -14,11 +14,11 @@ import './custom-module.scss'
         const visible  = new Block('div',['visible']);
         this.appendChildBlock('div',overlay);
         this.appendChildBlock('div',visible);
-        document.querySelector('div.visible').innerHTML = `<h3>Sorry, it is game only for laptop view !</h3>`;
+        document.querySelector('div.visible').innerHTML = `<h3>${text}</h3>`;
         visible.appendChildBlock('p',new Block('p',['link']));
         const button = document.querySelector('p');
-        button.innerHTML = `<a>Close</a>`
-        document.querySelector('a').addEventListener('click',() => {
+        button.innerHTML = `<a class="remove">Close</a>`
+        document.querySelector('a.remove').addEventListener('click',() => {
             document.querySelector('div.win').remove();
         })
          // visible.appendChildBlock()

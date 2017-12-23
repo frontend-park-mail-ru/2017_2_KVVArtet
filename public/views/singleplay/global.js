@@ -6,3 +6,4 @@ global.mapShiftX = -0.7;
 global.mapShiftY = 0.65;
 global.ratio = 16/9;
 global.countLines = 0;
+global.load = false;

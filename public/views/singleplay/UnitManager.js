@@ -195,8 +195,7 @@ export default class UnitManager {
             let yMin = (1 - global.mapShiftY)/2;
             let yMax = yMin + 0.8;
             console.log('onmousedown STATE: ' + this.state.state);
-            if (window.location.pathname === '/singleplay'){
-            if (event.which === 1 && x >= xMin && x < xMax && y >= yMin && y < yMax && document.getElementById('win').style.display === 'none' && !this.state.state) {
+            if (event.which === 1 && x >= xMin && x < xMax && y >= yMin && y < yMax && document.getElementById('win').style.display === 'none' && document.getElementsByClassName('settings')[0].style.display === 'none' && !this.state.state) {
                 let i = Math.floor(((x - xMin) / 0.6) / (1 / 16));
                 let j = Math.floor(((y - yMin) / 0.8) / (1 / 12));
                 if (global.tiledMap[i][j].active || this.massiveSkill) {
@@ -209,12 +208,12 @@ export default class UnitManager {
                         this.deleteLastActiveTiles();
                     }
                 }
-            } else if (event.which === 1 && x >= 0.33 && x <= 0.675 && y >= 0 && y <= 0.07) {
+            } else if (event.which === 1 && x >= 0.33 && x <= 0.675 && y >= 0 && y <= 0.07 && document.getElementById('win').style.display === 'none' && document.getElementsByClassName('settings')[0].style.display === 'none') {
                 let i = Math.floor((x - 0.33)/(0.35/10));
                 this.setCurrentSkill(i);
             }
             return false;
-        }}.bind(this);
+        }.bind(this);
     }
 
     setCurrentSkill(i, path) {

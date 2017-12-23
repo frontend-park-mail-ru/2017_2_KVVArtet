@@ -6,6 +6,7 @@ html {
     -webkit-text-size-adjust: none;
     text-size-adjust: none;
     overflow-x: hidden;
+    height: 100%;
 
 }
 
@@ -37,6 +38,25 @@ html {
     height: 591px;
     margin: -40px auto auto;
 }
+.user{
+    top: 31%;
+    margin-left: 80%;
+    position: relative;
+    z-index: 2;
+padding: 10px;
+text-align: center;
+max-width: 99px;
+font-size: 20px;
+border: 4px ridge black;
+cursor: pointer;
+    background: green;
+transition: 3s linear;}
+.user:hover {
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+    border-radius:2px ;
+}
+
 
 
 @viewport {

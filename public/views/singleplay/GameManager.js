@@ -79,6 +79,7 @@ export default class GameManager {
                         this.animtaionManager = new AnimationManager(animation, this.spriteManager, this.activeTile, this.actionPoint, this.state, animations, this.textures[7]);
                         this.unitManager = new UnitManager(animation, this.animtaionManager, this.spriteManager, this.activeTile, this.actionPoint, this.state, entities, textures, conditions);
                         this.engine.render();
+                        global.load = true;
                     }, callback);
                 });
             });
@@ -86,9 +87,7 @@ export default class GameManager {
     }
 
     initEvents() {
-        // if (window.location.pathname === '/singleplay') {
         this.mouseMoveListener = document.addEventListener('mousemove', function(event) {
-           // if (window.location.pathname === '/singleplay') {
             let x = event.clientX / window.innerWidth;
             let y = event.clientY /window.innerHeight;
             let xMin = (1 + global.mapShiftX)/2;
@@ -99,8 +98,7 @@ export default class GameManager {
                 this.spriteManager.deleteSprite(tile);
             }.bind(this));
             this.tiles = [];
-            if (window.location.pathname === '/singleplay'){
-            if (x >= xMin && x < xMax && y >= yMin && y < yMax && document.getElementById('win').style.display === 'none' && !this.state.state ) {
+            if (x >= xMin && x < xMax && y >= yMin && y < yMax && document.getElementById('win').style.display === 'none' && document.getElementsByClassName('settings')[0].style.display === 'none' && !this.state.state) {
                 let i = Math.floor(((x - xMin) / 0.6) / (1 / 16));
                 let j = Math.floor(((y - yMin) / 0.8) / (1 / 12));
                 if (i !== this.lastI && j !== this.lastJ && i < 16 && j < 12 && this.unitManager.massiveSkill) {
@@ -120,30 +118,34 @@ export default class GameManager {
                     this.spriteManager.getSprite(this.activeElem).setTrans([-2, -2]);
                 }
             }
-        }}.bind(this));
+        }.bind(this));
         this.clickListener = document.addEventListener('click', (event) => {
             let x = event.clientX / this.engine.gl.canvas.clientWidth;
             let y = event.clientY / this.engine.gl.canvas.clientHeight;
-            if (x >= 0.95 && y >= 0.95) {
-                console.log(event.clientX + ' ' + event.clientY);
-                if (!this.fullScreen && window.location.pathname === '/singleplay') {
-                    document.documentElement.mozRequestFullScreen();
-                    this.fullScreen = true;
-                } else if (window.location.pathname === '/singleplay') {
-                    document.mozCancelFullScreen();
-                    this.fullScreen = false;
-                }
-            }
-            if (x>=0.2 && x <=0.3 && y<=0.05) {
+            if (x>=0.2 && x <=0.3 && y<=0.05 && document.getElementById('win').style.display === 'none' && document.getElementsByClassName('settings')[0].style.display === 'none') {
                 let action = new Action();
                 action.sender = null;
                 action.target = null;
                 action.ability = null;
                 global.actionDeque.push(action);
+            } else if (x >= 0.94 && x <= 0.975 && y >= 0.015 && y <= 0.077222 && document.getElementById('win').style.display === 'none' && document.getElementsByClassName('settings')[0].style.display === 'none') {
+                document.getElementsByClassName('settings')[0].style.display = 'block';
+                let container = document.getElementsByClassName('container')[0];
+                container.className += ' overlay';
             }
         });
-
-}
+        document.getElementsByClassName('settings')[0].lastElementChild.firstElementChild.addEventListener('click', function() {
+            document.getElementsByClassName('settings')[0].style.display = 'none';
+            let container = document.getElementsByClassName('container')[0];
+            container.className = 'container';
+        });
+        document.getElementsByClassName('settings')[0].lastElementChild.lastElementChild.addEventListener('click', function() {
+            this.stop();
+        }.bind(this));
+        document.getElementsByClassName('settings')[0].lastElementChild.firstElementChild.nextElementSibling.addEventListener('click', function() {
+           this.stop();
+        }.bind(this));
+    }
 
     stop() {
         this.engine.loop = false;
@@ -186,6 +188,12 @@ export default class GameManager {
         chat.style.width = '23vw';
         global.chat = chat;
         document.getElementsByClassName('container')[0].appendChild(chat);
+
+        let settings = document.getElementsByClassName('settings')[0];
+        settings.style.top = Math.floor((window.innerHeight - settings.offsetHeight)/2) + 'px';
+        settings.style.left = Math.floor((window.innerWidth - settings.offsetWidth)/2) + 'px';
+
+        // document.body.style.background = '#000';
     }
     static log(text, color) {
         if (color === undefined) {

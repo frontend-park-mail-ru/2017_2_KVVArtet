@@ -25,13 +25,22 @@ export default  class Router {
 
         document.body.addEventListener('click', event => {
 
-            if (event.target.tagName.toLowerCase() === 'li' ) {
+            if (event.target.tagName.toLowerCase() === 'li'  ) {
                 event.preventDefault();
                 const element = event.target;
                 const pathname = element.getAttribute('value');
 
                 if (pathname !== null) {
                    this.go(pathname);
+                }
+            }
+            else if (event.target.tagName.toLowerCase() === 'a' && window.path.location !== '/info'){
+                event.preventDefault();
+                const element = event.target;
+                const pathname = element.getAttribute('value');
+
+                if (pathname !== null) {
+                    this.go(pathname);
                 }
             }
         });
@@ -48,7 +57,8 @@ export default  class Router {
         if ((window.innerHeight > window.innerWidth) && ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)))
         {
             const view  = new Custom();
-            view.creation();
+            const text = `It is game only for laptop view`;
+            view.creation(text);
             return ;
         }
 

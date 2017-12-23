@@ -1,7 +1,6 @@
 import Validate from '../blocks/forms/validation';
 
 const baseUrl = `${window.location.protocol}//${window.location.host}`;
-const dt = [{}]
 /**
  * Класс, предоставляющий методы для выполнения HTTP-запросов
  * @class Http
@@ -17,7 +16,7 @@ class Http {
         if (typeof window.fetch !== 'undefined') {
             return this._FetchGet(url);
         }
-        //   return this._GetXMLHttpRequest(url);
+     //   return this._GetXMLHttpRequest(url);
     }
 
     static Delete(address,body) {
@@ -39,7 +38,7 @@ class Http {
         const url = (Http.BaseUrl || baseUrl) + address;
         if (typeof window.fetch !== 'undefined') {
             console.log("function post work");
-            //  console.log(this._FetchPost(body, url))
+          //  console.log(this._FetchPost(body, url))
             return this._FetchPost(body, url);
         }
         return false;
@@ -59,7 +58,7 @@ class Http {
             xhr.onreadystatechange = function () {
                 if (xhr.readyState !== 4) return;
                 if (+xhr.status >= 400) {
-                    // alert(xhr.responseText);
+                   // alert(xhr.responseText);
                     reject(xhr);
                     return;
                 }
@@ -119,8 +118,8 @@ class Http {
 
                     return json.then(response => {throw response;});
                 }
-                json.then(function(dt) {
-                    dt = data
+            json.then(function(dt) {
+                   dt = data
                     console.log(dt.userID);
                 });
                 return json;
@@ -153,7 +152,8 @@ class Http {
                 }
                 else if (response.status >= 400){
                     Validate.userError();
-                    return false;
+                    let json = response.json();
+                    return json.then(response => {throw response;});
                 }
             })
     }

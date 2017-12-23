@@ -26,19 +26,37 @@ class Info extends Block {
     }
 
     creation() {
-        const wrape = document.querySelector('div.menu');
 
         if (document.querySelector('div.menu').childNodes[0] !== undefined) {
             document.querySelector('div.menu').removeChild(document.querySelector('div.menu').childNodes[0]);
         }
-        wrape.appendChild(this._element);
+        const wrape = document.querySelector('div.menu');
+        wrape.appendChild(document.createElement('ul'))
+        wrape.querySelector('ul').setAttribute('class','name')
+        wrape.querySelector('ul').setAttribute('class','info')
 
-        authors.forEach((i) => {
-            this.appendChildBlock('li',new Block('li', [i.name]));
-            let but  =  document.querySelector('li.' + i.name);
-            but.innerHTML = `<a>${i.name}</a>`;
-            but.querySelector('a').setAttribute('href',i.link);
-        });
+        for (let i = 0;i<4;++i) {
+            document.querySelector('ul.info').appendChild(document.createElement('li'));
+
+        }
+        let allButtons = document.getElementsByTagName('li');
+        for (let i = 0; i<4; ++i) {
+            allButtons[i].innerHTML = `<a>${authors[i].name}</a>`
+            allButtons[i].querySelector('a').setAttribute('href',authors[i].link)
+        }
+
+
+
+
+
+        // wrape.appendChild(this._element);
+        //
+        // authors.forEach((i) => {
+        //     this.appendChildBlock('li',new Block('li', [i.name]));
+        //     let but  =  document.querySelector('li.' + i.name);
+        //     but.innerHTML = `<a>${i.name}</a>`;
+        //     but.querySelector('a').setAttribute('href',i.link);
+        // });
     }
 
 }

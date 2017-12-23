@@ -1,7 +1,6 @@
 import Block from '../baseview';
 import './main-page.scss';
-const imageWall = "wall";
-const wrape = document.querySelector('div.menu');
+
 import DemoGameModule from '../singleplay/DemoGameModule'
 export const buttons = [
     {
@@ -35,7 +34,8 @@ export const buttons = [
 ];
 
 const blockClass = 'button';
-
+const valuePage = [`/login`,`/singleplay`,'/signup',`/info`,`/scoreboard`];
+const text = [`New Game`,`Singleplayer`,`Registration`,`Authors`,`Scoreboard`];
 export class MainPage extends Block {
     constructor() {
         super('ul', ['name'], {});
@@ -62,6 +62,9 @@ export class MainPage extends Block {
         }
         const wrape = document.querySelector('div.menu');
         if (document.querySelector('div.menu') === null) {
+            while (document.querySelector('div.wrapper').firstChild) {
+                document.querySelector('div.wrapper').removeChild(document.querySelector('div.wrapper').firstChild);
+            }
             let banner = document.createElement("div");
             document.querySelector('div.wrapper').appendChild(banner)
             banner.setAttribute('class','menu');
@@ -73,20 +76,24 @@ export class MainPage extends Block {
                 console.log('remove')
             }
 
-            wrape.appendChild(this._element);
+            wrape.appendChild(document.createElement('ul'))
+            wrape.querySelector('ul').setAttribute('class','name')
         }
         if (document.querySelector('div.score') !==null) {
             document.querySelector('div.score').remove();
         }
-        buttons.forEach((button) => {
-            let newButtons  =  new Block('a', [blockClass + button.name]);
-            this.appendChildBlock('a',newButtons);
-            let but  =  document.querySelector('a.' + blockClass + button.name);
-            but.innerHTML = `<li>${button.text}</li>`;
-            but.querySelector('li').setAttribute('value',button.value);
 
-        });
 
+        for (let i = 0;i<5;++i) {
+            document.querySelector('ul.name').appendChild(document.createElement('a'));
+
+        }
+        let allButtons = document.getElementsByTagName('a');
+        for (let i = 0; i<5; ++i) {
+            allButtons[i].innerHTML = `<li>${text[i]}</li>`
+            allButtons[i].querySelector('li').setAttribute('value',valuePage[i])
+
+        }
     }
  }
 export default MainPage;
