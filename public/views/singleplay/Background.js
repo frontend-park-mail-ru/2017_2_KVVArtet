@@ -33,8 +33,7 @@ export default class Background {
             this.engine.addColorSprite([global.mapShiftX, i], Utils.madeRectangle(0, 0, 1.2, -0.0018), [1, 1, 1, 1]);
         }
         this.engine.addSprite([-0.6, 0.995], this.textures[5], Utils.madeRectangle(0, 0, 0.1875, -0.13), true);
-        this.engine.addSprite([0.68, 0.97], this.textures[6], Utils.madeRectangle(0, 0, 0.07, -0.07*global.ratio));
-        this.engine.addSprite([0.78, 0.97], this.textures[7], Utils.madeRectangle(0, 0, 0.07, -0.07*global.ratio));
+        // this.engine.addSprite([0.78, 0.97], this.textures[7], Utils.madeRectangle(0, 0, 0.07, -0.07*global.ratio));
         this.engine.addSprite([0.88, 0.97], this.textures[8], Utils.madeRectangle(0, 0, 0.07, -0.07*global.ratio));
     }
 

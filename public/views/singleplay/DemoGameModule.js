@@ -30,9 +30,9 @@ export default class DemoGameModule {
     }
 
     gamePreRender() {
-        let numberScene = 0;
-        let back = new Background(numberScene);
-        back.render();
+        let numberSchene = 0;
+        this.back = new Background(numberSchene);
+        this.back.render();
         this.gameManager.startGameRendering(this.gameStart.bind(this));
     }
 
@@ -58,7 +58,7 @@ export default class DemoGameModule {
 
 
     gameLoop() {
-        if (!this.isPartyDead() && !this.isEnemiesDead()) {
+        if (!this.isPartyDead() && !this.isEnemiesDead() && window.location.pathname === '/singleplay') {
             this.timer -= this.interval;
             let sec = Math.ceil(this.timer/1000);
             if (sec < 10) {
@@ -216,7 +216,8 @@ export default class DemoGameModule {
         setTimeout(function() {
             this.stopGameLoop();
             document.getElementsByClassName('container')[0].setAttribute('class', 'blur container');
-            document.getElementById('lose').removeAttribute('hidden');
+            document.getElementById('lose').removeAttribute('style');
+            this.gameManager.stop();
         }.bind(this), 1500);
         //createoverlaylose
     }
@@ -225,7 +226,8 @@ export default class DemoGameModule {
         setTimeout(function() {
             this.stopGameLoop();
             document.getElementsByClassName('container')[0].setAttribute('class', 'blur container');
-            document.getElementById('win').removeAttribute('hidden');
+            document.getElementById('win').removeAttribute('style');
+            this.gameManager.stop();
         }.bind(this), 1500);
         //createoverlaywin
     }
@@ -320,7 +322,7 @@ export default class DemoGameModule {
     }
 
     startGameLoop() {
-        this.intervalId = setInterval(() => this.gameLoop(), this.interval);
+        global.intervalId = this.intervalId = setInterval(() => this.gameLoop(), this.interval);
     }
 
     stopGameLoop() {

@@ -1,10 +1,7 @@
 import Block from '../baseview';
 import './main-page.scss';
-//import mk from '../../index.html'
-import ChangeTheme from './mainStyle';
 const imageWall = "wall";
 const wrape = document.querySelector('div.menu');
-//import {mainPage} from '../main'
 import DemoGameModule from '../singleplay/DemoGameModule'
 export const buttons = [
     {
@@ -29,6 +26,11 @@ export const buttons = [
         text: 'Information',
         value:'/info'
 
+    }, {
+        name: 'Five',
+        text: 'Scoreboard',
+        value:'/scoreboard'
+
     }
 ];
 
@@ -42,11 +44,21 @@ export class MainPage extends Block {
     creation() {
         if (document.querySelector('div.wrapper') === null) {
             let game = new DemoGameModule();
-            game.gameManager.engine.loop = false;
-            document.getElementById('application').remove();
-            let wr = document.createElement('div');
-            document.getElementById('application').appendChild(wr);
-            wr.setAttribute('class','wrapper');
+             game.stopGameLoop();
+            document.body.innerHTML = `<div id="application"></div>`
+            const application = new Block(document.getElementById('application'));
+
+            const wrapper = new Block('div', ['wrapper']);
+
+            const images = "logo";
+            application.appendChildBlock("logo",
+                new Block('img', [images]));
+
+            const logo = document.querySelector('img.logo');
+            logo.setAttribute('src','../images/logo2.png');
+
+            application.appendChildBlock('application', wrapper);
+            wrapper.appendChildBlock('menu',new Block('div',['menu']))
         }
         const wrape = document.querySelector('div.menu');
         if (document.querySelector('div.menu') === null) {
@@ -60,9 +72,12 @@ export class MainPage extends Block {
                 document.querySelector('div.menu').removeChild(document.querySelector('div.menu').childNodes[0]);
                 console.log('remove')
             }
+
             wrape.appendChild(this._element);
         }
-
+        if (document.querySelector('div.score') !==null) {
+            document.querySelector('div.score').remove();
+        }
         buttons.forEach((button) => {
             let newButtons  =  new Block('a', [blockClass + button.name]);
             this.appendChildBlock('a',newButtons);

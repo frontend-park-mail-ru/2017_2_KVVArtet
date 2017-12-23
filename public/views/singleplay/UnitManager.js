@@ -194,8 +194,9 @@ export default class UnitManager {
             let xMax = xMin + 0.6;
             let yMin = (1 - global.mapShiftY)/2;
             let yMax = yMin + 0.8;
-            console.log('STATE: ' + this.state.state);
-            if (event.which === 1 && x >= xMin && x < xMax && y >= yMin && y < yMax && document.getElementById('win').hidden && document.getElementById('lose').hidden && !this.state.state) {
+            console.log('onmousedown STATE: ' + this.state.state);
+            if (window.location.pathname === '/singleplay'){
+            if (event.which === 1 && x >= xMin && x < xMax && y >= yMin && y < yMax && document.getElementById('win').style.display === 'none' && !this.state.state) {
                 let i = Math.floor(((x - xMin) / 0.6) / (1 / 16));
                 let j = Math.floor(((y - yMin) / 0.8) / (1 / 12));
                 if (global.tiledMap[i][j].active || this.massiveSkill) {
@@ -213,7 +214,7 @@ export default class UnitManager {
                 this.setCurrentSkill(i);
             }
             return false;
-        }.bind(this);
+        }}.bind(this);
     }
 
     setCurrentSkill(i, path) {
