@@ -31,10 +31,10 @@ export default  class Router {
                 const pathname = element.getAttribute('value');
 
                 if (pathname !== null) {
-                   this.go(pathname);
+                    this.go(pathname);
                 }
             }
-            else if (event.target.tagName.toLowerCase() === 'a' && window.path.location !== '/info'){
+            else if (event.target.tagName.toLowerCase() === 'a' && window.location.pathname !== '/info'){
                 event.preventDefault();
                 const element = event.target;
                 const pathname = element.getAttribute('value');
@@ -68,11 +68,11 @@ export default  class Router {
 
 
         view.creation();
-    if (path === '/login') {
-        signin(view);
-     }
-     else if (path === '/signup') {
-        signup(view)
-      }
+        if (path === '/login') {
+            signin(view);
+        }
+        else if (path === '/signup') {
+            signup(view)
+        }
     }
 }

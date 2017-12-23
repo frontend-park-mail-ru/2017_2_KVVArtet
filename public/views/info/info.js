@@ -45,18 +45,6 @@ class Info extends Block {
             allButtons[i].querySelector('a').setAttribute('href',authors[i].link)
         }
 
-
-
-
-
-        // wrape.appendChild(this._element);
-        //
-        // authors.forEach((i) => {
-        //     this.appendChildBlock('li',new Block('li', [i.name]));
-        //     let but  =  document.querySelector('li.' + i.name);
-        //     but.innerHTML = `<a>${i.name}</a>`;
-        //     but.querySelector('a').setAttribute('href',i.link);
-        // });
     }
 
 }

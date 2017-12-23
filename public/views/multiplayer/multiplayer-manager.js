@@ -13,7 +13,6 @@ export default class MultiplayerManager {
         this.mediator.subscribe("LobbyResponseMessage", this.lobbyResponse().bind(this));
         this.mediator.subscribe("NextRoomResponseMessage", this.nextRoomResponse().bind(this));
         this.mediator.subscribe("StayInLineResponseMessage", this.stayInLineResponse().bind(this));
-        //this.mediator.publish("LOADING");
 
     }
 

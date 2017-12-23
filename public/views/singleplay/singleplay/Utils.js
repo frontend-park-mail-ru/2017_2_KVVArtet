@@ -7,6 +7,10 @@ export default class Utils {
       gl.canvas.height = displayHeight;
     }
     gl.viewport(0, 0, window.screen.availWidth, window.screen.availHeight);
+
+    let settings = document.getElementsByClassName('settings')[0];
+    settings.style.top = Math.floor((window.innerHeight - settings.offsetHeight)/2) + 'px';
+    settings.style.left = Math.floor((window.innerWidth - settings.offsetWidth)/2) + 'px';
   }
 
   static madeRectangle(x0, y0, width, height) {

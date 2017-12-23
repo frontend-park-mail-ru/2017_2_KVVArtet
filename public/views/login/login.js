@@ -1,7 +1,6 @@
 import Block from '../../blocks/block/block';
 import Input from '../../blocks/forms/input';
 import '../../blocks/forms/forms.scss';
-import Router from '../../modules/router';
 
 const fieldPrototypes = [
     {

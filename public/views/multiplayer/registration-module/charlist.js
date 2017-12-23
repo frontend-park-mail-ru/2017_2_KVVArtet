@@ -117,9 +117,7 @@ export default class Choose extends Block{
             document.querySelector('div.wrapper').removeChild(document.querySelector('div.wrapper').firstChild);
         }
         wrape.appendChild(this._element);
-        //let test = get();
-        //console.log(test)
-        //this.appendChildBlock('name',new Block('h3',['name']).setText(test))
+
         this.footbarCreate();
         this.leftbar();
         this.choose();

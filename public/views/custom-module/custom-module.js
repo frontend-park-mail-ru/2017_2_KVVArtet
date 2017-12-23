@@ -21,13 +21,7 @@ import './custom-module.scss'
         document.querySelector('a.remove').addEventListener('click',() => {
             document.querySelector('div.win').remove();
         })
-         // visible.appendChildBlock()
-        // authors.forEach((i) => {
-        //     this.appendChildBlock('li',new Block('li', [i.name]));
-        //     let but  =  document.querySelector('li.' + i.name);
-        //     but.innerHTML = `<a>${i.name}</a>`;
-        //     but.querySelector('a').setAttribute('href',i.link);
-        // });
+
     }
 
 }

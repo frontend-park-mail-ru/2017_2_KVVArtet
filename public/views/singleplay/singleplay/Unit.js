@@ -103,7 +103,12 @@ export default class Unit {
 
         let attackSkill = new Skill();
         attackSkill.createSkill('Attack', 'Deals damage', 'point', 1, this.damage, 0);
-        this.skills.push(attackSkill);
+        let firstSkill = new Skill();
+        firstSkill.createSkill('Heavy blow', 'Attack your enemy with double damage', 'point', 1, [this.damage[0] * 2, this.damage[1] * 2], 3);
+        let secondSkill = new Skill();
+        secondSkill.createSkill('Shield Strike', 'Smash enemy with a shield, knocking him down for 1 turn', 'point', 1, this.damage, 2);
+
+        this.skills.push(attackSkill, firstSkill, secondSkill);
     }
 
     isDead() {
@@ -135,6 +140,35 @@ export default class Unit {
         unit.healthpoint[0] += (Math.floor(Math.abs((Math.random() * (skill.damage[1] - skill.damage[0]))) + Math.abs(skill.damage[0])));
         if (unit.healthpoint[0] > unit.healthpoint[1]) {
             unit.healthpoint[0] = unit.healthpoint[1];
+        }
+    }
+
+    cooldownDecrement() {
+        this.skills[2].decrementCurrentCooldown();
+        this.skills[3].decrementCurrentCooldown();
+    }
+
+    isCooldown(name) {
+        if (this.skills[2].name === name) {
+            return this.skills[2].currentCooldown !== 0;
+        } else if (this.skills[3].name === name) {
+            return this.skills[3].currentCooldown !== 0;
+        }
+    }
+
+    setCooldown(name){
+        if (this.skills[2].name === name) {
+            this.skills[2].currentCooldown = this.skills[2].cooldown;
+        } else if (this.skills[3].name === name) {
+            this.skills[3].currentCooldown = this.skills[3].cooldown;
+        }
+    }
+
+    getCurrentCooldown(name) {
+        if (this.skills[2].name === name) {
+            return this.skills[2].currentCooldown;
+        } else if (this.skills[3].name === name) {
+            return this.skills[3].currentCooldown;
         }
     }
 }

@@ -120,7 +120,6 @@ class Http {
                 }
             json.then(function(dt) {
                    dt = data
-                    console.log(dt.userID);
                 });
                 return json;
             });
@@ -171,8 +170,6 @@ class Http {
             }
         })
             .then(function (response) {
-                console.log("fetch Delete work\n");
-                console.log(response.status);
                 if ( response.status === 200 ) {
                     return;
                 }

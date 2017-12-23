@@ -1,13 +1,7 @@
 import Block from '../baseview';
 import './scoreboard.scss';
-//import UserService from '../../servises/user-service'
-//import u from '../../modules/http'
-//const score= new UserService();
-
 
 const rowValues = [`Username`,`Frags`,`Gold`]
-//  const buttons = [`first`,`second`,`third`,`four`];
-// const data  = [{username:'gamer',gold:0,frags:0},{username:'lammer',gold:110,frags:8989},{username:'lammer96',gold:1680,frags:1560}]
 
 class Scoreboard extends Block {
     constructor() {

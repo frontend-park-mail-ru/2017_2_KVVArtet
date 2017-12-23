@@ -1,6 +1,5 @@
 import GraphicEngine from './GraphicEngine';
 import SpriteManager from './SpriteManager';
-import State from './State';
 import Loader from './Loader';
 import Utils from './Utils';
 import AnimationManager from './AnimationManager';
@@ -8,16 +7,16 @@ import UnitManager from './UnitManager';
 import Animation from './Animation';
 import Action from "./Action";
 
-//import {global.tiledMap,test} from './GameModule'
-//import   './GameModule'
-
 export default class GameManager {
     constructor() {
         this.ratio = 16 / 9;
         this.engine = new GraphicEngine('canvas', true);
         this.spriteManager = new SpriteManager(this.engine);
-        this.state = new State();
+        this.state = {state: false};
+        this.tiles = [];
         this.fullScreen = false;
+        this.lastI = -1;
+        this.lastJ = -1;
     }
 
     startGameRendering(callback) {
@@ -26,7 +25,9 @@ export default class GameManager {
             '/views/singleplay/textures/moveTile.png', '/views/singleplay/textures/activeTile.png',
             '/views/singleplay/textures/select.png', '/views/singleplay/icons/fullscreen.png',
             '/views/singleplay/textures/actionBack.png', '/views/singleplay/icons/circle.png',
-            '/views/singleplay/icons/radio2.png', '/views/singleplay/icons/radio1.png'
+            '/views/singleplay/icons/radio2.png', '/views/singleplay/icons/radio1.png',
+            '/views/singleplay/icons/dead.png',
+            '/views/singleplay/textures/greenTile.png', '/views/singleplay/textures/redTile.png'
         ], this.engine.gl);
         let loaderAnimations = new Loader([
             '/views/singleplay/animations/fireball.png', '/views/singleplay/animations/Fire 5.png', '/views/singleplay/animations/thunderbolt.png',
@@ -78,6 +79,7 @@ export default class GameManager {
                         this.animtaionManager = new AnimationManager(animation, this.spriteManager, this.activeTile, this.actionPoint, this.state, animations, this.textures[7]);
                         this.unitManager = new UnitManager(animation, this.animtaionManager, this.spriteManager, this.activeTile, this.actionPoint, this.state, entities, textures, conditions);
                         this.engine.render();
+                        global.load = true;
                     }, callback);
                 });
             });
@@ -85,44 +87,79 @@ export default class GameManager {
     }
 
     initEvents() {
-        document.addEventListener('mousemove', function(event) {
-            let x = event.clientX / window.innerWidth;
-            let y = event.clientY /window.innerHeight;
-            let xMin = (1 + global.mapShiftX)/2;
-            let xMax = xMin + 0.6;
-            let yMin = (1 - global.mapShiftY)/2;
-            let yMax = yMin + 0.8;
-            if (x >= xMin && x < xMax && y >= yMin && y < yMax && document.getElementById('win').hidden && document.getElementById('lose').hidden && !this.state.AnimationOnMap) {
-                let i = Math.floor(((x - xMin) / 0.6) / (1 / 16));
-                let j = Math.floor(((y - yMin) / 0.8) / (1 / 12));
-                if (i < 16 && j < 12 && global.tiledMap[i][j].active) {
-                    this.spriteManager.getSprite(this.activeElem).setTrans(Utils.translationOnMap(j, i));
-                } else {
-                    this.spriteManager.getSprite(this.activeElem).setTrans([-2, -2]);
+        this.mouseMoveListener = document.addEventListener('mousemove', function(event) {
+            if (window.location.pathname === '/singleplay') {
+                let x = event.clientX / window.innerWidth;
+                let y = event.clientY / window.innerHeight;
+                let xMin = (1 + global.mapShiftX) / 2;
+                let xMax = xMin + 0.6;
+                let yMin = (1 - global.mapShiftY) / 2;
+                let yMax = yMin + 0.8;
+                this.tiles.forEach(function (tile) {
+                    this.spriteManager.deleteSprite(tile);
+                }.bind(this));
+                this.tiles = [];
+                if (x >= xMin && x < xMax && y >= yMin && y < yMax && document.getElementById('win').style.display === 'none' && document.getElementsByClassName('settings')[0].style.display === 'none' && !this.state.state) {
+                    let i = Math.floor(((x - xMin) / 0.6) / (1 / 16));
+                    let j = Math.floor(((y - yMin) / 0.8) / (1 / 12));
+                    if (i !== this.lastI && j !== this.lastJ && i < 16 && j < 12 && this.unitManager.massiveSkill) {
+                        let halfArea = Math.floor(this.unitManager.activeSkill.area / 2) + 1;
+                        let tiles = [];
+                        for (let ii = i - halfArea; ii <= i + halfArea; ii++) {
+                            for (let jj = j - halfArea; jj <= j + halfArea; jj++) {
+                                if (ii >= 0 && ii < 16 && jj >= 0 && jj < 12) {
+                                    tiles.push(global.tiledMap[ii][jj]);
+                                }
+                            }
+                        }
+                        this.unitManager.drawActiveTiles(tiles);
+                    } else if (i < 16 && j < 12 && global.tiledMap[i][j].active) {
+                        this.spriteManager.getSprite(this.activeElem).setTrans(Utils.translationOnMap(j, i));
+                    } else {
+                        this.spriteManager.getSprite(this.activeElem).setTrans([-2, -2]);
+                    }
                 }
             }
         }.bind(this));
-        document.addEventListener('click', (event) => {
-            let x = event.clientX / this.engine.gl.canvas.clientWidth;
-            let y = event.clientY / this.engine.gl.canvas.clientHeight;
-            if (x >= 0.95 && y >= 0.95) {
-                console.log(event.clientX + ' ' + event.clientY);
-                if (!this.fullScreen) {
-                    document.documentElement.mozRequestFullScreen();
-                    this.fullScreen = true;
-                } else {
-                    document.mozCancelFullScreen();
-                    this.fullScreen = false;
+        this.clickListener = document.addEventListener('click', (event) => {
+            if (window.location.pathname === '/singleplay') {
+                let x = event.clientX / this.engine.gl.canvas.clientWidth;
+                let y = event.clientY / this.engine.gl.canvas.clientHeight;
+                if (x >= 0.2 && x <= 0.3 && y <= 0.05 && document.getElementById('win').style.display === 'none' && document.getElementsByClassName('settings')[0].style.display === 'none') {
+                    let action = new Action();
+                    action.sender = null;
+                    action.target = null;
+                    action.ability = null;
+                    global.actionDeque.push(action);
+                } else if (x >= 0.94 && x <= 0.975 && y >= 0.015 && y <= 0.077222 && document.getElementById('win').style.display === 'none' && document.getElementsByClassName('settings')[0].style.display === 'none') {
+                    document.getElementsByClassName('settings')[0].style.display = 'block';
+                    let container = document.getElementsByClassName('container')[0];
+                    container.className += ' overlay';
                 }
             }
-            if (x>=0.25 && x <=0.3 && y<=0.05) {
-                let action = new Action();
-                action.sender = null;
-                action.target = null;
-                action.ability = null;
-                global.actionDeque.push(action);
-            }
         });
+        document.getElementsByClassName('settings')[0].lastElementChild.firstElementChild.addEventListener('click', function() {
+            document.getElementsByClassName('settings')[0].style.display = 'none';
+            let container = document.getElementsByClassName('container')[0];
+            container.className = 'container';
+        });
+        document.getElementsByClassName('settings')[0].lastElementChild.lastElementChild.addEventListener('click', function() {
+            this.stop();
+        }.bind(this));
+        document.getElementsByClassName('settings')[0].lastElementChild.firstElementChild.nextElementSibling.addEventListener('click', function() {
+           this.stop();
+        }.bind(this));
+    }
+
+    stop() {
+        this.engine.loop = false;
+        document.removeEventListener('mousemove', this.mouseMoveListener);
+        document.removeEventListener('click', this.clickListener);
+        document.onresize = () => {};
+        document.onmousedown = () => {};
+        if (intervalId) {
+            clearInterval(intervalId);
+        }
     }
 
     initGui() {
@@ -132,21 +169,8 @@ export default class GameManager {
         this.activeElem = this.spriteManager.addSprite(-1, [
             -2, 3
         ], this.textures[2], Utils.madeRectangle(0, 0, 1.2 / 16, -(1.2 / 16) * this.ratio), true);
-        this.spriteManager.addSprite(1, [
-            0.95, -1 + 0.05 * this.ratio
-        ], this.textures[3], Utils.madeRectangle(0, 0, 0.05, -0.05 * this.ratio), true);
         this.actionPoint = this.spriteManager.addSprite(0, Utils.transActionPoint(0), this.textures[6], Utils.madeRectangle(0, 0, 0.023, -0.050*global.ratio), true);
         document.body.style.height = '100vh';
-        let rigthBar =  document.createElement('div');
-        rigthBar.style.position = 'absolute';
-        rigthBar.style.right = '1vw';
-        rigthBar.style.top = '17.7vh';
-        rigthBar.style.height = '80vh';
-        rigthBar.style.width = '8vw';
-        rigthBar.style.backgroundImage = 'url(\'/views/singleplay/textures/right_bar.png\')';
-        rigthBar.style.backgroundSize = '100% 100%';
-        rigthBar.style.backgroundRepeat = 'no-repeat';
-        document.getElementsByClassName('container')[0].appendChild(rigthBar);
         let skillBar = document.createElement('div');
         skillBar.style.position = 'absolute';
         skillBar.style.right = '32.5vw';
@@ -157,5 +181,30 @@ export default class GameManager {
         skillBar.style.backgroundSize = '100% 100%';
         skillBar.style.backgroundRepeat = 'no-repeat';
         document.getElementsByClassName('container')[0].appendChild(skillBar);
+
+        let chat = document.createElement('div');
+        chat.style.position = 'absolute';
+        chat.style.color = 'white';
+        chat.style.left = '76vw';
+        chat.style.top = '18vh';
+        chat.style.overflow = 'auto';
+        chat.style.height = '80vh';
+        chat.style.width = '23vw';
+        global.chat = chat;
+        document.getElementsByClassName('container')[0].appendChild(chat);
+
+        let settings = document.getElementsByClassName('settings')[0];
+        settings.style.top = Math.floor((window.innerHeight - settings.offsetHeight)/2) + 'px';
+        settings.style.left = Math.floor((window.innerWidth - settings.offsetWidth)/2) + 'px';
+
+        // document.body.style.background = '#000';
+    }
+    static log(text, color) {
+        if (color === undefined) {
+            chat.innerHTML += text + '<br>';
+        } else {
+            chat.innerHTML += '<span style=\'color:' + color + ';\'>' + text + '</span><br>';
+        }
+        chat.scrollTop = chat.scrollHeight;
     }
 }

@@ -8,23 +8,23 @@ export default class AnimationManager {
         this.activeTile = activeTile;
         this.actionPoint = actionPoint;
         this.animations = animations;
-        // this.activetile = this.spriteManager.addSprite(12, [-2, -2], this.animations[7], Utils.madeRectangle(0, 0, 1.2 / 16 + 0.04, (1.2/16)*global.ratio - 0.06), true,
-        //     Utils.madeRectangle(0, 0, 1/5, -1/4));
-        // this.loopActiveTile();
     }
 
     stateCheck(callback) {
-        if (this.state.AnimationOnMap) {
+        if (this.state.state) {
             setTimeout(function() {
                 requestAnimationFrame(callback);
             }, 50);
             return true;
         }
-        this.state.AnimationOnMap = true;
+        this.state.state = true;
     }
 
     movingTo(TileStart, path) {
         if (this.stateCheck(this.movingTo.bind(this, TileStart, path))) {
+            return;
+        }
+        if (!TileStart.unitOnTile) {
             return;
         }
         this.spriteManager.getSprite(this.actionPoint).setTexture(this.texture);
@@ -45,7 +45,7 @@ export default class AnimationManager {
             if (transActiveTile == this.spriteManager.getSprite(this.activeTile).getTrans()) {
                 this.spriteManager.getSprite(this.activeTile).setTrans(Utils.translationOnMap(unit.ypos, unit.xpos));
             }
-            this.state.AnimationOnMap = false;
+            this.state.state = false;
         }.bind(this), 200 * (path.length));
     }
 
@@ -102,13 +102,6 @@ export default class AnimationManager {
             Utils.madeRectangle(0, 0, 1 / 6, -1 / 6));
         this.Animation.FrameAnimation(holly_wrathId, timeA, 21, 5, 5, true);
         this.Animation.MoveAnimation(Utils.translationForUnits(sender), Utils.translationOnMap(target.ypos - 1, target.xpos - 1), timeA, holly_wrathId);
-    }
-
-    loopActiveTile() {
-        this.Animation.FrameAnimation(this.activetile, 1, 11, 5, 4);
-        setTimeout(function() {
-            this.loopActiveTile();
-        }.bind(this), 1000);
     }
 
     animationActiveTile(unit) {
