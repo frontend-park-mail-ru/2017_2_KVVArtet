@@ -38,7 +38,6 @@ export default class InitiativeLine {
 
 	RemoveUnit(unit) {
 		this.queue.splice(unit.lineId, 1);
-        this.SynchronizeLineId();
 	}
 
 	PushEveryone(allies, enemies) {

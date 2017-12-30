@@ -91,7 +91,6 @@ class Http {
                     reject(xhr);
                     return;
                 }
-
                 const response = JSON.parse(xhr.responseText);
                 resolve(response);
             };

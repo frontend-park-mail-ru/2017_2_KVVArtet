@@ -10,7 +10,7 @@ export default class SinglePlay extends Block {
     }
 
     creation() {
-        document.body.innerHTML = this.template;
+        document.getElementById('application').innerHTML = this.template;
 
         let loading = new Loading();
         let game = new DemoGameModule();

@@ -4,6 +4,7 @@ import Validate from '../forms/validation';
  * @function AuthValidate
  * @return {string || null} возвращает null если ошибок нет
  */
+let test;
 let RegistrationValidate = (login, email, password, password_confirm) => {
 
     if (!Validate.validateLogin(login)) {

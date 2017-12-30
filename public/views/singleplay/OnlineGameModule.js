@@ -3,25 +3,45 @@ import Unit from './Unit';
 import Pathfinding from './Pathfinding';
 import Background from './Background';
 import GameManager from './GameManager';
-
+import Mediator from "../../modules/mediator";
+import Transport from "../../transport/transport.js";
+import Action from "./Action";
 /*export default */
-export default class DemoGameModule {
+export default class OnlineGameModule {
     constructor() {
+        this.characterList = [];
         this.gameManager = new GameManager();
         this.WIDTH = 16;
         this.HEIGHT = 12;
         this.PARTYSIZE = 4;
-        this.ENEMIESSIZE = 5;
-        this.kek = 3;
+        this.ENEMIESSIZE = 2;
         this.NOTWALL = 0;
         this.WALL = 1;
         this.players = [];
         this.enemies = [];
         this.initiativeLine = new InitiativeLine();
         this.activeUnit = null;
-        this.timer = 600000000;
+        this.timer = 30000;
         this.intervalId = 0;
         this.interval = 100;
+
+        this.mediator = new Mediator();
+        this.transport = new Transport();
+        this.mediator.subscribe("CharacterListResponseMessage", (event) => {
+            this.characterListResponse(event).bind(this);
+        });
+        this.mediator.subscribe("ActionResponseMessage", (event) => {
+            this.actionResponse(event).bind(this)
+        });
+        this.mediator.subscribe("LobbyResponseMessage", (event) => {
+            this.lobbyResponse(event).bind(this)
+        });
+        this.mediator.subscribe("NextRoomResponseMessage", (event) => {
+            this.nextRoomResponse(event).bind(this)
+        });
+        this.mediator.subscribe("StayInLineResponseMessage", (event) => {
+            this.stayInLineResponse(event).bind(this)
+        });
     }
 
     gameStart() {
@@ -30,79 +50,84 @@ export default class DemoGameModule {
     }
 
     gamePreRender() {
-        let numberSchene = 0;
-        this.back = new Background(numberSchene);
-        this.back.render();
+        let numberScene = 0;
+        let back = new Background(numberScene);
+        back.render();
         this.gameManager.startGameRendering(this.gameStart.bind(this));
     }
 
+    messageRequest(request, content = null) {
+        this.transport.send(request, content);
+    }
+
+    characterListResponse(content) {
+        content.characterList.forEach(() => {
+            //TODO make unit model from back turn into unit model from front
+            this.characterList.push(content.characterList.UserCharacter);
+        });
+        //drawCharacters()
+    }
+
+
+    actionResponse(content) {
+        let action = new Action();
+        action.sender = content.sender;
+        action.target = content.target;
+        action.ability = content.ability;
+        //TODO events = content.events
+        //TODO обработка действий как в геймлупе
+    }
+
+
+    lobbyResponse(content) {
+        if(content.message === "success"){
+            this.gamePreRender();
+        } else {
+            //TODO setTimeout
+            this.messageRequest("LobbyRequestMessage");
+        }
+    }
+
+    nextRoomResponse(content = null) {
+    }
+
+    stayInLineResponse(content = null) {
+    }
+
     gamePrepare() {
+        //как это должно работать - посылаем некструм реквест через менеджер
+        this.messageRequest("NextRoomRequestMessage");
+        //ждем ответа от сервера и емита от медиатора
+
+        /*
         this.players = this.generatePlayers();
         this.enemies = this.generateEnemies();
         this.initiativeLine.PushEveryone(this.players, this.enemies);
         this.setPlayersPositions(this.players);
         this.setEnemiesPositions(this.enemies);
+        console.log('Everyone on positions: ');
         //отрисовка персонажей
-
         for (let i = 0; i < this.PARTYSIZE + this.ENEMIESSIZE; i++) {
+            console.log(this.enemies);
             this.gameManager.unitManager.addUnit(this.initiativeLine.queue[i]);
         }
-
         this.activeUnit = this.initiativeLine.CurrentUnit();
-        GameManager.log(this.activeUnit.name + ' - let\'s start with you!');
+        console.log(this.activeUnit.name + ' - let\'s start with you!');
         this.gameManager.unitManager.activeUnit(this.activeUnit);
         this.sendPossibleMoves();
+        */
     }
 
 
+
+
     gameLoop() {
-        if (window.location.pathname === '/singleplay') {
-            if (!this.isPartyDead() && !this.isEnemiesDead()) {
-                this.timer -= this.interval;
-                let sec = Math.ceil(this.timer / 1000);
-                if (sec < 10) {
-                    sec = '0' + sec;
-                }
-                document.getElementById('time').innerHTML = 'Skip';
-                //где-то здесь есть работа с АИ
-                //отрисовка скилов для каждого персонажа, информация для dropdown и позиций
-                if (global.actionDeque.length > 0) {
-                    GameManager.log('action begin', 'green');
-                    this.activeUnit.actionPoint--;
-                    let action = global.actionDeque.shift();
-                    if (action.isMovement() && !action.target.isOccupied()) {
-                        this.makeMove(action);
-                        // } else if (action.isPrepareAbility()) {
-                        //     this.makePrepareAbility(action);
-                    } else if (action.isAbility()) {
-                        GameManager.log('this is ability: ' + action.ability.name);
-                        if (action.ability.damage[1] < 0) {
-                            this.makeHill(action);
-                        } else if (action.ability.damage[1] > 0) {
-                            this.makeDamage(action);
-                        }
-                    } else if (action.isSkip()) {
-                        this.skipAction();
-                    }
-
-                    if (this.activeUnit.actionPoint === 1) {
-                        this.sendPossibleMoves();
-                    }
-                }
-
-                if (this.activeUnit.actionPoint === 0 || Math.ceil(this.timer / 1000) === 0 || this.activeUnit.isDead()) {
-                    this.skipAction();
-                }
-            } else {
-                if (this.isPartyDead()) {
-                    this.loseGame();
-                }
-
-                if (this.isEnemiesDead()) {
-                    this.winGame();
-                }
-            }
+        this.timer -= this.interval;
+        let sec = Math.ceil(this.timer/1000);
+        if (sec < 10) {
+            sec = '0' + sec;
         }
+        document.getElementById('time').innerHTML = '00:' + sec;
     }
 
     // makePrepareAbility(action) {
@@ -111,7 +136,7 @@ export default class DemoGameModule {
     // }
 
     makeMove(action) {
-        GameManager.log(action.sender.getInhabitant().name + ' make move from [' + action.sender.xpos + ',' + action.sender.ypos + ']' + ' to [' + action.target.xpos + ',' + action.target.ypos + ']');
+        console.log(action.sender.getInhabitant().name + ' make move from [' + action.sender.xpos + ',' + action.sender.ypos + ']' + ' to [' + action.target.xpos + ',' + action.target.ypos + ']');
         let toMove = action.sender.getInhabitant();
         let pathfinding = new Pathfinding(action.sender, global.tiledMap);
         let allMoves = pathfinding.possibleMoves();
@@ -119,25 +144,33 @@ export default class DemoGameModule {
         let currentTile = action.target;
         while (allMoves.get(currentTile) !== null) {
             path.push(currentTile);
+            console.log('current tile - [' + currentTile.xpos + ']' + '[' + currentTile.ypos + ']');
             currentTile = allMoves.get(currentTile);
         }
+        console.log(path);
         this.gameManager.animtaionManager.movingTo(action.sender, path);
         action.sender.unoccupy();
         action.target.occupy(toMove);
         this.activeUnit.xpos = action.target.xpos;
         this.activeUnit.ypos = action.target.ypos;
+        console.log('check on unoccupy: ' + action.sender.isOccupied());
+        console.log('check on occupy: ' + action.target.isOccupied());
     }
 
     makeHill(action) {
         let healedAllies = [];
         //AOE HILL
         if(action.ability.typeOfArea === 'circle') {
+            console.log('THIS IS AOE HILL');
             for(let i = action.target.xpos-action.ability.area; i <= action.target.xpos + action.ability.area; i++) {
                 for(let j = action.target.ypos-action.ability.area; j <= action.target.ypos + action.ability.area; j++) {
                     if(i >= 0 && j >= 0 && i < this.WIDTH && j < this.HEIGHT) {
+                        console.log('WTF is ' + i + ' ' + j);
                         if(global.tiledMap[i][j].isOccupied() && global.tiledMap[i][j].getInhabitant().type === action.sender.getInhabitant().type) {
+                            console.log('this is AOE hill on someone: ' + i + ' ' + j);
                             healedAllies.push(global.tiledMap[i][j].getInhabitant());
                             action.sender.getInhabitant().useHealSkill(global.tiledMap[i][j].getInhabitant(), action.ability);
+                            console.log('health end: ' +global.tiledMap[i][j].getInhabitant().healthpoint);
                         }
                     }
                 }
@@ -145,6 +178,7 @@ export default class DemoGameModule {
         } else {
             action.sender.getInhabitant().useHealSkill(action.target.getInhabitant(), action.ability);
             healedAllies.push(action.target.getInhabitant());
+            console.log('health end: ' + action.target.getInhabitant().healthpoint);
         }
         this.gameManager.unitManager.unitAttack(action.ability.name, action.sender, action.target, healedAllies);
     }
@@ -152,18 +186,20 @@ export default class DemoGameModule {
     makeDamage(action) {
         let woundedEnemies = [];
         let deadEnemies = [];
-        GameManager.log(action.sender.getInhabitant().name + ' make damage');
-        GameManager.log('this is damage: ' + action.ability.name);
-        // GameManager.log("health begin: " + action.target.getInhabitant().healthpoint);
+        console.log(action.sender.getInhabitant().name + ' make damage');
+        console.log('this is damage: ' + action.ability.name);
+        // console.log("health begin: " + action.target.getInhabitant().healthpoint);
 
         //AOE DAMAGE
         if(action.ability.typeOfArea === 'circle') {
-            GameManager.log('THIS IS AOE DAMAGE');
-            GameManager.log('target on ' + action.target.xpos + ' ' + action.target.ypos);
+            console.log('THIS IS AOE DAMAGE');
+            console.log('target on ' + action.target.xpos + ' ' + action.target.ypos);
             for(let i = action.target.xpos-action.ability.area; i <= action.target.xpos + action.ability.area; i++) {
                 for(let j = action.target.ypos-action.ability.area; j <= action.target.ypos + action.ability.area; j++) {
+                    console.log("i: " + i + " j: " + j);
                     if(i >= 0 && j >= 0 && i < this.WIDTH && j < this.HEIGHT) {
                         if(global.tiledMap[i][j].isOccupied() && global.tiledMap[i][j].getInhabitant().deadMark === false) {
+                            console.log(global.tiledMap[i][j].getInhabitant().name + " IS WOUNDED");
                             action.sender.getInhabitant().useDamageSkill(global.tiledMap[i][j].getInhabitant(), action.ability);
                             if (global.tiledMap[i][j].getInhabitant().isDead()) {
                                 deadEnemies.push(global.tiledMap[i][j].getInhabitant());
@@ -171,7 +207,7 @@ export default class DemoGameModule {
                             } else {
                                 woundedEnemies.push(global.tiledMap[i][j].getInhabitant());
                             }
-                            //GameManager.log("health end: " + action.target.getInhabitant().healthpoint);
+                            //console.log("health end: " + action.target.getInhabitant().healthpoint);
                         }
                     }
 
@@ -185,37 +221,33 @@ export default class DemoGameModule {
             } else {
                 woundedEnemies.push(action.target.getInhabitant());
             }
+            console.log('health end: ' + action.target.getInhabitant().healthpoint);
         }
 
         if (deadEnemies.length > 0) {
-            // GameManager.log(action.target.getInhabitant().name + " IS DEAD");
+            // console.log(action.target.getInhabitant().name + " IS DEAD");
 
             this.gameManager.unitManager.unitAttackAndKill(action.ability.name, action.sender, action.target, deadEnemies, woundedEnemies);
             for(let i = 0; i < deadEnemies.length; i++) {
                 this.initiativeLine.RemoveUnit(deadEnemies[i]);
             }            //graph.deleteFromLowBar(action.target.getInhabitant().barIndex);
         } else {
+            console.log('SOMEONE GET WOUNDED: ', woundedEnemies);
             this.gameManager.unitManager.unitAttack(action.ability.name, action.sender, action.target, woundedEnemies);
         }
     }
 
     loseGame() {
-        setTimeout(function() {
-            this.stopGameLoop();
-            document.getElementsByClassName('container')[0].setAttribute('class', 'blur container');
-            document.getElementById('lose').removeAttribute('style');
-            this.gameManager.stop();
-        }.bind(this), 1500);
+        this.stopGameLoop();
+        document.getElementsByClassName('container')[0].setAttribute('class', 'blur container');
+        document.getElementById('lose').removeAttribute('hidden');
         //createoverlaylose
     }
 
     winGame() {
-        setTimeout(function() {
-            this.stopGameLoop();
-            document.getElementsByClassName('container')[0].setAttribute('class', 'blur container');
-            document.getElementById('win').removeAttribute('style');
-            this.gameManager.stop();
-        }.bind(this), 1500);
+        this.stopGameLoop();
+        document.getElementsByClassName('container')[0].setAttribute('class', 'blur container');
+        document.getElementById('win').removeAttribute('hidden');
         //createoverlaywin
     }
 
@@ -241,6 +273,7 @@ export default class DemoGameModule {
     generateEnemies() {
         let newEnemies = [];
         for (let i = 0; i < this.ENEMIESSIZE; i++) {
+            console.log(i);
             let Skeleton = new Unit();
             let texture;
             if (i % 2 === 0) {
@@ -308,17 +341,18 @@ export default class DemoGameModule {
     }
 
     startGameLoop() {
-        global.intervalId = this.intervalId = setInterval(() => this.gameLoop(), this.interval);
+        this.intervalId = setInterval(() => this.gameLoop(), this.interval);
     }
 
     stopGameLoop() {
         if (this.intervalId) {
             clearInterval(this.intervalId);
         }
+        this.unsubscribe();
     }
 
     skipAction() {
-        this.timer = 60000000;
+        this.timer = 30000;
         this.beginTurn();
     }
 
@@ -330,16 +364,27 @@ export default class DemoGameModule {
             path.push(key);
         }
         path.shift();
-        this.gameManager.unitManager.setCurrentSkill(0, path);
+        this.gameManager.unitManager.showPossibleMoves(path);
     }
 
     beginTurn() {
         this.activeUnit = this.initiativeLine.NextUnit();
-        GameManager.log(this.activeUnit.name + ' = now your move!');
+        console.log('This turn: ');
+        console.log(this.initiativeLine.ShowEveryoneInLine());
+        console.log(this.activeUnit.name + ' = now your move! Cause initiative:' + this.activeUnit.initiative);
         this.activeUnit.actionPoint = 2;
         this.gameManager.unitManager.activeUnit(this.activeUnit);
         this.sendPossibleMoves();
         //изменяем LowerBar
         //изменяем activeEntity
+    }
+
+    unsubscribe() {
+        this.mediator.unsubscribe("CharacterListResponseMessage", this.characterListResponse().bind(this));
+        this.mediator.unsubscribe("ActionResponseMessage", this.actionResponse().bind(this));
+        this.mediator.unsubscribe("LobbyResponseMessage", this.lobbyResponse().bind(this));
+        this.mediator.unsubscribe("NextRoomResponseMessage", this.nextRoomResponse().bind(this));
+        this.mediator.unsubscribe("StayInLineResponseMessage", this.stayInLineResponse().bind(this));
+        //this.mediator.publish("DELETE_GAME");
     }
 }

@@ -15,8 +15,9 @@ html {
     0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
     100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}
 }
-#application {
-    background-image: url(../public/images/snowflake.png), url(../public/images/snowflake3.png), url(../public/images/snowflake2.png);
+
+html, body {
+    background-image: url(../images/snowflake.png), url(../images/snowflake3.png), url(../images/snowflake2.png);
     height: 100%;
     animation: snow 20s linear infinite;
 }
@@ -31,12 +32,31 @@ html {
 }
 
 .menu {
-    background: url("../public/images/banner.png") no-repeat;
+    background: url("../images/banner.png") no-repeat;
     width: 543px;
     background-size: contain;
     height: 591px;
     margin: -40px auto auto;
 }
+.user{
+    top: 31%;
+    margin-left: 80%;
+    position: relative;
+    z-index: 2;
+padding: 10px;
+text-align: center;
+max-width: 500px;
+font-size: 20px;
+border: 4px ridge black;
+cursor: pointer;
+    background: green;
+transition: 3s linear;}
+.username:hover {
+    -webkit-transform: scale(2);
+    transform: scale(2);
+    border-radius:2px ;
+}
+
 
 
 @viewport {

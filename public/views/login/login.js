@@ -37,6 +37,11 @@ class Login extends Block {
 
     creation() {
 
+        if (document.cookie) {
+            new Router().go('/game');
+            return;
+        }
+
         const wrappe = document.querySelector('div.menu');
         if (wrappe.childNodes[0] !== undefined) {
             wrappe.removeChild(wrappe.childNodes[0])
@@ -59,5 +64,18 @@ class Login extends Block {
         });
     }
 }
+
+function setter(input) {
+    console.log(input);
+    return String(input);
+}
+
+function getCookie(name) {
+    var matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
 
 export default Login;

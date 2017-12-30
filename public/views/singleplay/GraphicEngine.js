@@ -39,10 +39,11 @@ export default  class GraphicEngine {
     // now *= 0.001;
     // let deltaTime = now - this.time;
     // this.time = now;
-    // if (deltaTime != 0) {
-    //   document.getElementById('fps').innerHTML = (1 / deltaTime).toFixed(0);
-    //   document.getElementById('fps').style.color = 'white';
+    // if (deltaTime != 0 && global.chat) {
+    //   chat.innerHTML += '<span style=\'color:' + 'white' + ';\'>' + (1 / deltaTime).toFixed(0) + '</span><br>';
+    //   chat.scrollTop = chat.scrollHeight;
     // }
+      console.log("Demon render");
 
     Utils.resize(this.gl);
     this.gl.clearColor(0, 0, 0, 0);

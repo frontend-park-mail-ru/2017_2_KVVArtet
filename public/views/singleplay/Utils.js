@@ -1,18 +1,19 @@
 export default class Utils {
   static resize(gl) {
-    let displayWidth = window.screen.availWidth;
-    let displayHeight = window.screen.availHeight;
-    if (gl.canvas.width !== displayWidth || gl.canvas.height !== displayHeight) {
-      gl.canvas.width = displayWidth;
-      gl.canvas.height = displayHeight;
-    }
-    gl.viewport(0, 0, window.screen.availWidth, window.screen.availHeight);
+      if (window.location.pathname === '/singleplay') {
+          let displayWidth = window.screen.availWidth*(window.devicePixelRatio === 1 ? 1 : 1.5);
+          let displayHeight = window.screen.availHeight*(window.devicePixelRatio === 1 ? 1 : 1.5);
+          if (gl.canvas.width !== displayWidth || gl.canvas.height !== displayHeight) {
+              gl.canvas.width = displayWidth;
+              gl.canvas.height = displayHeight;
+          }
+          gl.viewport(0, 0, window.screen.availWidth*(window.devicePixelRatio === 1 ? 1 : 1.5), window.screen.availHeight*(window.devicePixelRatio === 1 ? 1 : 1.5));
 
-    let settings = document.getElementsByClassName('settings')[0];
-    settings.style.top = Math.floor((window.innerHeight - settings.offsetHeight)/2) + 'px';
-    settings.style.left = Math.floor((window.innerWidth - settings.offsetWidth)/2) + 'px';
+          let settings = document.getElementsByClassName('settings')[0];
+          settings.style.top = Math.floor((window.innerHeight - settings.offsetHeight) / 2) + 'px';
+          settings.style.left = Math.floor((window.innerWidth - settings.offsetWidth) / 2) + 'px';
+      }
   }
-
   static madeRectangle(x0, y0, width, height) {
     return [
       x0, y0,

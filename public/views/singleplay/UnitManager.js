@@ -32,7 +32,6 @@ export default class UnitManager {
     }
 
     stateCheck(callback) {
-        console.log(this.state);
         if (this.state.state) {
             setTimeout(function() {
                 requestAnimationFrame(callback);
@@ -151,6 +150,7 @@ export default class UnitManager {
             skills[i].remove();
         }
         let activeSkillImg = document.getElementById('activeSkill');
+        document.getElementById('infoBar').innerHTML = unit.skills[0].getDesciption();
         if (!activeSkillImg) {
             activeSkillImg = document.createElement('img');
             activeSkillImg.id = 'activeSkill';
@@ -167,7 +167,6 @@ export default class UnitManager {
             activeSkillImg.style.left = 32.5 + 'vw';
         }
         unit.skills.forEach(function(skill, i) {
-            console.log(skill.name);
             let skillImg = document.createElement('img');
             skillImg.title = skill.getDesciption();
             skillImg.className = 'skill';
@@ -188,33 +187,30 @@ export default class UnitManager {
         this.spriteManager.getSprite(this.actionPoint).setTexture(this.textures[6]);
         this.spriteManager.getSprite(this.activeTile).setTrans(Utils.translationOnMap(unit.ypos, unit.xpos));
         document.onmousedown = function(event) {
-            if (window.location.pathname === '/singleplay') {
-                let x = event.clientX / window.innerWidth;
-                let y = event.clientY / window.innerHeight;
-                let xMin = (1 + global.mapShiftX) / 2;
-                let xMax = xMin + 0.6;
-                let yMin = (1 - global.mapShiftY) / 2;
-                let yMax = yMin + 0.8;
-                console.log('onmousedown STATE: ' + this.state.state);
-                if (event.which === 1 && x >= xMin && x < xMax && y >= yMin && y < yMax && document.getElementById('win').style.display === 'none' && document.getElementsByClassName('settings')[0].style.display === 'none' && !this.state.state) {
-                    let i = Math.floor(((x - xMin) / 0.6) / (1 / 16));
-                    let j = Math.floor(((y - yMin) / 0.8) / (1 / 12));
-                    if (global.tiledMap[i][j].active || this.massiveSkill) {
-                        let action = new Action();
-                        action.sender = global.tiledMap[unit.xpos][unit.ypos];
-                        action.target = global.tiledMap[i][j];
-                        action.ability = this.activeSkill.name === 'Move' ? null : this.activeSkill;
-                        global.actionDeque.push(action);
-                        if (this.massiveSkill) {
-                            this.deleteLastActiveTiles();
-                        }
+            let x = event.clientX / window.innerWidth;
+            let y = event.clientY / window.innerHeight;
+            let xMin = (1 + global.mapShiftX)/2;
+            let xMax = xMin + 0.6;
+            let yMin = (1 - global.mapShiftY)/2;
+            let yMax = yMin + 0.8;
+            if (event.which === 1 && x >= xMin && x < xMax && y >= yMin && y < yMax && document.getElementById('win').style.display === 'none' && document.getElementsByClassName('settings')[0].style.display === 'none' && !this.state.state) {
+                let i = Math.floor(((x - xMin) / 0.6) / (1 / 16));
+                let j = Math.floor(((y - yMin) / 0.8) / (1 / 12));
+                if (global.tiledMap[i][j].active || this.massiveSkill) {
+                    let action = new Action();
+                    action.sender = global.tiledMap[unit.xpos][unit.ypos];
+                    action.target = global.tiledMap[i][j];
+                    action.ability = this.activeSkill.name === 'Move' ? null : this.activeSkill;
+                    global.actionDeque.push(action);
+                    if (this.massiveSkill) {
+                        this.deleteLastActiveTiles();
                     }
-                } else if (event.which === 1 && x >= 0.33 && x <= 0.675 && y >= 0 && y <= 0.07 && document.getElementById('win').style.display === 'none' && document.getElementsByClassName('settings')[0].style.display === 'none') {
-                    let i = Math.floor((x - 0.33) / (0.35 / 10));
-                    this.setCurrentSkill(i);
                 }
-                return false;
+            } else if (event.which === 1 && x >= 0.33 && x <= 0.675 && y >= 0 && y <= 0.07 && document.getElementById('win').style.display === 'none' && document.getElementsByClassName('settings')[0].style.display === 'none') {
+                let i = Math.floor((x - 0.33)/(0.35/10));
+                this.setCurrentSkill(i);
             }
+            return false;
         }.bind(this);
     }
 
@@ -230,15 +226,18 @@ export default class UnitManager {
             return;
         }
         if (i === 0) {
+            document.getElementById('infoBar').innerHTML = this.currentUnit.skills[i].getDesciption();
             this.drawActiveTiles(this.path);
             this.massiveSkill = false;
         } else if (this.currentUnit.skills[i].typeOfArea === 'circle') {
+            document.getElementById('infoBar').innerHTML = this.currentUnit.skills[i].getDesciption();
             this.possibleMoves.forEach(function(move) {
                 global.tiledMap[move.xpos][move.ypos].active = false;
                 this.spriteManager.deleteSprite(move.id);
             }.bind(this));
             this.massiveSkill = true;
         } else {
+            document.getElementById('infoBar').innerHTML = this.currentUnit.skills[i].getDesciption();
             this.massiveSkill = false;
             let tiles = this.getActiveTiles(global.tiledMap[this.currentUnit.xpos][this.currentUnit.ypos], this.currentUnit.skills[i]);
             this.drawActiveTiles(tiles);

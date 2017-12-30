@@ -13,7 +13,7 @@ import Choose from "./views/multiplayer/registration-module/charlist";
 import GameType from "./views/multiplayer/choose/choose";
 function requireAll(r) { r.keys().forEach(r); }
 require('./views/main.js');
-require('../css/base.css');
+require('./css/base.css');
 
 
 requireAll(require.context('./blocks/', true, /\.(css)$/));
@@ -41,13 +41,19 @@ const typeGame = new GameType();
 //     });
 
 const router = new  Router();
+for (let i = 0; i < 100;++i){
+    router.register(`/scoreboard/${i}`, scoreboard);
+}
 router.register('/', mainMenu)
     .register('/login', login)
     .register('/signup', signup)
     .register('/info', info)
     .register('/singleplay',single )
     .register('/game',choose)
-    .register('/scoreboard',scoreboard)
+    .register('/scoreboard/1',scoreboard)
+    .register('/scoreboard/2',scoreboard)
+    .register('/scoreboard/3',scoreboard)
+
     .register('/mode',typeGame)
     .navigate();
 

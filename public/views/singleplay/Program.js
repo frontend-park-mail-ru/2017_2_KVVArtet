@@ -13,7 +13,6 @@ export default class Program {
     if (success) { // если компиляция прошла успешно - возвращаем шейдер
       return shader;
     }
-    console.log(this.gl.getShaderInfoLog(shader));
     this.gl.deleteShader(shader);
   }
 
@@ -26,7 +25,6 @@ export default class Program {
     if (success) {
       return program;
     }
-    console.log(this.gl.getProgramInfoLog(program));
     this.gl.deleteProgram(program);
   }
 }

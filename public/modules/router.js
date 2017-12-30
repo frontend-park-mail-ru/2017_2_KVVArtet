@@ -25,13 +25,23 @@ export default  class Router {
 
         document.body.addEventListener('click', event => {
 
-            if (event.target.tagName.toLowerCase() === 'li' || event.target.tagName.toLowerCase() === 'a' ) {
+            if (event.target.tagName.toLowerCase() === 'li' ) {
                 event.preventDefault();
                 const element = event.target;
                 const pathname = element.getAttribute('value');
 
                 if (pathname !== null) {
                    this.go(pathname);
+                }
+            }
+
+            else if (event.target.tagName.toLowerCase() === 'a' &&  window.location.pathname !== '/info' ) {
+                event.preventDefault();
+                const element = event.target;
+                const pathname = element.getAttribute('value');
+
+                if (pathname !== null) {
+                    this.go(pathname);
                 }
             }
         });
@@ -45,25 +55,17 @@ export default  class Router {
             return;
         }
 
-        if ((window.innerHeight > window.innerWidth) && ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)))
-        {
-            const view  = new Custom();
-            const text = `It is game only for laptop view`;
-            view.creation(text);
-            return ;
-        }
-
         if (window.location.pathname !== path) {
             window.history.pushState({}, '', path);
         }
 
 
         view.creation();
-    if (path === '/login') {
-        signin(view);
-     }
-     else if (path === '/signup') {
-        signup(view)
-      }
+        if (path === '/login') {
+            signin(view);
+        }
+        else if (path === '/signup') {
+            signup(view)
+        }
     }
 }

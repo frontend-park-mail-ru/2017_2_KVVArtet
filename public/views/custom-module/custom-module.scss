@@ -1,24 +1,7 @@
-.win a {
-  float: right;
-  line-height: 20px;
-  margin: 1.2em;
-  border: none;
-  background: transparent;
-  color: blue;
+.win {
+  position: absolute;
 }
 
-.visible {
-  background: #fff;
-  position: fixed;
-  left: 88%;
-  top: 44%;
-  margin-top: -200px;
-  overflow: hidden;
-  z-index: 2000;
-  width: 252px;
-  padding: 0px;
-  margin-left: -250px;
-}
 .overlay {
   background: #000;
   position: fixed;
@@ -36,17 +19,10 @@ p {
 
 
 .visible {
-  background: #fff;
-  position: fixed;
-  left: 62%;
-  top: 50%;
-  margin-top: -200px;
-  overflow: hidden;
-  z-index: 2000;
-  padding: 6px;
-  /* margin-left: -250px; */
-  border-radius: 20px;
-  min-width: 23%;
-  /* max-width: 19%; */
-  height: 17%;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  background: black;
+  padding: 5px;
+  border: 2px solid white;
 }

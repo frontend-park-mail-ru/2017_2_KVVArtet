@@ -23,4 +23,5 @@ exports.postRegistration = (req, res) =>{
 
     res.cookie('cookie', id, {expires: new Date(Date.now() + 1000 * 60 * 10)});
     res.json({id});
+    console.log('Я в signup/signin');
 };

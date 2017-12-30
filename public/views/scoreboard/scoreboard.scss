@@ -3,21 +3,21 @@
   color: #FAE7B5;
 }
 table{
-  background-color: #731509;
-  border-radius: 73px;
-  font-size: 2.1em;
+  background-color: white;
+  border-radius: 20px;
+  font-size: 2em;
   width: 50%;
   color: black;
-  padding: 10px;
-  border-spacing: 66px;
-  margin-left: 360px;
+  border-spacing: 30px;
+  margin: auto;
 }
 
 table th{
   color:#c58818;
+  text-align: left;
 }
 table tr:hover {
-  color: green;
+  color: #1800ff;
 }
 
 table.animated-button.thar-four:before {
@@ -32,4 +32,13 @@ table.animated-button.thar-four:before {
   color: #000 !important;
   background: #F7CA18;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.arrow {
+  width:50%;
+  opacity: 0.85;
+}
+
+.arrow:hover {
+  opacity: 1;
 }
