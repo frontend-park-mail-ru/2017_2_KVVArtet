@@ -1,0 +1,15 @@
+.menu .info a {
+  text-decoration: none;
+  color: white;
+}
+
+.menu .info li:hover {
+  border-radius: 8px;
+}
+
+.menu .info li {
+  margin-bottom: 20px;
+
+  padding: 10px;
+  border-radius: 0;
+}

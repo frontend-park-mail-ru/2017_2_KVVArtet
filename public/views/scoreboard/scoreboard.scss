@@ -1,0 +1,44 @@
+
+.score{
+  color: #FAE7B5;
+}
+table{
+  background-color: white;
+  border-radius: 20px;
+  font-size: 2em;
+  width: 50%;
+  color: black;
+  border-spacing: 30px;
+  margin: auto;
+}
+
+table th{
+  color:#c58818;
+  text-align: left;
+}
+table tr:hover {
+  color: #1800ff;
+}
+
+table.animated-button.thar-four:before {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 0px;
+  z-index: -1;
+  content: '';
+  color: #000 !important;
+  background: #F7CA18;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.arrow {
+  width:50%;
+  opacity: 0.85;
+}
+
+.arrow:hover {
+  opacity: 1;
+}

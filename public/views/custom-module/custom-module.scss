@@ -1,0 +1,28 @@
+.win {
+  position: absolute;
+}
+
+.overlay {
+  background: #000;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  opacity: .5;
+}
+
+p {
+  margin-bottom: 1.3333em;
+}
+
+
+.visible {
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  background: black;
+  padding: 5px;
+  border: 2px solid white;
+}

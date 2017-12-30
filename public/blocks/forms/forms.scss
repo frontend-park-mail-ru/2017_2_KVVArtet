@@ -1,0 +1,32 @@
+
+.menu form {
+  width: 350px;
+}
+.menu input {
+  font-family: fantasy;
+  outline: 0;
+  background: #291b1f;
+  width: 100%;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  border: 2px solid #c58818;
+  font-size: 14px;
+  color: white;
+}
+
+.menu input:hover {
+  border-radius: 10px;
+  border: 2px solid white;
+}
+
+.message-error {
+  margin-left: 10px;
+  color: red;
+  font-size: 25px;
+  font-family: fantasy;
+}
+
+.message-error p {
+  margin-top: -5px;
+}

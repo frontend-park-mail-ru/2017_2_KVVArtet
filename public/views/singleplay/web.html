@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="/views/singleplay/style.css">
+  <style>
+    .settings {
+      position: absolute;
+      background-color: #731509;
+      border: 3px solid white;
+      z-index: 1000;
+    }
+    .settings ul {
+      list-style-type: none;
+      padding: 5px;
+    }
+
+    .settings li {
+      color: #FFD700;
+      width: 250px;
+      padding: 15px;
+      border: 2px solid #c58818;
+      border-radius: 3px;
+      background: #740c16 radial-gradient(150% 100% at 50% 5px, rgba(255, 255, 255, 0.2), transparent);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .settings li:hover {
+      color: white;
+      border-color: white;
+    }
+
+    .settings h1 {
+      text-align: center;
+      color: white;
+    }
+
+    .settings a {
+      text-decoration: none;
+    }
+
+    .overlay {
+      background-color: #000;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <canvas id="background"></canvas>
+    <canvas id="canvas"></canvas>
+    <div style="position: relative;">
+      <span style="position:absolute; left:20.8vw; top:2vh;font-size:1.5vw;color: white" id="time"></span>
+    </div>
+  </div>
+  <div id="win" class="game-menu" style="display: none">
+    <img style="width: 100%; height: auto" src="/views/singleplay/textures/win.png" alt="win">
+    <div class="menu-icons">
+      <img style="width: 4vw;" src="/views/singleplay/icons/menu.png" alt="">
+      <img style="width: 4vw; float: right;" src="/views/singleplay/icons/next_level.png" alt="">
+    </div>
+  </div>
+  <div id="lose" class="game-menu" style="display: none">
+    <img style="width: 100%; height: auto" src="/views/singleplay/textures/lose.png" alt="win">
+    <div class="menu-icons">
+      <img style="width: 4vw;" src="/views/singleplay/icons/menu.png" alt="">
+      <img style="width: 4vw; float: right;" src="/views/singleplay/icons/next_level.png" alt="">
+    </div>
+  </div>
+  <div class="settings" style="display: none">
+    <h1>Меню</h1>
+    <ul>
+      <li>Венуться к игре</li>
+      <li value="/singleplay">Начать заново</li>
+      <li value="/">Выйти</li>
+    </ul>
+  </div>
+</body>
+
+</html>

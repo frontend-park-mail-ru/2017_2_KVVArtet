@@ -1,0 +1,37 @@
+@viewport {
+  width: 640px;
+  height: 440px;
+  zoom: 2;
+  user-zoom: fixed;
+}
+
+.menu  ul, form {
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 100px;
+  padding-left: 0;
+  width: 200px;
+  list-style-type: none;
+}
+
+.menu form {
+  width: 350px;
+}
+
+.menu li {
+  font-size: 1.1em;
+  border-radius: 17px;
+  background: #731509 radial-gradient(150% 100% at 50% 5px, rgba(255, 255, 255, 0.2), transparent);
+  box-shadow: inset rgba(0, 0, 0, 0.6) 0 -2px 5px, inset rgba(252, 255, 255, 0.7) 0 2px 5px, rgba(0, 0, 0, 0.8) 0 2px 5px -1px;
+  color: #c58818;
+  border: 2px solid;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 15px;
+  cursor: pointer;
+
+}
+
+.menu li:hover {
+  color: white;
+}

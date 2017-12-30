@@ -1,0 +1,137 @@
+html {
+    /*  background: url(../images/back_with_logo.png) no-repeat 50% fixed;*/
+    background-color: #281d1f;
+    /* background-size: auto;*/
+    /*background: url(../images/back_start.png) no-repeat 10% fixed;*/
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+    overflow-x: hidden;
+
+}
+
+
+
+@keyframes snow {
+    0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+    100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}
+}
+
+html, body {
+    background-image: url(../images/snowflake.png), url(../images/snowflake3.png), url(../images/snowflake2.png);
+    height: 100%;
+    animation: snow 20s linear infinite;
+}
+
+
+.logo{
+    margin-left: -4px;
+    max-width: 100%;
+    min-width: 99%;
+    /* max-height: 56%; */
+    min-height: 12%;
+}
+
+.menu {
+    background: url("../images/banner.png") no-repeat;
+    width: 543px;
+    background-size: contain;
+    height: 591px;
+    margin: -40px auto auto;
+}
+.user{
+    top: 31%;
+    margin-left: 80%;
+    position: relative;
+    z-index: 2;
+padding: 10px;
+text-align: center;
+max-width: 500px;
+font-size: 20px;
+border: 4px ridge black;
+cursor: pointer;
+    background: green;
+transition: 3s linear;}
+.username:hover {
+    -webkit-transform: scale(2);
+    transform: scale(2);
+    border-radius:2px ;
+}
+
+
+
+@viewport {
+    width: 780px;
+    height: 1280px;
+    zoom: 2;
+    user-zoom: fixed;
+    orientation: portrait;
+}
+
+.error {
+    font-family: fantasy;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    /*border: 0;*/
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+    border: 2px solid red;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.logout {
+    font-family: fantasy;
+    text-transform: uppercase;
+    outline: 0;
+    background: purple;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
+.notfound {
+    margin: -215px 0 0 -125px;
+    position: absolute;
+    color: white;
+    font-family: fantasy;
+    text-transform: uppercase;
+    outline: 0;
+    padding: 35px;
+    font-size: 250%;
+    top: 45%;
+    left: 40%;
+}
+
+@media screen and (min-width: 960px) and (max-width: 1280px) and (orientation: landscape) {
+    html{
+        overflow-x: hidden;
+    }
+    .logo {
+        width: 960px;
+        height: 190px;
+    }
+    .for-wall__img{
+        margin-left: 22%;
+    }
+    .notfound{
+        left: 31%;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 767px) and (orientation: landscape) {
+    .logo {
+        width: 100vw;
+        height: 40vh;
+    }
+
+    .for-wall__img {
+        margin-top: 14%;
+        margin-left: 28%;
+        width: 49vw;
+        height: 197vh;
+    }
+}

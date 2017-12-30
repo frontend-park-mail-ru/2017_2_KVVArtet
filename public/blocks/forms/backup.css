@@ -1,0 +1,87 @@
+
+.field {
+    font-family: fantasy;
+    outline: 0;
+    background: #291b1f;
+    width: 100%;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    border: 2px solid #c58818;
+    font-size: 14px;
+    color :white;
+}
+
+.field:hover{
+    border-radius: 10px;
+    border:2px solid white;
+}
+.message-error {
+    margin-left: 10px;
+    color: red;
+    font-size: 25px;
+    font-family: fantasy;
+}
+
+.login-form {
+    font-family: fantasy;
+    outline: 0;
+    /*background: #f2f2f2;*/
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 15px;
+    box-sizing: border-box;
+    border: 2px red;
+    font-size: 14px;
+    position: absolute;
+    top: 44%;
+    left: 37%;
+
+}
+
+.registration-form {
+    font-family: fantasy;
+    outline: 0;
+    /*background: #f2f2f2;*/
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 15px;
+    box-sizing: border-box;
+    border: 2px red;
+    font-size: 14px;
+    position: absolute;
+    top: 41.5%;
+    left: 37.5%;
+}
+
+@media screen and (min-width: 960px) and (max-width: 1280px) and (orientation: landscape) {
+
+    .login-form {
+        top: 48%;
+        left: 31.5%;
+    }
+    .registration-form{
+        top: 46%;
+        left: 31.5%;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 767px) and (orientation: landscape) {
+    .field {
+        width: 51%;
+        height: 40px;
+        margin: 0 0 47px;
+        line-height: 1px;
+    }
+
+    .login-form {
+        top: 66%;
+        left: 37.5%;
+    }
+
+    .registration-form{
+        top: 66%;
+    }
+}
